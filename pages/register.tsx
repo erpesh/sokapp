@@ -5,6 +5,8 @@ import {useRouter} from "next/router";
 import AuthContext from "../context/authContext";
 import AuthProviders from "../components/auth-providers";
 import Link from "next/link";
+import PasswordInput from "../components/password-input";
+import passwordInput from "../components/password-input";
 
 const Register = () => {
   const router = useRouter();
@@ -61,21 +63,11 @@ const Register = () => {
         </div>
         <div>
           <label>Password</label>
-          <input
-            placeholder={"Password"}
-            type={"password"}
-            value={password}
-            onChange={(e) => setPassword(e.currentTarget.value)}
-            required/>
+          <PasswordInput password={password} setPassword={setPassword}/>
         </div>
         <div>
           <label>Confirm password</label>
-          <input
-            placeholder={"Confirm password"}
-            type={"password"}
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.currentTarget.value)}
-            required/>
+          <PasswordInput password={confirmPassword} setPassword={setConfirmPassword} isConfirm />
         </div>
         <input type={"submit"} className={"submit-auth"}/>
       </form>

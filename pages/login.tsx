@@ -5,12 +5,16 @@ import {useRouter} from "next/router";
 import AuthContext from "../context/authContext";
 import AuthProviders from "../components/auth-providers";
 import Link from "next/link";
+import PasswordInput from "../components/password-input";
 
 const Login = () => {
   const router = useRouter();
   const {currentUser} = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isPasswordShown, setIsPasswordShown] = useState(false);
+
+  const togglePassword = () => setIsPasswordShown(!isPasswordShown);
 
   const logInWithEmail = () => {
     signInWithEmailAndPassword(auth, email, password).then(r => console.log(r));
@@ -37,12 +41,7 @@ const Login = () => {
         </div>
         <div>
           <label>Password</label>
-          <input
-            placeholder={"Password"}
-            type={"password"}
-            value={password}
-            onChange={(e) => setPassword(e.currentTarget.value)}
-            required/>
+          <PasswordInput password={password} setPassword={setPassword}/>
         </div>
         <input type={"submit"} className={"submit-auth"}/>
       </form>

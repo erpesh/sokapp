@@ -9,6 +9,7 @@
   --foreground-color: black;
   --default-theme-color: #53b06f;
   --custom-color-secondary: #666;
+  --secondary-dark-color: #1e1e1e;
   --color-white: white;
   --background-end-rgb: 255, 255, 255;
 
@@ -146,12 +147,15 @@ input[type=text], input[type=email], input[type=password], textarea, select {
   border: var(--custom-border);
   padding: 10px 15px;
   font-size: 14px;
-  background-color: #1e1e1e;
+  background-color: var(--secondary-dark-color);
   color: var(--color-white);
   box-sizing: border-box;
   font-family: ui-sans-serif, sans-serif;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 100ms;
+}
+input:focus {
+  outline: none;
 }
 input[type=submit], .button {
   display: flex;
@@ -205,6 +209,30 @@ span.buttonText {
   font-weight: bold;
   /* Use the Roboto font that is loaded in the <head> */
   font-family: 'Roboto', sans-serif;
+}
+
+/*Password input */
+
+.password-input-wrap{
+  display: flex;
+
+}
+.password-input-wrap > input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: 0;
+}
+.password-input-wrap > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background: var(--secondary-dark-color);
+}
+.password-input-wrap > div > img {
+  width: 24px;
+  height: 24px;
+  margin: 0 10px;
 }
 
 /*Register page*/
