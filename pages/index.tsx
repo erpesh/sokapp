@@ -1,4 +1,4 @@
-import {auth} from "../initFirebase";
+import {auth} from "../lib/initFirebase";
 import {signOut} from "firebase/auth";
 
 export default function Home() {

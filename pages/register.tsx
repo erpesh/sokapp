@@ -1,12 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {auth} from "../initFirebase";
+import {auth} from "../lib/initFirebase";
 import {createUserWithEmailAndPassword, updateProfile} from "firebase/auth";
 import {useRouter} from "next/router";
 import AuthContext from "../context/authContext";
 import AuthProviders from "../components/auth-providers";
 import Link from "next/link";
 import PasswordInput from "../components/password-input";
-import passwordInput from "../components/password-input";
 
 const Register = () => {
   const router = useRouter();
@@ -19,7 +18,6 @@ const Register = () => {
   const signUpWithEmail = async (e) => {
     e.preventDefault();
     if (password === confirmPassword) {
-      console.log(email, password, confirmPassword);
       await createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
         // Update the user's display name
         return updateProfile(userCredential.user, {
@@ -71,7 +69,7 @@ const Register = () => {
         </div>
         <input type={"submit"} className={"submit-auth"}/>
       </form>
-      <AuthProviders/>
+      <AuthProviders isRegister/>
       <span className={"auth-suggest"}>Already have an account? <Link href={"/login"}>Log in</Link> here.</span>
 
     </div>

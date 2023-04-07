@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {auth} from "../initFirebase";
+import {auth} from "../lib/initFirebase";
 import {signInWithEmailAndPassword} from "firebase/auth";
 import {useRouter} from "next/router";
 import AuthContext from "../context/authContext";
