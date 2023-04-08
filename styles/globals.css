@@ -1,7 +1,7 @@
 :root {
   --max-width: 1100px;
   --max-width-form: 600px;
-  --border-radius: 12px;
+  --border-radius: 20px;
   --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
   'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
   'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
@@ -120,13 +120,12 @@ nav {
 }
 
 .page {
-  padding-top: 4rem;
+  padding: 4rem 10px 0;
   margin: 0 auto;
   max-width: var(--max-width);
 }
 form {
   margin: 0 auto;
-  max-width: var(--max-width-form);
 }
 
 .max-width-smaller {
@@ -141,7 +140,7 @@ label {
   font-size: 0.8rem;
   text-transform: uppercase;
 }
-input[type=text], input[type=email], input[type=password], textarea, select {
+input[type=text], input[type=email], input[type=password], input[type=number], textarea, select {
   width: 100%;
   border-radius: 4px;
   border: var(--custom-border);
@@ -157,7 +156,7 @@ input[type=text], input[type=email], input[type=password], textarea, select {
 input:focus {
   outline: none;
 }
-input[type=submit], .button {
+.submit-auth, .button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -241,6 +240,7 @@ span.buttonText {
   display: flex;
   flex-direction: column;
   gap: .5rem;
+  max-width: var(--max-width-form);
 }
 .register-form > div {
   display: inline-block;
@@ -266,4 +266,94 @@ span.buttonText {
 }
 .auth-suggest > a:link, .auth-suggest > a:visited {
   color: var(--default-theme-color);
+}
+
+/*Book Page*/
+
+.book-form {
+  margin-top: 1rem;
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+  flex-direction: column;
+}
+.book-credentials {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+}
+.form-input-wrap {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+.book-date-time {
+  display: grid;
+  grid-gap: 4rem;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 1fr;
+}
+@media screen and (max-width: 650px) {
+  .book-credentials {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .book-date-time {
+    grid-gap: 2rem;
+    grid-template-rows: auto auto;
+    grid-template-columns: 1fr;
+  }
+}
+.book-date-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+h3 {
+  display: flex;
+  justify-content: center;
+}
+.book-date {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.date-card {
+  font-size: 19px;
+  padding: 10px 20px;
+  border-radius: var(--border-radius);
+  background: var(--default-theme-color);
+  cursor: pointer;
+  transition: .4s;
+}
+.date-card:hover {
+  background: var(--foreground-color);
+  color: var(--default-theme-color);
+}
+.active-card {
+  background: var(--foreground-color);
+  color: var(--default-theme-color);
+}
+.submit-book {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--default-theme-color);
+  border: 1px solid var(--secondary-dark-color);
+  background-color: var(--secondary-dark-color);
+  font-weight: bold;
+  font-size: 16px;
+  text-align: center;
+  border-radius: 4px;
+  padding: 10px 15px;
+  width: 250px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: .4s;
+}
+.submit-book:hover {
+  color: var(--foreground-color);
+  background-color: var(--default-theme-color);
+  border: 1px solid var(--default-theme-color);
 }
