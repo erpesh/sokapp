@@ -334,6 +334,15 @@ h3 {
   background: var(--foreground-color);
   color: var(--default-theme-color);
 }
+.disabled-card {
+  background: var(--custom-color-secondary);
+  color: var(--foreground-color);
+  cursor: not-allowed;
+}
+.disabled-card:hover {
+  background: var(--custom-color-secondary);
+  color: var(--foreground-color);
+}
 .submit-book {
   margin: 0 auto;
   display: flex;

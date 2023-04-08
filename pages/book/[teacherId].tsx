@@ -1,10 +1,12 @@
 import {useRouter} from "next/router";
 import React, {useContext, useEffect, useState} from "react";
-import {collection, getDocs, query, where, addDoc, DocumentData, Timestamp} from "firebase/firestore";
+import {collection, getDocs, query, where, addDoc, DocumentData} from "firebase/firestore";
 import {db} from "../../lib/initFirebase";
-import {ITeacherInfo, IAppointment} from "../../utils/types";
+import {ITeacherInfo} from "../../utils/types";
 import DateCard from "../../components/date-card";
-import {getMatchingDatesInNextThreeWeeks, IMatchingDate} from "../../utils/getMatchingDates";
+import generateLessonDateInfo, {
+  getTimestamp, IAppointment,ILessonDateInfo
+} from "../../utils/dateTimeFormattersCalculators";
 import AuthContext from "../../context/authContext";
 
 const Book = () => {
@@ -16,10 +18,7 @@ const Book = () => {
   const {currentUser} = useContext(AuthContext);
   const {teacherId} = router.query;
 
-  // const [teacherInfo, setTeacherInfo] = useState<ITeacherInfo | null>(null);
-  const [datesInThreeWeeks, setDatesInThreeWeeks] = useState<IMatchingDate[]>([]);
-  const [teacherLessonTimes, setTeacherLessonTimes] = useState<string[]>([]);
-  const [activeTimes, setActiveTimes] = useState<string[]>([]);
+  const [lessonDatesInfo, setLessonDatesInfo] = useState<ILessonDateInfo[]>([]);
 
   const [studentName, setStudentName] = useState("");
   const [studentAge, setStudentAge] = useState("");
@@ -50,38 +49,9 @@ const Book = () => {
       appointments.push(appointmentsData);
     });
 
-    const reservedDates = appointments.map(appointment => formatTimestamp(appointment.datetime))
-
-    lessonTimes = lessonTimes.filter(lessonTime => {
-      return !reservedDates.includes(lessonTime);
-    })
-
-
-    setTeacherLessonTimes(lessonTimes);
-    setDatesInThreeWeeks(getMatchingDatesInNextThreeWeeks(lessonTimes));
+    setLessonDatesInfo(generateLessonDateInfo(lessonTimes, appointments));
   }
 
-  function getActiveTimes() {
-    if (teacherLessonTimes && datesInThreeWeeks.length > 0) {
-      let lessonTimes = teacherLessonTimes.filter(item => item.split(" ")[0] === datesInThreeWeeks[activeDate].day);
-      const activeLessonTimes = lessonTimes.map(item => item.split(" ")[1]);
-      setActiveTimes(activeLessonTimes);
-    }
-  }
-
-  function getTimestamp(dateString: string, timeString: string): Timestamp {
-    const date = new Date(`${dateString} ${new Date().getFullYear()} ${timeString}`);
-    return Timestamp.fromMillis(date.getTime());
-  }
-
-  function formatTimestamp(timestamp: Timestamp): string {
-    const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const date = timestamp.toDate();
-    const dayOfWeek = weekdays[date.getDay()];
-    const hours = date.getHours().toString().padStart(2, "0");
-    const minutes = date.getMinutes().toString().padStart(2, "0");
-    return `${dayOfWeek} ${hours}:${minutes}`;
-  }
 
   const bookNewLesson = async (e) => {
     e.preventDefault();
@@ -90,7 +60,7 @@ const Book = () => {
       paid: true,
       teacherUid: teacherId as string,
       uid: currentUser?.uid as string,
-      datetime: getTimestamp(datesInThreeWeeks[activeDate].date, activeTimes[activeTime])
+      datetime: getTimestamp(lessonDatesInfo[activeDate].date, lessonDatesInfo[activeDate].times[activeTime].time)
     } as DocumentData)
       .then(result => console.log(result))
   }
@@ -100,16 +70,6 @@ const Book = () => {
       getTeacherInfoAndAppointments();
     }
   }, [teacherId])
-
-  // useEffect(() => {
-  //   if (teacherInfo?.lessonTimes){
-  //     setDatesInTwoWeeks(getMatchingDatesInNextThreeWeeks(teacherInfo.lessonTimes));
-  //   }
-  // }, [teacherInfo])
-
-  useEffect(() => {
-    getActiveTimes();
-  }, [activeDate, datesInThreeWeeks])
 
   return (
     <div className={"page"}>
@@ -141,15 +101,16 @@ const Book = () => {
           <div className={"book-date-wrap"}>
             <h3>Choose date of your lesson</h3>
             <div className={"book-date"}>
-              {datesInThreeWeeks.map((item, index) => (
+              {lessonDatesInfo.map((item, index) => (
                 <DateCard
                   key={item.date}
                   value={item.date}
                   onClick={() => {
                     setActiveDate(index);
-                    setActiveTime(0);
+                    setActiveTime(lessonDatesInfo[index].times.findIndex(item => !item.isReserved));
                   }}
-                  isActive={index == activeDate}
+                  isActive={index === activeDate}
+                  isDisabled={item.isReserved}
                 />
               ))}
             </div>
@@ -157,13 +118,14 @@ const Book = () => {
           <div className={"book-date-wrap"}>
             <h3>Choose time of your lesson</h3>
             <div className={"book-date"}>
-              {activeTimes
+              {lessonDatesInfo[activeDate]?.times
                 .map((item, index) => (
                   <DateCard
-                    key={item}
-                    value={item}
+                    key={item.time}
+                    value={item.time}
                     onClick={() => setActiveTime(index)}
-                    isActive={index == activeTime}
+                    isActive={index === activeTime}
+                    isDisabled={item.isReserved}
                   />
                 ))}
             </div>

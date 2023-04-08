@@ -6,9 +6,3 @@ export interface ITeacherInfo {
   lessonPrice: number,
   lessonTimes: string[]
 }
-export interface IAppointment {
-  datetime: Timestamp
-  paid: boolean,
-  teacherUid: string,
-  uid: string
-}
