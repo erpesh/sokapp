@@ -1,6 +1,6 @@
 import {useRouter} from "next/router";
 import React, {useContext, useEffect, useState} from "react";
-import {collection, getDocs, query, where, addDoc, DocumentData} from "firebase/firestore";
+import {collection, getDocs, query, where, addDoc, DocumentData, serverTimestamp} from "firebase/firestore";
 import {db} from "../../lib/initFirebase";
 import {ITeacherInfo} from "../../utils/types";
 import DateCard from "../../components/date-card";
@@ -41,6 +41,7 @@ const Book = () => {
     const appointmentsQuery = query(
       appointmentsRef,
       where("teacherUid", "==", teacherId),
+      where("datetime", ">", new Date())
     )
     const querySnapshotA = await getDocs(appointmentsQuery);
     let appointments : IAppointment[] = [];
@@ -51,7 +52,6 @@ const Book = () => {
 
     setLessonDatesInfo(generateLessonDateInfo(lessonTimes, appointments));
   }
-
 
   const bookNewLesson = async (e) => {
     e.preventDefault();

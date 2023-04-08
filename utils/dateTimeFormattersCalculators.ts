@@ -37,7 +37,8 @@ export default function generateLessonDateInfo(
 ): ILessonDateInfo[] {
   // Get the current date and calculate the start and end dates of the three-week period
   const currentDate = new Date();
-  const threeWeeksFromNow = new Date(currentDate.getTime() + (21 * 24 * 60 * 60 * 1000));
+  const dateInOneDay = new Date(currentDate.getTime() + 24 * 60 * 60 * 1000)
+  const threeWeeksFromNow = new Date(dateInOneDay.getTime() + (20 * 24 * 60 * 60 * 1000));
   const daysOfWeek = lessonDates.map(item => item.split(" ")[0]);
   const reservedDates = appointments.map(item => item.datetime.toDate());
 
@@ -45,7 +46,7 @@ export default function generateLessonDateInfo(
   const lessonDateInfoArray: ILessonDateInfo[] = [];
 
   // Loop through the dates in the three-week period
-  for (let dateLoop = new Date(); dateLoop <= threeWeeksFromNow; dateLoop.setDate(dateLoop.getDate() + 1)) {
+  for (let dateLoop = dateInOneDay; dateLoop <= threeWeeksFromNow; dateLoop.setDate(dateLoop.getDate() + 1)) {
     // Check if the current date is one of the days of the week in the `daysOfWeek` array
     const dayOfWeek = dateLoop.toLocaleDateString("en-US", {weekday: "long"});
     if (daysOfWeek.includes(dayOfWeek)) {
@@ -70,6 +71,6 @@ export default function generateLessonDateInfo(
       lessonDateInfoArray.push(lessonDateInfo);
     }
   }
-  console.log(lessonDateInfoArray);
+
   return lessonDateInfoArray;
 }
