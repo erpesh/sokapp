@@ -34,7 +34,7 @@ const Book = () => {
     const querySnapshotTI = await getDocs(teachersInfoQuery);
     querySnapshotTI.forEach((doc) => {
       const data = doc.data() as ITeacherInfo;
-      lessonTimes = data.lessonTimes;
+      lessonTimes = data.lessonDaysTimes;
     });
 
     // Appointments

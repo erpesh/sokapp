@@ -1,4 +1,5 @@
 import {Timestamp} from "firebase/firestore";
+import {ILessonDaysTimes} from "./types";
 
 export interface ILessonTime {
   time: string,
@@ -28,19 +29,19 @@ export function getTimestamp(fullDate: Date, dateString: string, timeString: str
 function checkIsReserved(reservedAppointments: Date[], dateLoop: Date, lessonTime: string) {
   return reservedAppointments.some(item => {
     return item.getDate() === dateLoop.getDate() &&
-      item.toLocaleTimeString('en-US', {hour12: false, hour: '2-digit', minute: '2-digit'}) === lessonTime.split(" ")[1]
+      item.toLocaleTimeString('en-US', {hour12: false, hour: '2-digit', minute: '2-digit'}) === lessonTime
   })
 }
 
 export default function generateLessonDateInfo(
-  lessonDates: string[],
+  lessonDates: ILessonDaysTimes[],
   appointments: IAppointment[]
 ): ILessonDateInfo[] {
   // Get the current date and calculate the start and end dates of the three-week period
   const currentDate = new Date();
   const dateInOneDay = new Date(currentDate.getTime() + 24 * 60 * 60 * 1000)
   const threeWeeksFromNow = new Date(dateInOneDay.getTime() + (20 * 24 * 60 * 60 * 1000));
-  const daysOfWeek = lessonDates.map(item => item.split(" ")[0]);
+  const daysOfWeek = lessonDates.map(item => item.day);
   const reservedDates = appointments.map(item => item.datetime.toDate());
 
   // Create an array to store the lesson date info objects
@@ -53,14 +54,21 @@ export default function generateLessonDateInfo(
     if (daysOfWeek.includes(dayOfWeek)) {
       // If the current date is one of the specified days of the week, create a lesson date info object
       const date = dateLoop.toLocaleDateString("en-US", {month: "short", day: "numeric"});
-      const lessonTimes: ILessonTime[] = lessonDates
-        .filter(item => item.split(" ")[0] === dayOfWeek)
-        .map(item => {
-          return {
-            time: item.split(" ")[1],
-            isReserved: checkIsReserved(reservedDates, dateLoop, item)
-          }
-        });
+      // const lessonTimes: ILessonTime[] = lessonDates
+      //   .filter(item => item.day=== dayOfWeek)
+      //   .map(item => {
+      //     return {
+      //       time: item.split(" ")[1],
+      //       isReserved: checkIsReserved(reservedDates, dateLoop, item)
+      //     }
+      //   });
+      const [lessonDay]: ILessonDaysTimes[] = lessonDates.filter(item => item.day === dayOfWeek);
+      const lessonTimes = lessonDay.time.map(item => {
+        return {
+          time: item,
+          isReserved: checkIsReserved(reservedDates, dateLoop, item)
+        }
+      })
 
       // Create and add the ILessonDateInfo object to the lessonDateInfoArray
       const lessonDateInfo: ILessonDateInfo = {
