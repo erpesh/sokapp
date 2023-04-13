@@ -30,8 +30,8 @@ const Book = () => {
     let lessonTimes = undefined;
 
     // Teacher info
-    const todosQuery = query(teachersInfoRef, where("uid", "==", teacherId));
-    const querySnapshotTI = await getDocs(todosQuery);
+    const teachersInfoQuery = query(teachersInfoRef, where("uid", "==", teacherId));
+    const querySnapshotTI = await getDocs(teachersInfoQuery);
     querySnapshotTI.forEach((doc) => {
       const data = doc.data() as ITeacherInfo;
       lessonTimes = data.lessonTimes;
@@ -50,7 +50,10 @@ const Book = () => {
       appointments.push(appointmentsData);
     });
 
-    setLessonDatesInfo(generateLessonDateInfo(lessonTimes, appointments));
+    const generatedLessonDateInfo = generateLessonDateInfo(lessonTimes, appointments);
+
+    setActiveDate(generatedLessonDateInfo.findIndex(item => !item.isReserved));
+    setLessonDatesInfo(generatedLessonDateInfo);
   }
 
   const bookNewLesson = async (e) => {
@@ -60,7 +63,11 @@ const Book = () => {
       paid: true,
       teacherUid: teacherId as string,
       uid: currentUser?.uid as string,
-      datetime: getTimestamp(lessonDatesInfo[activeDate].date, lessonDatesInfo[activeDate].times[activeTime].time)
+      datetime: getTimestamp(
+        lessonDatesInfo[activeDate].date,
+        lessonDatesInfo[activeDate].dateString,
+        lessonDatesInfo[activeDate].times[activeTime].time
+      )
     } as DocumentData)
       .then(result => console.log(result))
   }
@@ -75,7 +82,7 @@ const Book = () => {
     <div className={"page"}>
       <h1>Book your next lesson</h1>
       <form className={"book-form"}>
-        <div className={"book-credentials"}>
+        <div className={"double-input-container"}>
           <div className={"form-input-wrap"}>
             <label>Student Name</label>
             <input
@@ -99,12 +106,12 @@ const Book = () => {
         </div>
         <div className={"book-date-time"}>
           <div className={"book-date-wrap"}>
-            <h3>Choose date of your lesson</h3>
+            <h3>Choose date of the lesson</h3>
             <div className={"book-date"}>
               {lessonDatesInfo.map((item, index) => (
                 <DateCard
-                  key={item.date}
-                  value={item.date}
+                  key={item.dateString}
+                  value={item.dateString}
                   onClick={() => {
                     setActiveDate(index);
                     setActiveTime(lessonDatesInfo[index].times.findIndex(item => !item.isReserved));
@@ -116,7 +123,7 @@ const Book = () => {
             </div>
           </div>
           <div className={"book-date-wrap"}>
-            <h3>Choose time of your lesson</h3>
+            <h3>Choose time of the lesson</h3>
             <div className={"book-date"}>
               {lessonDatesInfo[activeDate]?.times
                 .map((item, index) => (

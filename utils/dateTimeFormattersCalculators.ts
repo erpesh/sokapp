@@ -6,7 +6,8 @@ export interface ILessonTime {
 }
 
 export interface ILessonDateInfo {
-  date: string,
+  date: Date,
+  dateString: string,
   day: string,
   times: ILessonTime[],
   isReserved: boolean
@@ -19,8 +20,8 @@ export interface IAppointment {
   uid: string
 }
 
-export function getTimestamp(dateString: string, timeString: string): Timestamp {
-  const date = new Date(`${dateString} ${new Date().getFullYear()} ${timeString}`);
+export function getTimestamp(fullDate: Date, dateString: string, timeString: string): Timestamp {
+  const date = new Date(`${dateString} ${fullDate.getFullYear()} ${timeString}`);
   return Timestamp.fromMillis(date.getTime());
 }
 
@@ -63,7 +64,8 @@ export default function generateLessonDateInfo(
 
       // Create and add the ILessonDateInfo object to the lessonDateInfoArray
       const lessonDateInfo: ILessonDateInfo = {
-        date,
+        date: dateLoop,
+        dateString: date,
         day: dayOfWeek,
         times: lessonTimes,
         isReserved: lessonTimes.every(item => item.isReserved)
@@ -73,4 +75,34 @@ export default function generateLessonDateInfo(
   }
 
   return lessonDateInfoArray;
+}
+
+export function getTimeIntervals(duration: string): string[] {
+  let timeIntervals: string[] = [];
+  let interval: number;
+
+  switch (duration) {
+    case "30 min":
+      interval = 30;
+      break;
+    case "1 hour":
+      interval = 60;
+      break;
+    case "2 hours":
+      interval = 120;
+      break;
+    default:
+      throw new Error("Invalid duration: " + duration);
+  }
+
+  const startDate = new Date(0, 0, 0, 0, 0, 0);
+  const endDate = new Date(0, 0, 0, 23, 59, 0);
+
+  for (let currentTime = startDate; currentTime <= endDate; currentTime.setMinutes(currentTime.getMinutes() + interval)) {
+    const hour = currentTime.getHours().toString().padStart(2, "0");
+    const minute = currentTime.getMinutes().toString().padStart(2, "0");
+    timeIntervals.push(`${hour}:${minute}`);
+  }
+
+  return timeIntervals;
 }

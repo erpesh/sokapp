@@ -13,7 +13,9 @@ export const firebaseConfig: FirebaseOptions = {
 
 export const serviceAccount = {
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  privateKey: process.env.NEXT_PUBLIC_PRIVATE_KEY,
+  privateKey: process.env.NEXT_PUBLIC_PRIVATE_KEY
+    ? JSON.parse(process.env.NEXT_PUBLIC_PRIVATE_KEY)
+    : undefined,
   clientEmail: process.env.NEXT_PUBLIC_CLIENT_EMAIL
 }
 

@@ -1,16 +1,16 @@
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
-import NavBar from "../components/NavBar";
+import NavBar from "../components/nav-bar";
 import AuthContext from "../context/authContext";
 import useCurrentUser from "../hooks/useCurrentUser";
 import {ComponentType, ReactNode} from "react";
 
 export default function App({ Component, pageProps }: AppProps) {
 
-  const [currentUser, setCurrentUser] = useCurrentUser();
+  const [currentUser, isTeacher, signUserOut] = useCurrentUser();
 
   return <MultiContextProvider providers={[
-    stackContext(AuthContext.Provider, {value : {currentUser, setCurrentUser}})
+    stackContext(AuthContext.Provider, {value : {currentUser, isTeacher, signUserOut}})
   ]}>
     <NavBar/>
     <Component {...pageProps} />

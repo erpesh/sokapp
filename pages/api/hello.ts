@@ -3,10 +3,9 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import admin from "../../lib/firebaseAdmin";
 
 async function addCustomClaimsToUser(uid: string) {
-  // const user = await admin.auth().getUser(uid);
-  await admin.auth().setCustomUserClaims(uid, { admin: true });
-  console.log(`Custom claims added to user ${uid}`);
-  return '12';
+  const res = await admin.auth().setCustomUserClaims(uid, { userRole: "teacher" });
+  console.log(`Custom claims added to user ${uid}`, admin.auth());
+  return res;
 }
 
 type Data = {
@@ -21,7 +20,7 @@ export default async function handler(
   // const nn = await addCustomClaimsToUser('BfogrP0V1POnIzBTdyME7csyiH42')
 
   console.log("asfdasf")
-
+  const resp = await addCustomClaimsToUser('BfogrP0V1POnIzBTdyME7csyiH42')
   if (req.method === "POST") {
     const body = JSON.parse(req.body);
     try {
@@ -32,6 +31,7 @@ export default async function handler(
       res.status(500).json(e.message);
     }
   }
+  res.status(200).json(resp);
 
   // res.status(200).json({ name: nn })
 }

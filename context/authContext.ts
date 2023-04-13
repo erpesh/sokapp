@@ -3,12 +3,14 @@ import {User} from "@firebase/auth";
 
 interface AuthContextInterface {
   currentUser: User | null,
-  setCurrentUser: (user: User) => void
+  isTeacher: boolean,
+  signUserOut: () => void
 }
 
 const AuthContext = createContext<AuthContextInterface>({
   currentUser: null,
-  setCurrentUser: () => { /* Do nothing. */ }
+  isTeacher: false,
+  signUserOut: () => {/* Do nothing */}
 });
 
 export default AuthContext;
