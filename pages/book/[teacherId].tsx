@@ -1,6 +1,6 @@
 import {useRouter} from "next/router";
 import React, {useContext, useEffect, useState} from "react";
-import {collection, getDocs, query, where, addDoc, DocumentData, serverTimestamp} from "firebase/firestore";
+import {collection, getDocs, query, where, addDoc, DocumentData} from "firebase/firestore";
 import {db} from "../../lib/initFirebase";
 import {ITeacherInfo} from "../../utils/types";
 import DateCard from "../../components/date-card";
@@ -8,6 +8,7 @@ import generateLessonDateInfo, {
   getTimestamp, IAppointment,ILessonDateInfo
 } from "../../utils/dateTimeFormattersCalculators";
 import AuthContext from "../../context/authContext";
+import useLocalStorageState from "use-local-storage-state";
 
 const Book = () => {
 
@@ -20,8 +21,8 @@ const Book = () => {
 
   const [lessonDatesInfo, setLessonDatesInfo] = useState<ILessonDateInfo[]>([]);
 
-  const [studentName, setStudentName] = useState("");
-  const [studentAge, setStudentAge] = useState("");
+  const [studentName, setStudentName] = useLocalStorageState<string>("studentName", { ssr: true, defaultValue: "" });
+  const [studentAge, setStudentAge] = useLocalStorageState<string>("studentAge", { ssr: true, defaultValue: "" });
   const [activeDate, setActiveDate] = useState(0);
   const [activeTime, setActiveTime] = useState(0);
 
@@ -44,6 +45,7 @@ const Book = () => {
       where("datetime", ">", new Date())
     )
     const querySnapshotA = await getDocs(appointmentsQuery);
+
     let appointments : IAppointment[] = [];
     querySnapshotA.forEach((doc) => {
       const appointmentsData = doc.data() as IAppointment;
@@ -51,8 +53,11 @@ const Book = () => {
     });
 
     const generatedLessonDateInfo = generateLessonDateInfo(lessonTimes, appointments);
+    const activeDateValue = generatedLessonDateInfo.findIndex(item => !item.isReserved);
+    const activeTimeValue = generatedLessonDateInfo[activeDateValue].times.findIndex(item => !item.isReserved);
 
-    setActiveDate(generatedLessonDateInfo.findIndex(item => !item.isReserved));
+    setActiveDate(activeDateValue);
+    setActiveTime(activeTimeValue);
     setLessonDatesInfo(generatedLessonDateInfo);
   }
 
@@ -60,6 +65,8 @@ const Book = () => {
     e.preventDefault();
 
     await addDoc(appointmentsRef, {
+      studentName: studentName,
+      studentAge: Number(studentAge),
       paid: true,
       teacherUid: teacherId as string,
       uid: currentUser?.uid as string,
@@ -81,14 +88,14 @@ const Book = () => {
   return (
     <div className={"page"}>
       <h1>Book your next lesson</h1>
-      <form className={"book-form"}>
+      <form className={"book-form"} onSubmit={bookNewLesson}>
         <div className={"double-input-container"}>
           <div className={"form-input-wrap"}>
             <label>Student Name</label>
             <input
               placeholder={"Student Name"}
               type={"text"}
-              value={studentName}
+              value={studentName.toString()}
               onChange={(e) => setStudentName(e.currentTarget.value)}
               required/>
           </div>
@@ -97,7 +104,7 @@ const Book = () => {
             <input
               placeholder={"Student Age"}
               type={"number"}
-              value={studentAge}
+              value={studentAge.toString()}
               onChange={(e) => setStudentAge(e.currentTarget.value)}
               min={1}
               max={99}
@@ -138,7 +145,7 @@ const Book = () => {
             </div>
           </div>
         </div>
-        <input type={"submit"} className={"submit-book"} onClick={bookNewLesson}/>
+        <input type={"submit"} className={"submit-book"}/>
       </form>
     </div>
   );
