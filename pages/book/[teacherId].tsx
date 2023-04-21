@@ -9,6 +9,7 @@ import generateLessonDateInfo, {
 } from "../../utils/dateTimeFormattersCalculators";
 import AuthContext from "../../context/authContext";
 import useLocalStorageState from "use-local-storage-state";
+import PhoneInput from 'react-phone-number-input'
 
 const Book = () => {
 
@@ -23,6 +24,7 @@ const Book = () => {
 
   const [studentName, setStudentName] = useLocalStorageState<string>("studentName", { ssr: true, defaultValue: "" });
   const [studentAge, setStudentAge] = useLocalStorageState<string>("studentAge", { ssr: true, defaultValue: "" });
+  const [telNumber, setTelNumber] = useLocalStorageState<string>("telNumber", { ssr: true, defaultValue: "" });
   const [activeDate, setActiveDate] = useState(0);
   const [activeTime, setActiveTime] = useState(0);
 
@@ -67,6 +69,7 @@ const Book = () => {
     await addDoc(appointmentsRef, {
       studentName: studentName,
       studentAge: Number(studentAge),
+      telNumber: telNumber,
       paid: true,
       teacherUid: teacherId as string,
       uid: currentUser?.uid as string,
@@ -108,6 +111,16 @@ const Book = () => {
               onChange={(e) => setStudentAge(e.currentTarget.value)}
               min={1}
               max={99}
+              required/>
+          </div>
+          <div className={"form-input-wrap"}>
+            <label>Telephone Number</label>
+            <input
+              placeholder={"Telephone Number"}
+              type={"tel"}
+              autoComplete={"tel"}
+              value={telNumber?.toString()}
+              onChange={(e) => setTelNumber(e.currentTarget.value)}
               required/>
           </div>
         </div>

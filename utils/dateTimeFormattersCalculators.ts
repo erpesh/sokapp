@@ -15,9 +15,13 @@ export interface ILessonDateInfo {
 }
 
 export interface IAppointment {
+  studentName: string
+  studentAge: number
+  telNumber: string
+  docId: string
   datetime: Timestamp
-  paid: boolean,
-  teacherUid: string,
+  paid: boolean
+  teacherUid: string
   uid: string
 }
 
@@ -54,14 +58,6 @@ export default function generateLessonDateInfo(
     if (daysOfWeek.includes(dayOfWeek)) {
       // If the current date is one of the specified days of the week, create a lesson date info object
       const date = dateLoop.toLocaleDateString("en-US", {month: "short", day: "numeric"});
-      // const lessonTimes: ILessonTime[] = lessonDates
-      //   .filter(item => item.day=== dayOfWeek)
-      //   .map(item => {
-      //     return {
-      //       time: item.split(" ")[1],
-      //       isReserved: checkIsReserved(reservedDates, dateLoop, item)
-      //     }
-      //   });
       const [lessonDay]: ILessonDaysTimes[] = lessonDates.filter(item => item.day === dayOfWeek);
       const lessonTimes = lessonDay.time.map(item => {
         return {
@@ -113,4 +109,29 @@ export function getTimeIntervals(duration: string): string[] {
   }
 
   return timeIntervals;
+}
+
+export function groupedByDay(appointments: IAppointment[]) {
+  const groupedByDay = appointments.reduce((acc, appointment) => {
+    // Convert the Timestamp to a Date object
+    const appointDate = appointment.datetime.toDate();
+    const aa = new Date();
+
+    // Get the date string in the format "20th April"
+    const dateString = appointDate.toLocaleDateString("en-US", {
+      day: "numeric",
+      month: "long",
+    });
+
+    // Add the appointment to the array for the corresponding date
+    if (!acc[dateString]) {
+      acc[dateString] = [appointment];
+    } else {
+      acc[dateString].push(appointment);
+    }
+
+    return acc;
+  }, {});
+
+  return Object.entries(groupedByDay);
 }
