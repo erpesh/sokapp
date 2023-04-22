@@ -47,7 +47,6 @@ const Settings = () => {
     const querySnapshotTI = await getDocs(teachersInfoQuery);
     querySnapshotTI.forEach((doc) => {
       const data = doc.data() as ITeacherInfo;
-      console.log(data);
       setDocumentId(doc.id);
       setTeacherInfo(data);
       setChangesMade(false);
@@ -223,8 +222,8 @@ const Settings = () => {
         </>}
       </div>
       <div className={"settings-buttons"}>
-        <button className={"basic-button"} onClick={updateTeachersInfo}>Update</button>
-        <button className={"basic-button"} onClick={getTeacherInfo}>Cancel changes</button>
+        <button className={"basic-button"} onClick={updateTeachersInfo} disabled={!changesMade}>Update</button>
+        <button className={"basic-button"} onClick={getTeacherInfo} disabled={!changesMade}>Cancel changes</button>
       </div>
     </div>
   );

@@ -9,9 +9,11 @@
   --foreground-color: black;
   --default-theme-color: #53b06f;
   --custom-color-secondary: #666;
+  --appointment-card-bg: #4b4949;
   --secondary-dark-color: #1e1e1e;
   --color-white: white;
   --warning-message-color: #e51818;
+  --disabled-color: #a49f9f;
   --background-end-rgb: 255, 255, 255;
 
   --primary-glow: conic-gradient(
@@ -141,7 +143,13 @@ label {
   font-size: 0.8rem;
   text-transform: uppercase;
 }
-input[type=text], input[type=email], input[type=password], input[type=number], textarea, select {
+input[type=text],
+input[type=email],
+input[type=password],
+input[type=number],
+input[type=tel],
+textarea,
+select {
   width: 100%;
   border-radius: 4px;
   border: var(--custom-border);
@@ -153,6 +161,10 @@ input[type=text], input[type=email], input[type=password], input[type=number], t
   font-family: ui-sans-serif, sans-serif;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 100ms;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: background-color 600000s 0s, color 600000s 0s;
 }
 select {
   padding: 9px 15px;
@@ -429,6 +441,12 @@ h3 {
   cursor: pointer;
   text-transform: uppercase;
 }
+.basic-button:disabled {
+  color: var(--foreground-color);
+  border: 1px solid var(--disabled-color);
+  background-color: var(--disabled-color);
+  cursor: not-allowed;
+}
 .add-time-wrap {
   display: flex;
   gap: 1rem;
@@ -441,4 +459,57 @@ h3 {
 .settings-buttons {
   display: flex;
   gap: 1rem;
+  margin-top: 1rem;
+}
+
+/*Appointment page*/
+.appointment-piece {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.appointment-piece > p {
+  font-size: 24px;
+  margin-left: .5rem;
+}
+.appointment-card {
+  display: flex;
+  justify-content: space-between;
+  border-radius: var(--border-radius);
+  background: var(--appointment-card-bg);
+  color: var(--default-theme-color);
+  padding: .5rem 1.75rem;
+}
+.appointment-card-part > label {
+  color: var(--color-white);
+}
+.appointment-card-part > span {
+  font-size: 20px;
+}
+a.tel {
+  color: var(--default-theme-color);
+}
+.appointment-paid-icon {
+  padding: 2px;
+  display: flex;
+}
+.appointment-paid-icon > img {
+  width: 24px;
+  height: 24px;
+}
+.appointment-middle {
+  display: flex;
+  gap: 2rem;
+}
+.appointment-filters {
+  display: flex;
+  gap: 1.5rem;
+}
+select.filter {
+  width: 150px;
+}
+.filter-select-wrap {
+  display: flex;
+  flex-direction: column;
 }

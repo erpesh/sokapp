@@ -12,6 +12,7 @@ const NavBar = () => {
         <div className={"firstPart"}>
           <span><Link href={"/book/BfogrP0V1POnIzBTdyME7csyiH42"}>Book a Session</Link></span>
           {isTeacher && <span><Link href={"/settings"}>Settings</Link></span>}
+          {isTeacher && <span><Link href={"/appointments"}>Appointments</Link></span>}
         </div>
         <div className={"secondPart"}>
           {currentUser ? <>
