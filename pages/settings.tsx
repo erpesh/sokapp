@@ -74,6 +74,8 @@ const Settings = () => {
           console.error(error);
         });
     }
+
+    setChangesMade(false);
   }
 
   const handleSettingsChange = (name: InputOnChange, value) => {
@@ -81,6 +83,7 @@ const Settings = () => {
     switch (name) {
       case InputOnChange.fullName:
         setFullName(value);
+        tiCopy.teacherName = value;
         break;
 
       case InputOnChange.lessonDuration:

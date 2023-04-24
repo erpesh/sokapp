@@ -39,7 +39,6 @@ const Appointments = () => {
       data.docId = doc.id;
       appointmentsList.push(data);
     });
-    console.log(appointmentsList);
     setAppointments(appointmentsList);
   }
 
@@ -60,14 +59,13 @@ const Appointments = () => {
     else if (dateOrder === "Least recent") {
       appointmentsCopy = appointmentsCopy.sort((a, b) => b.datetime.toMillis() - a.datetime.toMillis());
     }
-    console.log(statusFilter, dateOrder, appointmentsCopy)
+
     return appointmentsCopy;
   }
 
   useEffect(() => {
     if (currentUser && isTeacher)
       getAppointments();
-    console.log(router.query);
   }, [currentUser, isTeacher])
 
   if (!appointments) return <div>Loading</div>
@@ -78,7 +76,7 @@ const Appointments = () => {
         <div className={"filter-select-wrap"}>
           <label>Lesson status</label>
           <select
-            value={statusFilter}
+            value={statusFilter!}
             onChange={e => setStatusFilter(e.currentTarget.value as TAppointmentStatuses)}
             className={"filter"}
           >
@@ -88,7 +86,7 @@ const Appointments = () => {
         <div className={"filter-select-wrap"}>
           <label>Date order</label>
           <select
-            value={dateOrder}
+            value={dateOrder!}
             onChange={e => setDateOrder(e.currentTarget.value as TDateOrders)}
             className={"filter"}
           >

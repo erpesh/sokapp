@@ -5,8 +5,8 @@ export interface ILessonDaysTimes {
 
 export interface ITeacherInfo {
   uid: string
-  studentName: string
-  studentAge: number
+  teacherName: string
+  teacherEmail: string
   lessonDuration: string
   lessonPrice: number
   lessonDaysTimes: ILessonDaysTimes[]
