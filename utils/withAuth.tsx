@@ -19,7 +19,7 @@ function withAuth<T>(Component: NextComponentType<T>) {
 
       user?.getIdTokenResult().then((idTokenResult) => {
         // Confirm the user is an Admin.
-        if (!idTokenResult.claims.teacher) {
+        if (idTokenResult.claims.userRole !== "teacher") {
           router.push("/");
         }
       })

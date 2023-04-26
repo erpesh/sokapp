@@ -258,9 +258,14 @@ span.buttonText {
   gap: .5rem;
   max-width: var(--max-width-form);
 }
-.register-form > div {
+.auth-inp-wrap {
   display: inline-block;
   width: 100%;
+}
+.full-name-cont {
+  display: flex;
+  width: 100%;
+  gap: 1.5rem;
 }
 .submit-auth {
   margin-top: .5rem;

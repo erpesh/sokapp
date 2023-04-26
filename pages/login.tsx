@@ -10,7 +10,8 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const logInWithEmail = () => {
+  const logInWithEmail = (e) => {
+    e.preventDefault();
     signInWithEmailAndPassword(auth, email, password).then(r => console.log(r));
   }
 
@@ -22,6 +23,7 @@ const Login = () => {
           <label>Email</label>
           <input
             placeholder={"Email"}
+            autoComplete={"email"}
             type={"email"}
             value={email}
             onChange={(e) => setEmail(e.currentTarget.value)}

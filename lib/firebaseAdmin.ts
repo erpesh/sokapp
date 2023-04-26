@@ -3,7 +3,6 @@ import admin from 'firebase-admin';
 import {serviceAccount} from "./initFirebase";
 
 try {
-  console.log(serviceAccount)
   if (!admin.apps.length) {
     admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),

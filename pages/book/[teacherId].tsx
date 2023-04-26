@@ -71,20 +71,20 @@ const Book = () => {
     const dateString = lessonDatesInfo[activeDate].dateString;
     const lessonTime = lessonDatesInfo[activeDate].times[activeTime].time;
 
-    // await addDoc(appointmentsRef, {
-    //   studentName: studentName,
-    //   studentAge: Number(studentAge),
-    //   telNumber: telNumber,
-    //   paid: true,
-    //   teacherUid: teacherId as string,
-    //   uid: currentUser?.uid as string,
-    //   datetime: getTimestamp(
-    //     lessonDatesInfo[activeDate].date,
-    //     dateString,
-    //     lessonTime
-    //   )
-    // } as DocumentData)
-    //   .then(result => console.log(result))
+    await addDoc(appointmentsRef, {
+      studentName: studentName,
+      studentAge: Number(studentAge),
+      telNumber: telNumber,
+      paid: true,
+      teacherUid: teacherId as string,
+      uid: currentUser?.uid as string,
+      datetime: getTimestamp(
+        lessonDatesInfo[activeDate].date,
+        dateString,
+        lessonTime
+      )
+    } as DocumentData)
+      .then(result => console.log(result))
 
     const email = currentUser?.email;
     if (email) {

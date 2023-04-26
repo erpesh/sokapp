@@ -15,7 +15,8 @@ export default function useCurrentUser(): ICurrentUserHook {
 
   useEffect(() => {
     user?.getIdTokenResult().then((idTokenResult) => {
-      setIsTeacher(!!idTokenResult.claims.teacher);
+      console.log(idTokenResult);
+      setIsTeacher(idTokenResult.claims.userRole === "teacher");
     })
       .catch((error) => {
         console.log(error);
@@ -25,7 +26,6 @@ export default function useCurrentUser(): ICurrentUserHook {
   const signUserOut = () => {
     signOut(auth)
       .then(() => {
-        localStorage.clear();
         setIsTeacher(false);
       })
     router.push("/login");
