@@ -1,15 +1,19 @@
 import {useState} from 'react';
-import {auth} from "../lib/initFirebase";
+import {auth, db} from "../lib/initFirebase";
 import {createUserWithEmailAndPassword, updateProfile} from "firebase/auth";
 import AuthProviders from "../components/auth-providers";
 import Link from "next/link";
 import PasswordInput from "../components/password-input";
 import Switch from "react-switch";
 import {useRouter} from "next/router";
+import {addDoc, collection, DocumentData} from "firebase/firestore";
 
 const Register = () => {
 
+  const teachersInfoRef = collection(db, "teachersInfo");
+
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const [forename, setForename] = useState("Beta");
   const [lastName, setLastName] = useState("Inoue");
@@ -18,34 +22,64 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("Wormixtoper24");
   const [isTeacher, setIsTeacher] = useState(false);
 
+  const addTeacherInfoDoc = async (teacherEmail: string | null, teacherName: string | null, uid: string) => {
+    return await addDoc(teachersInfoRef, {
+      lessonDaysTimes: [],
+      lessonDuration: "1 hour",
+      lessonPrice: 10,
+      teacherEmail: teacherEmail,
+      teacherName: teacherName,
+      uid: uid
+
+    } as DocumentData)
+      .then(result => console.log(result))
+  }
+
   const signUpWithEmail = async (e) => {
     e.preventDefault();
 
     if (password === confirmPassword) {
-      await createUserWithEmailAndPassword(auth, email, password).then(async (userCredential) => {
-        // Update the user's display name
+      try {
+        await createUserWithEmailAndPassword(auth, email, password).then(async (userCredential) => {
+          // Update the user's display name
+          setLoading(true);
 
-        const res = await fetch("api/register", {
-          method: "POST",
-          body: JSON.stringify({
-            uid: userCredential.user.uid,
-            userRole: isTeacher ? "teacher" : "user"
+          const user = userCredential.user;
+
+          const res = await fetch("api/register", {
+            method: "POST",
+            body: JSON.stringify({
+              uid: user.uid,
+              userRole: isTeacher ? "teacher" : "user"
+            })
+          }).then( async () => {
+            await userCredential.user.getIdToken(true);
           })
-        }).then( async () => {
-          await userCredential.user.getIdToken(true);
+
+          if (isTeacher) await addTeacherInfoDoc(user.email, user.displayName, user.uid);
+
+          await updateProfile(userCredential.user, {
+            displayName: `${forename} ${lastName}`
+          });
+
+          await router.push("/");
+          window.location.reload();
         })
-
-        console.log(res);
-
-        await updateProfile(userCredential.user, {
-          displayName: `${forename} ${lastName}`
-        });
-
-        await router.push("/");
-        window.location.reload();
-      })
-    } else alert("Passwords don't match");
+      }
+      catch (error) {
+        if (error.code === 'auth/email-already-in-use') {
+          alert("This email is already in use");
+        } else if (error.code === 'auth/weak-password') {
+          alert("Your password is weak")
+        } else {
+          alert("Something went wrong, try again")
+        }
+      }
+    }
+    else alert("Passwords don't match");
   }
+
+  if (loading) return <div>Loading</div>
 
   return (
     <div className={"page max-width-smaller"}>

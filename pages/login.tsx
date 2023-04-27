@@ -4,8 +4,11 @@ import {signInWithEmailAndPassword} from "firebase/auth";
 import AuthProviders from "../components/auth-providers";
 import Link from "next/link";
 import PasswordInput from "../components/password-input";
+import {useRouter} from "next/router";
 
 const Login = () => {
+
+  const router = useRouter();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,6 +16,7 @@ const Login = () => {
   const logInWithEmail = (e) => {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password).then(r => console.log(r));
+    router.push("/");
   }
 
   return (
