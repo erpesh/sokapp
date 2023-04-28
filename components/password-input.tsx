@@ -18,6 +18,7 @@ const PasswordInput = ({password, setPassword, isConfirm} : Props) => {
     <span className={"password-input-wrap"}>
       <input
         placeholder={isConfirm ? "Confirm password" : "Password"}
+        name="password"
         autoComplete={"new-password"}
         type={isPasswordShown ? "text" : "password"}
         value={password}

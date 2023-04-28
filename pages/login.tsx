@@ -1,14 +1,16 @@
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {auth} from "../lib/initFirebase";
 import {signInWithEmailAndPassword} from "firebase/auth";
 import AuthProviders from "../components/auth-providers";
 import Link from "next/link";
 import PasswordInput from "../components/password-input";
 import {useRouter} from "next/router";
+import AuthContext from "../context/authContext";
 
 const Login = () => {
 
   const router = useRouter();
+  const {currentUser} = useContext(AuthContext);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,6 +20,10 @@ const Login = () => {
     signInWithEmailAndPassword(auth, email, password).then(r => console.log(r));
     router.push("/");
   }
+
+  useEffect(() => {
+    if (currentUser) router.push("/");
+  }, [currentUser])
 
   return (
     <div className={"page max-width-smaller"}>

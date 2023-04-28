@@ -90,6 +90,7 @@ const Register = () => {
             <label>Forename</label>
             <input
               placeholder={"Forename"}
+              name={"forename"}
               autoComplete={"given-name"}
               type={"text"}
               value={forename}
@@ -100,6 +101,7 @@ const Register = () => {
             <label>Last name</label>
             <input
               placeholder={"Last name"}
+              name={"family-name"}
               autoComplete={"family-name"}
               type={"text"}
               value={lastName}
@@ -112,6 +114,7 @@ const Register = () => {
           <input
             placeholder={"Email"}
             autoComplete={"email"}
+            name="email"
             type={"email"}
             value={email}
             onChange={(e) => setEmail(e.currentTarget.value)}

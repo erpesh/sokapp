@@ -1,12 +1,10 @@
 import {useRouter} from "next/router";
 import React, {useContext, useEffect, useState} from "react";
-import {collection, getDocs, query, where, addDoc, DocumentData} from "firebase/firestore";
+import {collection, getDocs, query, where} from "firebase/firestore";
 import {db} from "../../lib/initFirebase";
 import {ITeacherInfo} from "../../utils/types";
 import DateCard from "../../components/date-card";
-import generateLessonDateInfo, {
-  getTimestamp, IAppointment,ILessonDateInfo
-} from "../../utils/dateTimeFormattersCalculators";
+import generateLessonDateInfo, {IAppointment, ILessonDateInfo} from "../../utils/dateTimeFormattersCalculators";
 import AuthContext from "../../context/authContext";
 import useLocalStorageState from "use-local-storage-state";
 // import sendEmail from "../api/sendEmail";
@@ -23,9 +21,9 @@ const Book = () => {
   const [teacherInfo, setTeacherInfo] = useState<ITeacherInfo>();
   const [lessonDatesInfo, setLessonDatesInfo] = useState<ILessonDateInfo[]>([]);
 
-  const [studentName, setStudentName] = useLocalStorageState<string>("studentName", { ssr: true, defaultValue: "" });
-  const [studentAge, setStudentAge] = useLocalStorageState<string>("studentAge", { ssr: true, defaultValue: "" });
-  const [telNumber, setTelNumber] = useLocalStorageState<string>("telNumber", { ssr: true, defaultValue: "" });
+  const [studentName, setStudentName] = useLocalStorageState<string>("studentName", {ssr: true, defaultValue: ""});
+  const [studentAge, setStudentAge] = useLocalStorageState<string>("studentAge", {ssr: true, defaultValue: ""});
+  const [telNumber, setTelNumber] = useLocalStorageState<string>("telNumber", {ssr: true, defaultValue: ""});
   const [activeDate, setActiveDate] = useState(0);
   const [activeTime, setActiveTime] = useState(0);
 
@@ -50,7 +48,7 @@ const Book = () => {
     )
     const querySnapshotA = await getDocs(appointmentsQuery);
 
-    let appointments : IAppointment[] = [];
+    let appointments: IAppointment[] = [];
     querySnapshotA.forEach((doc) => {
       const appointmentsData = doc.data() as IAppointment;
       appointments.push(appointmentsData);
@@ -70,38 +68,52 @@ const Book = () => {
 
     const dateString = lessonDatesInfo[activeDate].dateString;
     const lessonTime = lessonDatesInfo[activeDate].times[activeTime].time;
+    const res = await fetch(`/api/checkout`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          amount: teacherInfo?.lessonPrice * 100,
+          description: `Private lesson with ${teacherInfo?.teacherName}`,
+          userEmail: currentUser?.email
+        })
+      });
 
-    await addDoc(appointmentsRef, {
-      studentName: studentName,
-      studentAge: Number(studentAge),
-      telNumber: telNumber,
-      paid: true,
-      teacherUid: teacherId as string,
-      uid: currentUser?.uid as string,
-      datetime: getTimestamp(
-        lessonDatesInfo[activeDate].date,
-        dateString,
-        lessonTime
-      )
-    } as DocumentData)
-      .then(result => console.log(result))
-
-    const email = currentUser?.email;
-    if (email) {
-      const res = await fetch(`/api/sendEmail`,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            studentName: studentName,
-            email: email,
-            teacherName: teacherInfo?.teacherName,
-            teacherEmail: teacherInfo?.teacherEmail,
-            lessonDate: dateString,
-            lessonTime: lessonTime
-          })
-        });
-      console.log(res);
+    const session = await res.json()
+    if (session.url) {
+      console.log(session.url)
+      window.location.href = session.url
     }
+
+    // await addDoc(appointmentsRef, {
+    //   studentName: studentName,
+    //   studentAge: Number(studentAge),
+    //   telNumber: telNumber,
+    //   paid: true,
+    //   teacherUid: teacherId as string,
+    //   uid: currentUser?.uid as string,
+    //   datetime: getTimestamp(
+    //     lessonDatesInfo[activeDate].date,
+    //     dateString,
+    //     lessonTime
+    //   )
+    // } as DocumentData)
+    //   .then(result => console.log(result))
+
+    // const email = currentUser?.email;
+    // if (email) {
+    //   const res = await fetch(`/api/sendEmail`,
+    //     {
+    //       method: "POST",
+    //       body: JSON.stringify({
+    //         studentName: studentName,
+    //         email: email,
+    //         teacherName: teacherInfo?.teacherName,
+    //         teacherEmail: teacherInfo?.teacherEmail,
+    //         lessonDate: dateString,
+    //         lessonTime: lessonTime
+    //       })
+    //     });
+    // }
   }
 
   useEffect(() => {
