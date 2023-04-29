@@ -21,7 +21,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             {
               price_data: {
                 currency: "gbp",
-                unit_amount: body.amount,
+                unit_amount: body.amount * 100,
                 product_data: {
                   name: body.description,
                 },

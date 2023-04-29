@@ -15,7 +15,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const logInWithEmail = (e) => {
+  const logInWithEmail = (e: React.FormEvent) => {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password).then(r => console.log(r));
     router.push("/");

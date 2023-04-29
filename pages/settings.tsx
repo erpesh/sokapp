@@ -1,5 +1,5 @@
 import withAuth from "../utils/withAuth";
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useState, MouseEvent} from "react";
 import AuthContext from "../context/authContext";
 import {db} from "../lib/initFirebase";
 import {collection, doc, DocumentData, getDocs, query, updateDoc, where} from "firebase/firestore";
@@ -31,7 +31,7 @@ const Settings = () => {
   const [documentId, setDocumentId] = useState("");
   const [teacherInfo, setTeacherInfo] = useState<ITeacherInfo>();
 
-  const [fullName, setFullName] = useState(currentUser?.displayName);
+  const [fullName, setFullName] = useState("");
   const [activeDayIndex, setActiveDayIndex] = useState(0);
   const [newTime, setNewTime] = useState("");
   const [newTimeMessage, setNewTimeMessage] = useState("");
@@ -53,7 +53,7 @@ const Settings = () => {
     });
   }
 
-  async function updateTeachersInfo(e) {
+  async function updateTeachersInfo(e: MouseEvent<HTMLElement>) {
     e.preventDefault();
 
     const teacherInfoDoc = doc(db, "teachersInfo", documentId);
@@ -78,7 +78,7 @@ const Settings = () => {
     setChangesMade(false);
   }
 
-  const handleSettingsChange = (name: InputOnChange, value) => {
+  const handleSettingsChange = (name: InputOnChange, value: string) => {
     const tiCopy = getTeacherInfoCopy();
     switch (name) {
       case InputOnChange.fullName:
@@ -131,9 +131,10 @@ const Settings = () => {
   }
 
   useEffect(() => {
+    setFullName(currentUser?.displayName!)
     if (currentUser && isTeacher)
       getTeacherInfo();
-  }, [currentUser, isTeacher, getTeacherInfo])
+  }, [currentUser, isTeacher])
 
   if (!teacherInfo) return <div>Loading</div>
 

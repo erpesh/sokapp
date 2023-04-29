@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import React, {useState} from 'react';
 import {auth, db} from "../lib/initFirebase";
 import {createUserWithEmailAndPassword, updateProfile} from "firebase/auth";
 import AuthProviders from "../components/auth-providers";
@@ -35,7 +35,7 @@ const Register = () => {
       .then(result => console.log(result))
   }
 
-  const signUpWithEmail = async (e) => {
+  const signUpWithEmail = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (password === confirmPassword) {
@@ -66,10 +66,10 @@ const Register = () => {
           window.location.reload();
         })
       }
-      catch (error) {
-        if (error.code === 'auth/email-already-in-use') {
+      catch (error: any) {
+        if (error?.code === 'auth/email-already-in-use') {
           alert("This email is already in use");
-        } else if (error.code === 'auth/weak-password') {
+        } else if (error?.code === 'auth/weak-password') {
           alert("Your password is weak")
         } else {
           alert("Something went wrong, try again")

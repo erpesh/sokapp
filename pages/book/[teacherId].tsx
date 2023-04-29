@@ -27,7 +27,7 @@ const Book = () => {
   const [activeDate, setActiveDate] = useState(0);
   const [activeTime, setActiveTime] = useState(0);
 
-  const bookNewLesson = async (e) => {
+  const bookNewLesson = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // const dateString = lessonDatesInfo[activeDate].dateString;
@@ -37,7 +37,7 @@ const Book = () => {
       {
         method: "POST",
         body: JSON.stringify({
-          amount: teacherInfo?.lessonPrice * 100,
+          amount: teacherInfo?.lessonPrice,
           description: `Private lesson with ${teacherInfo?.teacherName}`,
           userEmail: currentUser?.email,
           uid: currentUser?.uid
@@ -111,7 +111,7 @@ const Book = () => {
         appointments.push(appointmentsData);
       });
 
-      const generatedLessonDateInfo = generateLessonDateInfo(lessonTimes, appointments);
+      const generatedLessonDateInfo = generateLessonDateInfo(lessonTimes ? lessonTimes : [], appointments);
       const activeDateValue = generatedLessonDateInfo.findIndex(item => !item.isReserved);
       const activeTimeValue = generatedLessonDateInfo[activeDateValue].times.findIndex(item => !item.isReserved);
 
