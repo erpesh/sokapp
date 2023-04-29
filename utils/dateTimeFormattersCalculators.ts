@@ -134,7 +134,7 @@ export function groupedByDay(appointments: IAppointment[]) {
 
   return Object.entries(groupedByDay).map(([dateString, appointments]) => {
     return {
-      date: dateString,
+      dateString: dateString,
       appointments: appointments
     }
   });
