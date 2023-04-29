@@ -115,7 +115,6 @@ export function groupedByDay(appointments: IAppointment[]) {
   const groupedByDay = appointments.reduce((acc, appointment) => {
     // Convert the Timestamp to a Date object
     const appointDate = appointment.datetime.toDate();
-    const aa = new Date();
 
     // Get the date string in the format "20th April"
     const dateString = appointDate.toLocaleDateString("en-US", {
@@ -133,5 +132,10 @@ export function groupedByDay(appointments: IAppointment[]) {
     return acc;
   }, {});
 
-  return Object.entries(groupedByDay);
+  return Object.entries(groupedByDay).map(([dateString, appointments]) => {
+    return {
+      date: dateString,
+      appointments: appointments
+    }
+  });
 }

@@ -95,7 +95,7 @@ const Appointments = () => {
         </div>
       </div>
       <div className={"appointment-cards"}>
-        {groupedByDay(getFilteredAppointments()).map(([dateString, appointments]) => (
+        {groupedByDay(getFilteredAppointments()).map(({dateString, appointments}) => (
           <div className={"appointment-piece"} key={dateString}>
             <p>{dateString}</p>
             {appointments.map((appointment: IAppointment) => (
