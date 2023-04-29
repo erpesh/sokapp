@@ -111,7 +111,12 @@ export function getTimeIntervals(duration: string): string[] {
   return timeIntervals;
 }
 
-export function groupedByDay(appointments: IAppointment[]) {
+interface IGroupedByDay {
+  dateString: string,
+  appointments: IAppointment[]
+}
+
+export function groupedByDay(appointments: IAppointment[]) : IGroupedByDay[]  {
   const groupedByDay = appointments.reduce((acc, appointment) => {
     // Convert the Timestamp to a Date object
     const appointDate = appointment.datetime.toDate();
@@ -135,7 +140,7 @@ export function groupedByDay(appointments: IAppointment[]) {
   return Object.entries(groupedByDay).map(([dateString, appointments]) => {
     return {
       dateString: dateString,
-      appointments: appointments
+      appointments: appointments as IAppointment[]
     }
   });
 }
