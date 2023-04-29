@@ -24,22 +24,6 @@ const Appointments = () => {
 
   const appointmentsRef = collection(db, "appointments");
 
-  async function getAppointments() {
-    const appointmentsQuery = query(
-      appointmentsRef,
-      where("teacherUid", "==", currentUser?.uid)
-    );
-    const querySnapshotAppointments = await getDocs(appointmentsQuery);
-
-    const appointmentsList = [];
-    querySnapshotAppointments.forEach((doc) => {
-      const data = doc.data() as IAppointment;
-      data.docId = doc.id;
-      appointmentsList.push(data);
-    });
-    setAppointments(appointmentsList);
-  }
-
   const getFilteredAppointments = () => {
     let appointmentsCopy = [...appointments];
     const currentDate = new Date();
@@ -62,9 +46,27 @@ const Appointments = () => {
   }
 
   useEffect(() => {
+
+    async function getAppointments() {
+      const appointmentsQuery = query(
+        appointmentsRef,
+        where("teacherUid", "==", currentUser?.uid)
+      );
+      const querySnapshotAppointments = await getDocs(appointmentsQuery);
+
+      const appointmentsList: IAppointment[] = [];
+
+      querySnapshotAppointments.forEach((doc) => {
+        const data = doc.data() as IAppointment;
+        data.docId = doc.id;
+        appointmentsList.push(data);
+      });
+      setAppointments(appointmentsList);
+    }
+    
     if (currentUser && isTeacher)
       getAppointments();
-  }, [currentUser, isTeacher])
+  }, [appointmentsRef, currentUser, isTeacher])
 
   if (!appointments) return <div>Loading</div>
 
