@@ -21,9 +21,9 @@ const Book = () => {
   const [teacherInfo, setTeacherInfo] = useState<ITeacherInfo>();
   const [lessonDatesInfo, setLessonDatesInfo] = useState<ILessonDateInfo[]>([]);
 
-  const [studentName, setStudentName] = useLocalStorageState<string>("studentName", {ssr: true, defaultValue: ""});
-  const [studentAge, setStudentAge] = useLocalStorageState<string>("studentAge", {ssr: true, defaultValue: ""});
-  const [telNumber, setTelNumber] = useLocalStorageState<string>("telNumber", {ssr: true, defaultValue: ""});
+  const [studentName, setStudentName] = useLocalStorageState<string>("studentName", { defaultValue: ""});
+  const [studentAge, setStudentAge] = useLocalStorageState<string>("studentAge", {defaultValue: ""});
+  const [telNumber, setTelNumber] = useLocalStorageState<string>("telNumber", {defaultValue: ""});
   const [activeDate, setActiveDate] = useState(0);
   const [activeTime, setActiveTime] = useState(0);
 

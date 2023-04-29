@@ -2,10 +2,9 @@ import withAuth from "../utils/withAuth";
 import {useContext, useEffect, useState} from "react";
 import AuthContext from "../context/authContext";
 import {db} from "../lib/initFirebase";
-import {collection, getDocs, orderBy, query, where} from "firebase/firestore";
+import {collection, getDocs, query, where} from "firebase/firestore";
 import {groupedByDay, IAppointment} from "../utils/dateTimeFormattersCalculators";
 import AppointmentCard from "../components/appointment-card";
-import {useRouter} from "next/router";
 import useLocalStorageState from "use-local-storage-state";
 
 const APPOINTMENT_STATUSES = ["Upcoming", "Held", "All"];
@@ -16,13 +15,12 @@ type TDateOrders = "Most recent" | "Least recent";
 
 const Appointments = () => {
 
-  const router = useRouter();
   const {currentUser, isTeacher} = useContext(AuthContext);
   const [appointments, setAppointments] = useState<IAppointment[]>([]);
 
   // filters
-  const [statusFilter, setStatusFilter] = useLocalStorageState<TAppointmentStatuses>("statusFilter", {ssr: true, defaultValue: "Upcoming"});
-  const [dateOrder, setDateOrder] = useLocalStorageState<TDateOrders>("dateOrder", {ssr: true, defaultValue: "Most recent"});
+  const [statusFilter, setStatusFilter] = useLocalStorageState<TAppointmentStatuses>("statusFilter", {defaultValue: "Upcoming"});
+  const [dateOrder, setDateOrder] = useLocalStorageState<TDateOrders>("dateOrder", {defaultValue: "Most recent"});
 
   const appointmentsRef = collection(db, "appointments");
 
