@@ -12,7 +12,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     case 'POST':
       try {
         // create a payment intent
-        console.log(body["amount"], body.amount);
 
         const session = await stripe.checkout.sessions.create({
           payment_method_types: ["card"],
@@ -33,13 +32,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           mode: "payment",
           success_url: "https://github.com/erpesh",
           cancel_url: "https://github.com/erpesh",
+          metadata: {
+            userId: body.uid,
+          },
         });
 
         // return the client secret to confirm the payment on the frontend
         res.status(200).json({url: session.url});
       } catch (error) {
         console.log(error)
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: error });
       }
       break;
 

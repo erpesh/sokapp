@@ -23,7 +23,7 @@ const Login = () => {
 
   useEffect(() => {
     if (currentUser) router.push("/");
-  }, [currentUser])
+  }, [currentUser, router])
 
   return (
     <div className={"page max-width-smaller"}>

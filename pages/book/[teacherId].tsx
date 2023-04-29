@@ -68,13 +68,15 @@ const Book = () => {
 
     const dateString = lessonDatesInfo[activeDate].dateString;
     const lessonTime = lessonDatesInfo[activeDate].times[activeTime].time;
+
     const res = await fetch(`/api/checkout`,
       {
         method: "POST",
         body: JSON.stringify({
           amount: teacherInfo?.lessonPrice * 100,
           description: `Private lesson with ${teacherInfo?.teacherName}`,
-          userEmail: currentUser?.email
+          userEmail: currentUser?.email,
+          uid: currentUser?.uid
         })
       });
 
@@ -120,7 +122,7 @@ const Book = () => {
     if (teacherId) {
       getTeacherInfoAndAppointments();
     }
-  }, [teacherId])
+  }, [teacherId, getTeacherInfoAndAppointments])
 
   return (
     <div className={"page"}>

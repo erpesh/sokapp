@@ -133,7 +133,7 @@ const Settings = () => {
   useEffect(() => {
     if (currentUser && isTeacher)
       getTeacherInfo();
-  }, [currentUser, isTeacher])
+  }, [currentUser, isTeacher, getTeacherInfo])
 
   if (!teacherInfo) return <div>Loading</div>
 
