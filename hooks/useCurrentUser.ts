@@ -15,7 +15,6 @@ export default function useCurrentUser(): ICurrentUserHook {
 
   useEffect(() => {
     user?.getIdTokenResult().then((idTokenResult) => {
-      console.log(idTokenResult);
       setIsTeacher(idTokenResult.claims.userRole === "teacher");
     })
       .catch((error) => {

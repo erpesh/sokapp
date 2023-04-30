@@ -14,9 +14,6 @@ const AuthProviders = ({isRegister} : Props) => {
   const signInWithProvider = (provider: GoogleAuthProvider | FacebookAuthProvider) => {
     try {
       signInWithPopup(auth, provider)
-        .then(result => {
-          localStorage.setItem("isAuth", "true");
-        })
     }
     catch(error) {
       console.log(error);
