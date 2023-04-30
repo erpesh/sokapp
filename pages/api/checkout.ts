@@ -6,7 +6,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { method } = req;
   const body = JSON.parse(req.body);
 
-  // const billingUrl = absoluteUrl("")
+  const billingUrl = absoluteUrl("")
 
   switch (method) {
     case 'POST':
@@ -30,8 +30,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             },
           ],
           mode: "payment",
-          success_url: "https://github.com/erpesh",
-          cancel_url: "https://github.com/erpesh",
+          success_url: billingUrl,
+          cancel_url: billingUrl,
           metadata: {
             userId: body.uid,
           },

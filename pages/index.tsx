@@ -1,6 +1,6 @@
 import {auth} from "../lib/initFirebase";
 import {signOut} from "firebase/auth";
-import {useContext} from "react";
+import {useContext, useEffect} from "react";
 import AuthContext from "../context/authContext";
 
 export default function Home() {
@@ -17,6 +17,10 @@ export default function Home() {
     })
     console.log(res);
   };
+
+  useEffect(() => {
+
+  }, [])
 
   return (
     <div className={"page"}>

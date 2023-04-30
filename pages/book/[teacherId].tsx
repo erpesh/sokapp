@@ -27,6 +27,42 @@ const Book = () => {
   const [activeDate, setActiveDate] = useState(0);
   const [activeTime, setActiveTime] = useState(0);
 
+  async function getTeacherInfoAndAppointments() {
+
+    let lessonTimes = undefined;
+
+    // Teacher info
+    const teachersInfoQuery = query(teachersInfoRef, where("uid", "==", teacherId));
+    const querySnapshotTI = await getDocs(teachersInfoQuery);
+    querySnapshotTI.forEach((doc) => {
+      const data = doc.data() as ITeacherInfo;
+      setTeacherInfo(data);
+      lessonTimes = data.lessonDaysTimes;
+    });
+
+    // Appointments
+    const appointmentsQuery = query(
+      appointmentsRef,
+      where("teacherUid", "==", teacherId),
+      where("datetime", ">", new Date())
+    )
+    const querySnapshotA = await getDocs(appointmentsQuery);
+
+    let appointments: IAppointment[] = [];
+    querySnapshotA.forEach((doc) => {
+      const appointmentsData = doc.data() as IAppointment;
+      appointments.push(appointmentsData);
+    });
+
+    const generatedLessonDateInfo = generateLessonDateInfo(lessonTimes ? lessonTimes : [], appointments);
+    const activeDateValue = generatedLessonDateInfo.findIndex(item => !item.isReserved);
+    const activeTimeValue = generatedLessonDateInfo[activeDateValue].times.findIndex(item => !item.isReserved);
+
+    setActiveDate(activeDateValue);
+    setActiveTime(activeTimeValue);
+    setLessonDatesInfo(generatedLessonDateInfo);
+  }
+
   const bookNewLesson = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -46,7 +82,6 @@ const Book = () => {
 
     const session = await res.json()
     if (session.url) {
-      console.log(session.url)
       window.location.href = session.url
     }
 
@@ -83,43 +118,6 @@ const Book = () => {
   }
 
   useEffect(() => {
-
-    async function getTeacherInfoAndAppointments() {
-
-      let lessonTimes = undefined;
-
-      // Teacher info
-      const teachersInfoQuery = query(teachersInfoRef, where("uid", "==", teacherId));
-      const querySnapshotTI = await getDocs(teachersInfoQuery);
-      querySnapshotTI.forEach((doc) => {
-        const data = doc.data() as ITeacherInfo;
-        setTeacherInfo(data);
-        lessonTimes = data.lessonDaysTimes;
-      });
-
-      // Appointments
-      const appointmentsQuery = query(
-        appointmentsRef,
-        where("teacherUid", "==", teacherId),
-        where("datetime", ">", new Date())
-      )
-      const querySnapshotA = await getDocs(appointmentsQuery);
-
-      let appointments: IAppointment[] = [];
-      querySnapshotA.forEach((doc) => {
-        const appointmentsData = doc.data() as IAppointment;
-        appointments.push(appointmentsData);
-      });
-
-      const generatedLessonDateInfo = generateLessonDateInfo(lessonTimes ? lessonTimes : [], appointments);
-      const activeDateValue = generatedLessonDateInfo.findIndex(item => !item.isReserved);
-      const activeTimeValue = generatedLessonDateInfo[activeDateValue].times.findIndex(item => !item.isReserved);
-
-      setActiveDate(activeDateValue);
-      setActiveTime(activeTimeValue);
-      setLessonDatesInfo(generatedLessonDateInfo);
-    }
-    
     if (teacherId) {
       getTeacherInfoAndAppointments();
     }
