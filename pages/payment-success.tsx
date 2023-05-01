@@ -1,7 +1,7 @@
 import {useRouter} from "next/router";
 import {useContext, useEffect, useState} from "react";
 import {stripe} from "../lib/stripe";
-import {addDoc, collection, DocumentData} from "firebase/firestore";
+import {addDoc, collection, DocumentData, Timestamp} from "firebase/firestore";
 import AuthContext from "../context/authContext";
 import {db} from "../lib/initFirebase";
 
@@ -42,7 +42,7 @@ const PaymentSuccess = () => {
           paid: true,
           teacherUid: teacherUid as string,
           uid: uid as string,
-          datetime: datetime
+          datetime: Timestamp.fromMillis(datetime)
         } as DocumentData)
           .then(result => console.log(result))
 

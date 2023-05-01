@@ -92,7 +92,7 @@ const Book = () => {
               lessonDatesInfo[activeDate].date,
               dateString,
               lessonTime
-            ),
+            ).toMillis(),
             teacherName: teacherInfo?.teacherName,
             teacherEmail: teacherInfo?.teacherEmail,
             lessonDate: dateString,
