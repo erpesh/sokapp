@@ -68,7 +68,7 @@ const Book = () => {
 
     // const dateString = lessonDatesInfo[activeDate].dateString;
     // const lessonTime = lessonDatesInfo[activeDate].times[activeTime].time;
-
+    console.log(router.asPath)
     const res = await fetch(`/api/checkout`,
       {
         method: "POST",
@@ -76,7 +76,8 @@ const Book = () => {
           amount: teacherInfo?.lessonPrice,
           description: `Private lesson with ${teacherInfo?.teacherName}`,
           userEmail: currentUser?.email,
-          uid: currentUser?.uid
+          uid: currentUser?.uid,
+          cancel_url: router.asPath
         })
       });
 
