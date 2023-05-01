@@ -27,8 +27,9 @@ const PaymentSuccess = () => {
   }
 
   useEffect(() => {
-    confirmPayment();
-  }, [])
+    if (session_id)
+      confirmPayment();
+  }, [session_id])
 
   if (loading) return <div>Loading</div>
 
