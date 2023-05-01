@@ -4,7 +4,11 @@ import {collection, getDocs, query, where} from "firebase/firestore";
 import {db} from "../../lib/initFirebase";
 import {ITeacherInfo} from "../../utils/types";
 import DateCard from "../../components/date-card";
-import generateLessonDateInfo, {IAppointment, ILessonDateInfo} from "../../utils/dateTimeFormattersCalculators";
+import generateLessonDateInfo, {
+  getTimestamp,
+  IAppointment,
+  ILessonDateInfo
+} from "../../utils/dateTimeFormattersCalculators";
 import AuthContext from "../../context/authContext";
 import useLocalStorageState from "use-local-storage-state";
 // import sendEmail from "../api/sendEmail";
@@ -66,8 +70,9 @@ const Book = () => {
   const bookNewLesson = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // const dateString = lessonDatesInfo[activeDate].dateString;
-    // const lessonTime = lessonDatesInfo[activeDate].times[activeTime].time;
+    const dateString = lessonDatesInfo[activeDate].dateString;
+    const lessonTime = lessonDatesInfo[activeDate].times[activeTime].time;
+
     console.log(router.asPath)
     const res = await fetch(`/api/checkout`,
       {
@@ -75,9 +80,24 @@ const Book = () => {
         body: JSON.stringify({
           amount: teacherInfo?.lessonPrice,
           description: `Private lesson with ${teacherInfo?.teacherName}`,
-          userEmail: currentUser?.email,
-          uid: currentUser?.uid,
-          cancel_url: router.asPath
+          cancel_url: router.asPath,
+          metadata: {
+            studentName: studentName,
+            studentAge: Number(studentAge),
+            telNumber: telNumber,
+            teacherUid: teacherId as string,
+            uid: currentUser?.uid,
+            userEmail: currentUser?.email,
+            datetime: getTimestamp(
+              lessonDatesInfo[activeDate].date,
+              dateString,
+              lessonTime
+            ),
+            teacherName: teacherInfo?.teacherName,
+            teacherEmail: teacherInfo?.teacherEmail,
+            lessonDate: dateString,
+            lessonTime: lessonTime
+          }
         })
       });
 
@@ -85,37 +105,6 @@ const Book = () => {
     if (session.url) {
       window.location.href = session.url
     }
-
-    // await addDoc(appointmentsRef, {
-    //   studentName: studentName,
-    //   studentAge: Number(studentAge),
-    //   telNumber: telNumber,
-    //   paid: true,
-    //   teacherUid: teacherId as string,
-    //   uid: currentUser?.uid as string,
-    //   datetime: getTimestamp(
-    //     lessonDatesInfo[activeDate].date,
-    //     dateString,
-    //     lessonTime
-    //   )
-    // } as DocumentData)
-    //   .then(result => console.log(result))
-
-    // const email = currentUser?.email;
-    // if (email) {
-    //   const res = await fetch(`/api/sendEmail`,
-    //     {
-    //       method: "POST",
-    //       body: JSON.stringify({
-    //         studentName: studentName,
-    //         email: email,
-    //         teacherName: teacherInfo?.teacherName,
-    //         teacherEmail: teacherInfo?.teacherEmail,
-    //         lessonDate: dateString,
-    //         lessonTime: lessonTime
-    //       })
-    //     });
-    // }
   }
 
   useEffect(() => {

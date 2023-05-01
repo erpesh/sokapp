@@ -6,8 +6,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { method } = req;
   const body = JSON.parse(req.body);
 
-  const billingUrl = absoluteUrl("");
-
   switch (method) {
     case 'POST':
       try {
@@ -32,9 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           mode: "payment",
           success_url: absoluteUrl("/payment-success?session_id={CHECKOUT_SESSION_ID}"),
           cancel_url: absoluteUrl(body.cancel_url),
-          metadata: {
-            userId: body.uid,
-          },
+          metadata: body.metadata,
         });
         // return the client secret to confirm the payment on the frontend
         res.status(200).json({url: session.url});
