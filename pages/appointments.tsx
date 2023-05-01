@@ -64,8 +64,9 @@ const Appointments = () => {
 
   useEffect(() => {
     if (currentUser && isTeacher)
+      console.log("getAppointments Read")
       getAppointments();
-  }, [appointmentsRef, currentUser, isTeacher])
+  }, [currentUser, isTeacher])
 
   if (!appointments) return <div>Loading</div>
 

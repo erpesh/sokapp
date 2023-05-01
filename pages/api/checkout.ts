@@ -6,7 +6,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { method } = req;
   const body = JSON.parse(req.body);
 
-  const billingUrl = absoluteUrl("")
+  const billingUrl = absoluteUrl("");
 
   switch (method) {
     case 'POST':
@@ -36,9 +36,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             userId: body.uid,
           },
         });
-
         // return the client secret to confirm the payment on the frontend
-        res.status(200).json({url: session.url});
+        res.status(200).json({url: session.url, id: session.id});
+
+        // // Confirm the payment
+        // const confirmedSession = await stripe.checkout.sessions.retrieve(session.id);
+        // if (confirmedSession.payment_status === 'paid') {
+        //   // The payment has been successfully completed
+        //   // You can now fulfill the order and update your database
+        //   console.log('Payment successful');
+        // } else {
+        //   // The payment has not been completed yet
+        //   // You can redirect the user back to the Checkout page
+        //   console.log('Payment not completed yet');
+        // }
       } catch (error) {
         console.log(error)
         res.status(500).json({ error: error });

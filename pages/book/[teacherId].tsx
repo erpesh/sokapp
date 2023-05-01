@@ -82,7 +82,8 @@ const Book = () => {
 
     const session = await res.json()
     if (session.url) {
-      window.location.href = session.url
+      console.log(session.id);
+      // window.location.href = session.url
     }
 
     // await addDoc(appointmentsRef, {
@@ -119,9 +120,10 @@ const Book = () => {
 
   useEffect(() => {
     if (teacherId) {
+      console.log("getTeacherInfoAndAppointments read")
       getTeacherInfoAndAppointments();
     }
-  }, [appointmentsRef, teacherId, teachersInfoRef])
+  }, [teacherId])
 
   return (
     <div className={"page"}>
