@@ -82,8 +82,7 @@ const Book = () => {
 
     const session = await res.json()
     if (session.url) {
-      console.log(session.id);
-      // window.location.href = session.url
+      window.location.href = session.url
     }
 
     // await addDoc(appointmentsRef, {

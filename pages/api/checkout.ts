@@ -30,7 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             },
           ],
           mode: "payment",
-          success_url: billingUrl,
+          success_url: absoluteUrl("/payment-success?session_id={CHECKOUT_SESSION_ID})"),
           cancel_url: billingUrl,
           metadata: {
             userId: body.uid,
