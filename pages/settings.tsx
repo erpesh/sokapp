@@ -43,14 +43,19 @@ const Settings = () => {
   };
 
   async function getTeacherInfo() {
-    const teachersInfoQuery = query(teachersInfoRef, where("uid", "==", currentUser?.uid));
-    const querySnapshotTI = await getDocs(teachersInfoQuery);
-    querySnapshotTI.forEach((doc) => {
-      const data = doc.data() as ITeacherInfo;
-      setDocumentId(doc.id);
-      setTeacherInfo(data);
-      setChangesMade(false);
-    });
+    try {
+      const teachersInfoQuery = query(teachersInfoRef, where("uid", "==", currentUser?.uid));
+      const querySnapshotTI = await getDocs(teachersInfoQuery);
+      querySnapshotTI.forEach((doc) => {
+        const data = doc.data() as ITeacherInfo;
+        setDocumentId(doc.id);
+        setTeacherInfo(data);
+        setChangesMade(false);
+      });
+    }
+    catch (error) {
+      console.error(error);
+    }
   }
 
   async function updateTeachersInfo(e: MouseEvent<HTMLElement>) {

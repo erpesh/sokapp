@@ -25,39 +25,40 @@ const Appointments = () => {
   const appointmentsRef = collection(db, "appointments");
 
   async function getAppointments() {
-    const appointmentsQuery = query(
-      appointmentsRef,
-      where("teacherUid", "==", currentUser?.uid)
-    );
-    const querySnapshotAppointments = await getDocs(appointmentsQuery);
+    try {
+      const appointmentsQuery = query(
+        appointmentsRef,
+        where("teacherUid", "==", currentUser?.uid)
+      );
+      const querySnapshotAppointments = await getDocs(appointmentsQuery);
 
-    const appointmentsList: IAppointment[] = [];
+      const appointmentsList: IAppointment[] = [];
 
-    querySnapshotAppointments.forEach((doc) => {
-      const data = doc.data() as IAppointment;
-      data.docId = doc.id;
-      appointmentsList.push(data);
-    });
-    setAppointments(appointmentsList);
+      querySnapshotAppointments.forEach((doc) => {
+        const data = doc.data() as IAppointment;
+        data.docId = doc.id;
+        appointmentsList.push(data);
+      });
+      setAppointments(appointmentsList);
+    }
+    catch (error) {
+      console.error(error)
+    }
   }
 
   const getFilteredAppointments = () => {
     let appointmentsCopy = [...appointments];
     const currentDate = new Date();
 
-    if (statusFilter === "Upcoming") {
+    if (statusFilter === "Upcoming")
       appointmentsCopy = appointmentsCopy.filter(item => item.datetime.toDate() > currentDate);
-    }
-    else if (statusFilter === "Held") {
+    else if (statusFilter === "Held")
       appointmentsCopy = appointmentsCopy.filter(item => item.datetime.toDate() < currentDate);
-    }
 
-    if (dateOrder === "Most recent") {
+    if (dateOrder === "Most recent")
       appointmentsCopy = appointmentsCopy.sort((a, b) => a.datetime.toMillis() - b.datetime.toMillis());
-    }
-    else if (dateOrder === "Least recent") {
+    else if (dateOrder === "Least recent")
       appointmentsCopy = appointmentsCopy.sort((a, b) => b.datetime.toMillis() - a.datetime.toMillis());
-    }
 
     return appointmentsCopy;
   }
