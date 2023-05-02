@@ -147,6 +147,30 @@ nav {
   align-items: center;
 }
 
+@media (max-width: 550px) {
+  .small-logo {
+    display: block;
+  }
+  .full-logo {
+    display: none;
+  }
+}
+
+@media (min-width: 551px) {
+  .small-logo {
+    display: none;
+  }
+  .full-logo {
+    display: block;
+  }
+}
+
+@media (max-width: 400px) {
+  .lesson-text {
+    display: none;
+  }
+}
+
 .nav-span > a:visited,
 .nav-span > a:visited,
 .nav-span > a:link,

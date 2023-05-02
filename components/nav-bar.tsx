@@ -1,7 +1,6 @@
 import {useContext} from 'react';
 import Link from "next/link";
 import AuthContext from "../context/authContext";
-import {useWindowWidth} from "@react-hook/window-size";
 import Image from "next/image";
 import fullLogo from "../assets/full-logo.svg";
 import smallLogo from "../assets/logo.svg";
@@ -11,8 +10,6 @@ import scheduleIcon from "../assets/schedule-icon.svg";
 
 const NavBar = () => {
 
-  const pageWidth = useWindowWidth();
-
   const {currentUser, isTeacher, signUserOut} = useContext(AuthContext);
 
   if (isTeacher) {
@@ -21,11 +18,15 @@ const NavBar = () => {
         <nav>
           <div className={"firstPart"}>
             <Link href={"/"} className={"logo-nav"}>
-              {pageWidth > 550 ? <Image className={"full-logo"} src={fullLogo} alt={"logo"}/> :
-                <Image className={"small-logo"} src={smallLogo} alt={"logo"}/>}
+                <Image className={"full-logo"} src={fullLogo} alt={"logo"}/>
+                <Image className={"small-logo"} src={smallLogo} alt={"logo"}/>
             </Link>
             <div className={"nav-links"}>
-              <span className={"nav-span"}><Link href={"/book/BfogrP0V1POnIzBTdyME7csyiH42"}>Book{pageWidth > 400 && " a lesson"}</Link></span>
+              <span className={"nav-span"}>
+                <Link href={"/book/BfogrP0V1POnIzBTdyME7csyiH42"}>
+                  Book<span className={"lesson-text"}> a lesson</span>
+                </Link>
+              </span>
             </div>
           </div>
           <div className={"secondPart"}>
@@ -52,11 +53,15 @@ const NavBar = () => {
         <nav>
           <div className={"firstPart"}>
             <Link href={"/"} className={"logo-nav"}>
-              {pageWidth > 550 ? <Image className={"full-logo"} src={fullLogo} alt={"logo"}/> :
-                <Image className={"small-logo"} src={smallLogo} alt={"logo"}/>}
+                <Image className={"full-logo"} src={fullLogo} alt={"logo"}/>
+                <Image className={"small-logo"} src={smallLogo} alt={"logo"}/>
             </Link>
             <div className={"nav-links"}>
-              <span className={"nav-span"}><Link href={"/book/BfogrP0V1POnIzBTdyME7csyiH42"}>Book{pageWidth > 400 && " a lesson"}</Link></span>
+              <span className={"nav-span"}>
+                <Link href={"/book/BfogrP0V1POnIzBTdyME7csyiH42"}>
+                  Book<span className={"lesson-text"}> a lesson</span>
+                </Link>
+              </span>
             </div>
           </div>
           <div className={"secondPart"}>
