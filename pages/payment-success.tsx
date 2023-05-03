@@ -4,8 +4,11 @@ import {stripe} from "../lib/stripe";
 import {addDoc, collection, DocumentData, Timestamp} from "firebase/firestore";
 import AuthContext from "../context/authContext";
 import {db} from "../lib/initFirebase";
+import {Scope, useScopedI18n} from "../locales";
 
 const PaymentSuccess = () => {
+
+  const ts = useScopedI18n("scope.email" as Scope);
 
   const {currentUser} = useContext(AuthContext);
   const appointmentsRef = collection(db, "appointments");
@@ -57,7 +60,10 @@ const PaymentSuccess = () => {
                 teacherName: teacherName,
                 teacherEmail: teacherEmail,
                 lessonDate: lessonDate,
-                lessonTime: lessonTime
+                lessonTime: lessonTime,
+                emailSubject: ts("lessonBooking"),
+                userBookingHtml: ts("userBookingConfirmationHtml"),
+                teacherBookingHtml: ts("teacherBookingHtml"),
               })
             });
         }

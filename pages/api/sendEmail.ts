@@ -17,23 +17,26 @@ async function bookLesson(
   teacherName: string,
   teacherEmail: string,
   lessonDate: string,
-  lessonTime: string
+  lessonTime: string,
+  emailSubject: string,
+  userBookingHtml: string,
+  teacherBookingHtml: string,
 ) {
 
-  const userBookingConfirmationHtml = `
-  <p>Thank you for booking a lesson with ${teacherName} on ${lessonDate} at ${lessonTime}. Your booking has been confirmed and we look forward to seeing you at the lesson.</p>
-  <p>If you have any questions or need to reschedule, please let us know as soon as possible.</p>
-  <p>Best regards</p>
-`;
-
-  const teacherBookingHtml = `
-  <p>${studentName} booked a lesson with you on ${lessonDate} at ${lessonTime}.</p>
-  <p>Best regards</p>
-`;
+//   const userBookingConfirmationHtml = `
+//   <p>Thank you for booking a lesson with ${teacherName} on ${lessonDate} at ${lessonTime}. Your booking has been confirmed and we look forward to seeing you at the lesson.</p>
+//   <p>If you have any questions or need to reschedule, please let us know as soon as possible.</p>
+//   <p>Best regards</p>
+// `;
+//
+//   const teacherBookingHtml = `
+//   <p>${studentName} booked a lesson with you on ${lessonDate} at ${lessonTime}.</p>
+//   <p>Best regards</p>
+// `;
 
   try {
-    await sendEmail(userEmail, "Lesson booking", userBookingConfirmationHtml);
-    await sendEmail(teacherEmail, "Lesson booking", teacherBookingHtml);
+    await sendEmail(userEmail,  emailSubject, userBookingHtml);
+    await sendEmail(teacherEmail, emailSubject, teacherBookingHtml);
     return "success";
   }
   catch (e) {
@@ -54,8 +57,21 @@ export default async function handler(
       const teacherEmail = body.teacherEmail;
       const lessonDate = body.lessonDate;
       const lessonTime = body.lessonTime;
+      const emailSubject = body.emailSubject;
+      const userBookingHtml = body.userBookingHtml;
+      const teacherBookingHtml = body.teacherBookingHtml;
 
-      const response = await bookLesson(studentName, email, teacherName, teacherEmail, lessonDate, lessonTime);
+      const response = await bookLesson(
+        studentName,
+        email,
+        teacherName,
+        teacherEmail,
+        lessonDate,
+        lessonTime,
+        emailSubject,
+        userBookingHtml,
+        teacherBookingHtml
+      );
       res.status(200).json(response);
     } catch (e) {
       res.status(500).json(e);
