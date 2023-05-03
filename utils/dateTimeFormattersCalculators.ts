@@ -39,7 +39,8 @@ function checkIsReserved(reservedAppointments: Date[], dateLoop: Date, lessonTim
 
 export default function generateLessonDateInfo(
   lessonDates: ILessonDaysTimes[],
-  appointments: IAppointment[]
+  appointments: IAppointment[],
+  locale: TLocale
 ): ILessonDateInfo[] {
   // Get the current date and calculate the start and end dates of the three-week period
   const currentDate = new Date();
@@ -54,10 +55,10 @@ export default function generateLessonDateInfo(
   // Loop through the dates in the three-week period
   for (let dateLoop = dateInOneDay; dateLoop <= threeWeeksFromNow; dateLoop.setDate(dateLoop.getDate() + 1)) {
     // Check if the current date is one of the days of the week in the `daysOfWeek` array
-    const dayOfWeek = dateLoop.toLocaleDateString("en-US", {weekday: "long"});
+    const dayOfWeek = dateLoop.toLocaleDateString("en-GB", {weekday: "long"});
     if (daysOfWeek.includes(dayOfWeek)) {
       // If the current date is one of the specified days of the week, create a lesson date info object
-      const date = dateLoop.toLocaleDateString("en-US", {month: "short", day: "numeric"});
+      const date = dateLoop.toLocaleDateString(localeFormatter(locale), {month: "short", day: "numeric"});
       const [lessonDay]: ILessonDaysTimes[] = lessonDates.filter(item => item.day === dayOfWeek);
       const lessonTimes = lessonDay.time.map(item => {
         return {

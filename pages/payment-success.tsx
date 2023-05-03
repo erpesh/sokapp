@@ -65,7 +65,7 @@ const PaymentSuccess = () => {
                 userBookingHtml: ts("userBookingConfirmationHtml"),
                 teacherBookingHtml: ts("teacherBookingHtml"),
               })
-            });
+            }).then(res => console.log(res));
         }
 
         setLoading(false);

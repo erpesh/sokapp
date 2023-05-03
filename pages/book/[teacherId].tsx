@@ -11,12 +11,13 @@ import generateLessonDateInfo, {
 } from "../../utils/dateTimeFormattersCalculators";
 import AuthContext from "../../context/authContext";
 import useLocalStorageState from "use-local-storage-state";
-import {useI18n, useScopedI18n, Scope} from "../../locales";
+import {useI18n, useScopedI18n, Scope, useCurrentLocale} from "../../locales";
 
 const Book = () => {
 
   const t = useI18n();
   const ts = useScopedI18n("scope.book" as Scope);
+  const currentLocale = useCurrentLocale();
 
   const teachersInfoRef = collection(db, "teachersInfo");
   const appointmentsRef = collection(db, "appointments");
@@ -62,7 +63,7 @@ const Book = () => {
         appointments.push(appointmentsData);
       });
 
-      const generatedLessonDateInfo = generateLessonDateInfo(lessonTimes ? lessonTimes : [], appointments);
+      const generatedLessonDateInfo = generateLessonDateInfo(lessonTimes ? lessonTimes : [], appointments, currentLocale);
       const activeDateValue = generatedLessonDateInfo.findIndex(item => !item.isReserved);
       const activeTimeValue = generatedLessonDateInfo[activeDateValue].times.findIndex(item => !item.isReserved);
 
