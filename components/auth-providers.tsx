@@ -4,12 +4,15 @@ import googleIcon from "../assets/google-icon.png";
 import facebookIcon from "../assets/facebook-icon.svg";
 import {FacebookAuthProvider, GoogleAuthProvider, signInWithPopup} from "firebase/auth";
 import {auth} from "../lib/initFirebase";
+import {Scope, useI18n, useScopedI18n} from "../locales";
 
 interface Props {
   isRegister?: boolean
 }
 
 const AuthProviders = ({isRegister} : Props) => {
+
+  const ts = useScopedI18n("scope.auth" as Scope);
 
   const signInWithProvider = (provider: GoogleAuthProvider | FacebookAuthProvider) => {
     try {
@@ -34,11 +37,11 @@ const AuthProviders = ({isRegister} : Props) => {
     <div className={"auth-providers"}>
       <div onClick={signInWithGoogle} id="customBtn" className="customGPlusSignIn">
         <span className="icon"><Image alt={"Google icon"} src={googleIcon}/></span>
-        <span className="buttonText">{isRegister ? "Register" : "Log in"} with Google</span>
+        <span className="buttonText">{ts(`${isRegister ? "register" : "login"}With`, {provider: "Google"})}</span>
       </div>
       <div onClick={signInWithFacebook} id="customBtn" className="customGPlusSignIn">
         <span className="icon"><Image alt={"Google icon"} src={facebookIcon}/></span>
-        <span className="buttonText">{isRegister ? "Register" : "Log in"} with Facebook</span>
+        <span className="buttonText">{ts(`${isRegister ? "register" : "login"}With`, {provider: "Facebook"})}</span>
       </div>
     </div>
   );

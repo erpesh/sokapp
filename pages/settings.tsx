@@ -9,6 +9,7 @@ import addIcon from "../assets/add-icon.svg";
 import Image from "next/image";
 import {updateProfile} from "firebase/auth";
 import useWarnBeforeLeavingPage from "../hooks/useWarnBeforeLeavingPage";
+import {Scope, useI18n, useScopedI18n} from "../locales";
 
 const LESSON_DURATIONS = ["30 min", "1 hour", "2 hours"];
 const DAYS_OF_WEEK = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
@@ -23,6 +24,9 @@ enum InputOnChange {
 }
 
 const Settings = () => {
+
+  const t = useI18n();
+  const ts = useScopedI18n("scope.settings" as Scope);
 
   const [changesMade, setChangesMade] = useState(false);
   useWarnBeforeLeavingPage(changesMade);
@@ -150,7 +154,7 @@ const Settings = () => {
       <h1 style={{marginBottom: "1rem"}}>{currentUser?.displayName}</h1>
       <div className={"double-input-container"}>
         <div className={"form-input-wrap"}>
-          <label>Full name</label>
+          <label>{t("fullName")}</label>
           <input
             type={"text"}
             placeholder={"Full name"}
@@ -159,16 +163,16 @@ const Settings = () => {
           />
         </div>
         <div className={"form-input-wrap"}>
-          <label>Lesson duration</label>
+          <label>{t("lessonDuration")}</label>
           <select
             value={teacherInfo.lessonDuration}
             onChange={e => handleSettingsChange(InputOnChange.lessonDuration, e.currentTarget.value)}
           >
-            {LESSON_DURATIONS.map(item => <option key={item} value={item}>{item}</option>)}
+            {LESSON_DURATIONS.map(item => <option key={item} value={item}>{t(item)}</option>)}
           </select>
         </div>
         <div className={"form-input-wrap"}>
-          <label>Lesson price</label>
+          <label>{t("lessonPrice")}</label>
           <input
             type={"number"}
             placeholder={"Lesson price"}
@@ -178,26 +182,27 @@ const Settings = () => {
         </div>
       </div>
       <div className={"lesson-times-setting"}>
-        <h2 style={{margin: "1.5rem 0"}}>Days of lessons</h2>
+        <h2 style={{margin: "1.5rem 0"}}>{ts("daysOfLessons")}</h2>
         <div className={"lesson-days"}>
           {DAYS_OF_WEEK.map(dayOfWeek => <DateCard
             key={dayOfWeek}
-            value={dayOfWeek}
+            value={t(dayOfWeek)}
             isActive={teacherInfo?.lessonDaysTimes?.map(item => item.day).includes(dayOfWeek)}
             onClick={() => handleSettingsChange(InputOnChange.lessonDays, dayOfWeek)}
             isCheckbox
           />)}
         </div>
         {teacherInfo.lessonDaysTimes.length > 0 && <>
-          <h2 style={{margin: "1.5rem 0"}}>Lesson times</h2>
+          <h2 style={{margin: "1.5rem 0"}}>{ts("lessonTimes")}</h2>
           <div style={{marginBottom: "1.25rem"}}>
             <select
               value={activeDayIndex}
               onChange={(e) => {setActiveDayIndex(Number(e.currentTarget.value))}}
               style={{width: "125px"}}
             >
-              {teacherInfo.lessonDaysTimes.map((item, index) => <option key={item.day}
-                                                                        value={index}>{item.day}</option>)}
+              {teacherInfo.lessonDaysTimes.map((item, index) => (
+                <option key={item.day} value={index}>{t(item.day)}</option>
+              ))}
             </select>
           </div>
           <div className={"lesson-times"}>
@@ -210,13 +215,13 @@ const Settings = () => {
                   isRemovable
                   isActive
                 />
-              }) : <div>Add lesson times</div>}
+              }) : <div>{ts("addLessonTimes")}</div>}
             </div>
             <div className={"add-time"}>
-              <h3>Add new time</h3>
+              <h3>{ts("addNewTime")}</h3>
               <form className={"add-time-wrap"}>
                 <input type={"text"}
-                       placeholder={"Add new time"}
+                       placeholder={ts("addNewTime")}
                        value={newTime}
                        onChange={(e) => setNewTime(e.currentTarget.value)}
                 />
@@ -233,8 +238,8 @@ const Settings = () => {
         </>}
       </div>
       <div className={"settings-buttons"}>
-        <button className={"basic-button"} onClick={updateTeachersInfo} disabled={!changesMade}>Update</button>
-        <button className={"basic-button"} onClick={getTeacherInfo} disabled={!changesMade}>Cancel changes</button>
+        <button className={"basic-button"} onClick={updateTeachersInfo} disabled={!changesMade}>{t("update")}</button>
+        <button className={"basic-button"} onClick={getTeacherInfo} disabled={!changesMade}>{t("cancelChanges")}</button>
       </div>
     </div>
   );

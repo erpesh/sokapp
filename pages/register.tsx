@@ -7,8 +7,12 @@ import PasswordInput from "../components/password-input";
 import Switch from "react-switch";
 import {useRouter} from "next/router";
 import {addDoc, collection, DocumentData} from "firebase/firestore";
+import {Scope, useI18n, useScopedI18n} from "../locales";
 
 const Register = () => {
+
+  const t = useI18n();
+  const ts = useScopedI18n("scope.auth" as Scope);
 
   const teachersInfoRef = collection(db, "teachersInfo");
 
@@ -83,7 +87,7 @@ const Register = () => {
 
   return (
     <div className={"page max-width-smaller"}>
-      <h1>Register</h1>
+      <h1>{t("register")}</h1>
       <form onSubmit={signUpWithEmail} className={"register-form"}>
         <div className={"full-name-cont"}>
           <div className={"auth-inp-wrap"}>
@@ -121,20 +125,20 @@ const Register = () => {
             required/>
         </div>
         <div className={"auth-inp-wrap"}>
-          <label>Password</label>
+          <label>{t("password")}</label>
           <PasswordInput password={password} setPassword={setPassword}/>
         </div>
         <div className={"auth-inp-wrap"}>
-          <label>Confirm password</label>
+          <label>{t("confirmPassword")}</label>
           <PasswordInput password={confirmPassword} setPassword={setConfirmPassword} isConfirm />
         </div>
         <div className={"auth-inp-wrap"}>
           <Switch onChange={(checked) => setIsTeacher(checked)} checked={isTeacher} />
         </div>
-        <input type={"submit"} className={"submit-auth"}/>
+        <input type={"submit"} className={"submit-auth"} value={t("submit")}/>
       </form>
       <AuthProviders isRegister/>
-      <span className={"auth-suggest"}>Already have an account? <Link href={"/login"}>Log in</Link> here.</span>
+      <span className={"auth-suggest"}>{ts("alreadyHaveAcc")} <Link href={"/login"}>{ts("loginHere")}.</Link></span>
 
     </div>
   );

@@ -7,9 +7,11 @@ import smallLogo from "../assets/logo.svg";
 import logoutIcon from "../assets/logout-icon.svg";
 import settingsIcon from "../assets/settings-icon.svg";
 import scheduleIcon from "../assets/schedule-icon.svg";
+import {useI18n} from "../locales";
 
 const NavBar = () => {
 
+  const t = useI18n();
   const {currentUser, isTeacher, signUserOut} = useContext(AuthContext);
 
   if (isTeacher) {
@@ -24,7 +26,7 @@ const NavBar = () => {
             <div className={"nav-links"}>
               <span className={"nav-span"}>
                 <Link href={"/book/BfogrP0V1POnIzBTdyME7csyiH42"}>
-                  Book<span className={"lesson-text"}> a lesson</span>
+                  {t("bookLessonFirst")}<span className={"lesson-text"}>{" " + t("bookLessonSecond")}</span>
                 </Link>
               </span>
             </div>
@@ -59,7 +61,7 @@ const NavBar = () => {
             <div className={"nav-links"}>
               <span className={"nav-span"}>
                 <Link href={"/book/BfogrP0V1POnIzBTdyME7csyiH42"}>
-                  Book<span className={"lesson-text"}> a lesson</span>
+                  {t("bookLessonFirst")}<span className={"lesson-text"}>{" " + t("bookLessonSecond")}</span>
                 </Link>
               </span>
             </div>
@@ -75,7 +77,7 @@ const NavBar = () => {
                 <Image className={"logout-icon"} src={logoutIcon} alt={"log out"}/>
               </span>
             </> : <>
-              <span className={"nav-span"}><Link href={"/login"}>Log in</Link></span>
+              <span className={"nav-span"}><Link href={"/login"}>{t("logIn")}</Link></span>
             </>}
           </div>
         </nav>

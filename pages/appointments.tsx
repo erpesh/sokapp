@@ -6,6 +6,7 @@ import {collection, getDocs, query, where} from "firebase/firestore";
 import {groupedByDay, IAppointment} from "../utils/dateTimeFormattersCalculators";
 import AppointmentCard from "../components/appointment-card";
 import useLocalStorageState from "use-local-storage-state";
+import {useScopedI18n, Scope, useCurrentLocale} from "../locales";
 
 const APPOINTMENT_STATUSES = ["Upcoming", "Held", "All"];
 const DATE_ORDERS = ["Most recent", "Least recent"];
@@ -14,6 +15,9 @@ type TAppointmentStatuses = "Upcoming" | "Held" | "All";
 type TDateOrders = "Most recent" | "Least recent";
 
 const Appointments = () => {
+
+  const currentLocale = useCurrentLocale();
+  const ts = useScopedI18n("scope.appointments" as Scope);
 
   const {currentUser, isTeacher} = useContext(AuthContext);
   const [appointments, setAppointments] = useState<IAppointment[]>([]);
@@ -75,28 +79,28 @@ const Appointments = () => {
     <div className={"page"}>
       <div className={"appointment-filters"}>
         <div className={"filter-select-wrap"}>
-          <label>Lesson status</label>
+          <label>{ts('lessonStatus')}</label>
           <select
             value={statusFilter!}
             onChange={e => setStatusFilter(e.currentTarget.value as TAppointmentStatuses)}
             className={"filter"}
           >
-            {APPOINTMENT_STATUSES.map(item => <option key={item} value={item}>{item}</option>)}
+            {APPOINTMENT_STATUSES.map(item => <option key={item} value={item}>{ts(item)}</option>)}
           </select>
         </div>
         <div className={"filter-select-wrap"}>
-          <label>Date order</label>
+          <label>{ts('dateOrder')}</label>
           <select
             value={dateOrder!}
             onChange={e => setDateOrder(e.currentTarget.value as TDateOrders)}
             className={"filter"}
           >
-            {DATE_ORDERS.map(item => <option key={item} value={item}>{item}</option>)}
+            {DATE_ORDERS.map(item => <option key={item} value={item}>{ts(item)}</option>)}
           </select>
         </div>
       </div>
       <div className={"appointment-cards"}>
-        {groupedByDay(getFilteredAppointments()).map(({dateString, appointments}) => (
+        {groupedByDay(getFilteredAppointments(), currentLocale).map(({dateString, appointments}) => (
           <div className={"appointment-piece"} key={dateString}>
             <p>{dateString}</p>
             {appointments.map((appointment: IAppointment) => (

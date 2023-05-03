@@ -1,5 +1,5 @@
 import {Timestamp} from "firebase/firestore";
-import {ILessonDaysTimes} from "./types";
+import {ILessonDaysTimes, TDateLocale, TLocale} from "./types";
 
 export interface ILessonTime {
   time: string,
@@ -116,13 +116,19 @@ interface IGroupedByDay {
   appointments: IAppointment[]
 }
 
-export function groupedByDay(appointments: IAppointment[]) : IGroupedByDay[]  {
+export const localeFormatter = (locale: TLocale) : TDateLocale => {
+  if (locale === "en") return "en-GB";
+  else if (locale === "uk") return "uk-UA";
+  else if (locale === "ru") return "ru-RU";
+}
+
+export function groupedByDay(appointments: IAppointment[], locale: TLocale) : IGroupedByDay[]  {
   const groupedByDay = appointments.reduce((acc, appointment) => {
     // Convert the Timestamp to a Date object
     const appointDate = appointment.datetime.toDate();
 
     // Get the date string in the format "20th April"
-    const dateString = appointDate.toLocaleDateString("en-US", {
+    const dateString = appointDate.toLocaleDateString(localeFormatter(locale), {
       day: "numeric",
       month: "long",
     });

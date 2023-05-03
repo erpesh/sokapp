@@ -4,17 +4,20 @@ import NavBar from "../components/nav-bar";
 import AuthContext from "../context/authContext";
 import useCurrentUser from "../hooks/useCurrentUser";
 import {ComponentType, ReactNode} from "react";
+import {I18nProvider} from "../locales";
+import en from "../locales/en";
 
 export default function App({ Component, pageProps }: AppProps) {
 
   const [currentUser, isTeacher, signUserOut] = useCurrentUser();
 
   return <MultiContextProvider providers={[
-    stackContext(AuthContext.Provider, {value : {currentUser, isTeacher, signUserOut}})
-  ]}>
-    <NavBar/>
-    <Component {...pageProps} />
-  </MultiContextProvider>
+      stackContext(I18nProvider, {locale: pageProps.locale, fallback: <p>Loading initial locale client-side</p>, fallbackLocale: en}),
+      stackContext(AuthContext.Provider, {value : {currentUser, isTeacher, signUserOut}})
+    ]}>
+      <NavBar/>
+      <Component {...pageProps} />
+    </MultiContextProvider>
 }
 
 type StackContext = (children: ReactNode) => ReactNode;

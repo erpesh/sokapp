@@ -11,9 +11,12 @@ import generateLessonDateInfo, {
 } from "../../utils/dateTimeFormattersCalculators";
 import AuthContext from "../../context/authContext";
 import useLocalStorageState from "use-local-storage-state";
-// import sendEmail from "../api/sendEmail";
+import {useI18n, useScopedI18n, Scope} from "../../locales";
 
 const Book = () => {
+
+  const t = useI18n();
+  const ts = useScopedI18n("scope.book" as Scope);
 
   const teachersInfoRef = collection(db, "teachersInfo");
   const appointmentsRef = collection(db, "appointments");
@@ -121,22 +124,22 @@ const Book = () => {
 
   return (
     <div className={"page"}>
-      <h1>Book your next lesson</h1>
+      <h1>{ts("bookLessonTitle", {teacherName: teacherInfo?.teacherName})}</h1>
       <form className={"book-form"} onSubmit={bookNewLesson}>
         <div className={"double-input-container"}>
           <div className={"form-input-wrap"}>
-            <label>Student Name</label>
+            <label>{t("studentName")}</label>
             <input
-              placeholder={"Student Name"}
+              placeholder={t("studentName")}
               type={"text"}
               value={studentName.toString()}
               onChange={(e) => setStudentName(e.currentTarget.value)}
               required/>
           </div>
           <div className={"form-input-wrap"}>
-            <label>Student Age</label>
+            <label>{ts("studentAge")}</label>
             <input
-              placeholder={"Student Age"}
+              placeholder={ts("studentAge")}
               type={"number"}
               value={studentAge.toString()}
               onChange={(e) => setStudentAge(e.currentTarget.value)}
@@ -145,9 +148,9 @@ const Book = () => {
               required/>
           </div>
           <div className={"form-input-wrap"}>
-            <label>Telephone Number</label>
+            <label>{t("telNumber")}</label>
             <input
-              placeholder={"Telephone Number"}
+              placeholder={t("telNumber")}
               type={"tel"}
               autoComplete={"tel"}
               value={telNumber?.toString()}
@@ -157,7 +160,7 @@ const Book = () => {
         </div>
         <div className={"book-date-time"}>
           <div className={"book-date-wrap"}>
-            <h3>Choose date of the lesson</h3>
+            <h3>{ts("chooseDateOfLesson")}</h3>
             <div className={"book-date"}>
               {lessonDatesInfo.map((item, index) => (
                 <DateCard
@@ -174,7 +177,7 @@ const Book = () => {
             </div>
           </div>
           <div className={"book-date-wrap"}>
-            <h3>Choose time of the lesson</h3>
+            <h3>{ts("chooseTimeOfLesson")}</h3>
             <div className={"book-date"}>
               {lessonDatesInfo[activeDate]?.times
                 .map((item, index) => (
@@ -189,7 +192,7 @@ const Book = () => {
             </div>
           </div>
         </div>
-        <input type={"submit"} className={"submit-book"}/>
+        <input type={"submit"} className={"submit-book"} value={t("submit")}/>
       </form>
     </div>
   );

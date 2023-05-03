@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import eyeIcon from "../assets/eye-icon.png";
 import Image from "next/image";
+import {useI18n} from "../locales";
 
 interface Props {
   password: string,
@@ -10,6 +11,8 @@ interface Props {
 
 const PasswordInput = ({password, setPassword, isConfirm} : Props) => {
 
+  const t = useI18n();
+
   const [isPasswordShown, setIsPasswordShown] = useState(false);
 
   const togglePassword = () => setIsPasswordShown(!isPasswordShown);
@@ -17,7 +20,7 @@ const PasswordInput = ({password, setPassword, isConfirm} : Props) => {
   return (
     <span className={"password-input-wrap"}>
       <input
-        placeholder={isConfirm ? "Confirm password" : "Password"}
+        placeholder={isConfirm ? t("confirmPassword") : t("password")}
         name="password"
         autoComplete={"new-password"}
         type={isPasswordShown ? "text" : "password"}

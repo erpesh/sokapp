@@ -11,3 +11,6 @@ export interface ITeacherInfo {
   lessonPrice: number
   lessonDaysTimes: ILessonDaysTimes[]
 }
+
+export type TLocale = "en" | "uk" | "ru";
+export type TDateLocale = "en-GB" | "uk-UA" | "ru-RU";

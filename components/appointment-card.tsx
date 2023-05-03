@@ -5,6 +5,7 @@ import chevronDown from "../assets/chevron-down-icon.svg";
 import {IAppointment} from "../utils/dateTimeFormattersCalculators";
 import {useWindowWidth} from "@react-hook/window-size";
 import {useState} from "react";
+import {useI18n, useScopedI18n, Scope} from "../locales";
 
 interface Props {
   appointment: IAppointment
@@ -12,6 +13,8 @@ interface Props {
 
 const AppointmentCard = ({appointment}: Props) => {
 
+  const t = useI18n();
+  const ts = useScopedI18n("scope.appointments" as Scope);
   const pageWidth = useWindowWidth();
 
   const [detailsOpened, setDetailsOpened] = useState(false);
@@ -24,7 +27,7 @@ const AppointmentCard = ({appointment}: Props) => {
         <div className={"appointment-main"}>
           <div className={"basic-appointment"}>
             <div className={"appointment-card-part"}>
-              <label>Time</label>
+              <label>{t("time")}</label>
               <span>{appointment.datetime.toDate().toLocaleTimeString('en-GB', {
                 hour: '2-digit',
                 minute: '2-digit',
@@ -32,7 +35,7 @@ const AppointmentCard = ({appointment}: Props) => {
               })}</span>
             </div>
             <div className={"appointment-card-part"}>
-              <label>Student name</label>
+              <label>{t("studentName")}</label>
               <span>{appointment.studentName}</span>
             </div>
           </div>
@@ -42,15 +45,15 @@ const AppointmentCard = ({appointment}: Props) => {
         </div>
         {detailsOpened && <div className={"appointment-card-details"}>
           <div className={"appointment-card-part"}>
-            <label>Age</label>
+            <label>{ts("age")}</label>
             <span>{appointment.studentAge}</span>
           </div>
           <div className={"appointment-card-part"}>
-            <label>Tel number</label>
+            <label>{t("telNumber")}</label>
             <span><a className={"tel"} href={`tel:${appointment.telNumber}`}>{appointment.telNumber}</a></span>
           </div>
           <div className={"appointment-card-part"}>
-            <label>Paid</label>
+            <label>{ts("paid")}</label>
             <span className={"appointment-paid-icon"}>
               <Image
                 src={appointment.paid ? checkmark : crossIcon}
@@ -66,7 +69,7 @@ const AppointmentCard = ({appointment}: Props) => {
   return (
     <div className={"appointment-card"}>
       <div className={"appointment-card-part"}>
-        <label>Time</label>
+        <label>{t("time")}</label>
         <span>{appointment.datetime.toDate().toLocaleTimeString('en-GB', {
           hour: '2-digit',
           minute: '2-digit',
@@ -75,20 +78,20 @@ const AppointmentCard = ({appointment}: Props) => {
       </div>
       <div className={"appointment-middle"}>
         <div className={"appointment-card-part"}>
-          <label>Student name</label>
+          <label>{t("studentName")}</label>
           <span>{appointment.studentName}</span>
         </div>
         <div className={"appointment-card-part"}>
-          <label>Age</label>
+          <label>{ts("age")}</label>
           <span>{appointment.studentAge}</span>
         </div>
         <div className={"appointment-card-part"}>
-          <label>Tel number</label>
+          <label>{t("telNumber")}</label>
           <span><a className={"tel"} href={`tel:${appointment.telNumber}`}>{appointment.telNumber}</a></span>
         </div>
       </div>
       <div className={"appointment-card-part"}>
-        <label>Paid</label>
+        <label>{ts("paid")}</label>
         <span className={"appointment-paid-icon"}>
           <Image
             src={appointment.paid ? checkmark : crossIcon}
