@@ -26,6 +26,8 @@ export default {
   'Friday': "Пятница",
   'Saturday': "Суббота",
   'Sunday': "Воскресенье",
+  appointments: "Занятия",
+  settings: "Настройки",
 
   'scope.book.bookLessonTitle': 'Записаться на занятие с {teacherName}',
   'scope.book.studentAge': "Возраст ученика",
@@ -55,4 +57,8 @@ export default {
   'scope.auth.loginHere': "Войдите здесь",
   'scope.auth.alreadyHaveAcc': "Уже зарегистрированы?",
   'scope.auth.dontHaveAcc': "Еще не зарегестрированы?",
+
+  'scope.email.lessonBooking': "Бронирование занятия",
+  'scope.email.teacherBookingHtml': '<p>{studentName} забронировал(а) занятие с вами {lessonDate} в {lessonTime}.</p>\n<p>С наилучшими пожеланиями</p>',
+  'scope.email.userBookingConfirmationHtml': '<p>Ваше бронирование подтверждено, спасибо за бронирование занятия с {teacherName} {lessonDate} в {lessonTime}.</p>\n  <p>Если у вас есть какие-либо вопросы или вы хотите перенести занятие, дайте нам знать как можно раньше.</p>\n  <p>С наилучшими пожеланиями</p>',
 } as const;

@@ -1,7 +1,7 @@
 console.log('Loaded UK');
 
 export default {
-  logIn: "Увійти",
+  logIn: "Ввійти",
   register: "Зареєструватись",
   password: "Пароль",
   confirmPassword: "Підтвердьте пароль",
@@ -26,6 +26,8 @@ export default {
   'Friday': "П'ятниця",
   'Saturday': "Субота",
   'Sunday': "Неділя",
+  appointments: "Заняття",
+  settings: "Налаштування",
 
   'scope.book.bookLessonTitle': 'Записатися на заняття з {teacherName}',
   'scope.book.studentAge': "Вік учня",
@@ -49,10 +51,15 @@ export default {
 
   'scope.auth.forename': "Ім'я",
   'scope.auth.lastName': "Прізвище",
-  'scope.auth.registerWith': "Війти через {provider}",
-  'scope.auth.loginWith': "Війти через {provider}",
+  'scope.auth.registerWith': "Ввійти через {provider}",
+  'scope.auth.loginWith': "Ввійти через {provider}",
   'scope.auth.registerHere': "Зареєструйтесь тут",
   'scope.auth.loginHere': "Увійдіть тут",
   'scope.auth.alreadyHaveAcc': "Уже зареєстровані?",
   'scope.auth.dontHaveAcc': "Ще не зареєстровані?",
+
+  'scope.email.lessonBooking': "Бронирование занятия",
+  'scope.email.teacherBookingHtml': '<p>{studentName} забронював(ла) заняття з вами {lessonDate} о {lessonTime}.</p>\n<p>З найкращими побажаннями</p>',
+  'scope.email.userBookingConfirmationHtml': '<p>Ваше бронювання підтверджено, дякую за бронювання заняття з {teacherName} {lessonDate} о {lessonTime}.</p>\n  <p>Якщо у вас є якісь питання або ви хочете перенести заняття, дайте нам знати якомога раніше.</p>\n  <p>З найкращими побажаннями</p>',
+
 } as const;

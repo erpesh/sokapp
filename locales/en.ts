@@ -26,6 +26,8 @@ export default {
   'Friday': "Friday",
   'Saturday': "Saturday",
   'Sunday': "Sunday",
+  appointments: "Appointments",
+  settings: "Settings",
 
   'scope.book.bookLessonTitle': 'Book a lesson with {teacherName}',
   'scope.book.studentAge': "Student age",
@@ -56,4 +58,7 @@ export default {
   'scope.auth.alreadyHaveAcc': "Already have an account?",
   'scope.auth.dontHaveAcc': "Don't have an account?",
 
+  'scope.email.lessonBooking': "Lesson booking",
+  'scope.email.teacherBookingHtml': '<p>{studentName} booked a lesson with you on {lessonDate} at {lessonTime}.</p>\n<p>Best regards</p>',
+  'scope.email.userBookingConfirmationHtml': '<p>Thank you for booking a lesson with {teacherName} on {lessonDate} at {lessonTime}. Your booking has been confirmed and we look forward to seeing you at the lesson.</p>\n  <p>If you have any questions or need to reschedule, please let us know as soon as possible.</p>\n  <p>Best regards</p>',
 } as const;

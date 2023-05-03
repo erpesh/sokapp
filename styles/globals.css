@@ -138,6 +138,9 @@ nav {
   width: 30px;
   height: 30px;
 }
+@media (min-width: 826px) {
+  .nav-icon { display: none; }
+}
 .logout-icon {
   width: 28px;
   height: 28px;
@@ -145,6 +148,14 @@ nav {
 .nav-span {
   display: flex;
   align-items: center;
+}
+.desktop-display {
+  display: flex;
+}
+@media (max-width: 825px) {
+  .desktop-display {
+    display: none;
+  }
 }
 
 @media (max-width: 550px) {

@@ -35,11 +35,13 @@ const NavBar = () => {
             <span className={"nav-span"}>
               <Link href={"/appointments"}>
                 <Image className={"nav-icon"} src={scheduleIcon} alt={"appointments"}/>
+                <span className={"nav-span desktop-display"}>{t("appointments")}</span>
               </Link>
             </span>
             <span className={"nav-span"}>
               <Link href={"/settings"}>
                 <Image className={"nav-icon"} src={settingsIcon} alt={"settings"}/>
+                <span className={"nav-span desktop-display"}>{t("settings")}</span>
               </Link>
             </span>
             <span className={"nav-span logout-wrap"} onClick={signUserOut}>
@@ -71,6 +73,7 @@ const NavBar = () => {
               <span className={"nav-span"}>
                 <Link href={"/appointments"}>
                   <Image className={"nav-icon"} src={scheduleIcon} alt={"appointments"}/>
+                  <span className={"nav-span desktop-display"}>{t("appointments")}</span>
                 </Link>
               </span>
               <span className={"nav-span logout-wrap"} onClick={signUserOut}>

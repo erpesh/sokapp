@@ -24,7 +24,7 @@ const AppointmentCard = ({appointment}: Props) => {
   if (pageWidth < 650) {
     return (
       <div className={"appointment-card"}>
-        <div className={"appointment-main"}>
+        <div className={"appointment-main"} onClick={detailsTrigger}>
           <div className={"basic-appointment"}>
             <div className={"appointment-card-part"}>
               <label>{t("time")}</label>
@@ -40,7 +40,7 @@ const AppointmentCard = ({appointment}: Props) => {
             </div>
           </div>
           <div className={"details-btn-wrap"}>
-            <button className={"clear-btn"} onClick={detailsTrigger}><Image src={chevronDown} alt={"details"}/></button>
+            <button className={"clear-btn"}><Image src={chevronDown} alt={"details"}/></button>
           </div>
         </div>
         {detailsOpened && <div className={"appointment-card-details"}>
