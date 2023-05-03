@@ -9,30 +9,28 @@ function withAuth<T>(Component: NextComponentType<T>) {
 
     const router = useRouter();
     const [user, loading, error] = useAuthState(auth);
-    const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
+    // useEffect(() => {
+    //
+    //   if (!loading) {
+    //     setIsLoading(false);
+    //   }
+    //
+    //   // user?.getIdTokenResult().then((idTokenResult) => {
+    //   //   // Confirm the user is an Admin.
+    //   //   if (idTokenResult.claims.userRole !== "teacher") {
+    //   //     router.push("/");
+    //   //   }
+    //   // })
+    //   //   .catch((error) => {
+    //   //     console.log(error);
+    //   //   })
+    //   //   .finally(() => {
+    //   //     setIsLoading(false);
+    //   //   });
+    // }, [loading]);
 
-      if (!loading) {
-        setIsLoading(false);
-      }
-
-      user?.getIdTokenResult().then((idTokenResult) => {
-        // Confirm the user is an Admin.
-        if (idTokenResult.claims.userRole !== "teacher") {
-          router.push("/");
-        }
-      })
-        .catch((error) => {
-          console.log(error);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-
-    }, [loading]);
-
-    if (isLoading) {
+    if (loading) {
       return <div>Loading</div>
     }
 

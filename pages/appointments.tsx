@@ -32,7 +32,7 @@ const Appointments = () => {
     try {
       const appointmentsQuery = query(
         appointmentsRef,
-        where("teacherUid", "==", currentUser?.uid)
+        where(isTeacher ? "teacherUid" : "uid", "==", currentUser?.uid)
       );
       const querySnapshotAppointments = await getDocs(appointmentsQuery);
 
@@ -68,9 +68,10 @@ const Appointments = () => {
   }
 
   useEffect(() => {
-    if (currentUser && isTeacher)
+    if (currentUser?.uid){
       console.log("getAppointments Read")
       getAppointments();
+    }
   }, [currentUser, isTeacher])
 
   if (!appointments) return <div>Loading</div>
