@@ -142,7 +142,7 @@ const Settings = () => {
   useEffect(() => {
     setFullName(currentUser?.displayName!);
 
-    if (currentUser && isTeacher) {
+    if (currentUser?.uid) {
       console.log("get teach info read inside settings")
       getTeacherInfo();
     }

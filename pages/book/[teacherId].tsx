@@ -117,7 +117,7 @@ const Book = () => {
   }
 
   useEffect(() => {
-    if (teacherId) {
+    if (currentUser?.uid) {
       console.log("getTeacherInfoAndAppointments read")
       getTeacherInfoAndAppointments();
     }
