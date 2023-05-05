@@ -12,7 +12,7 @@ export default function Home() {
       method: "POST",
       body: JSON.stringify({
         uid: currentUser?.uid,
-        userRole: "teacher"
+        userRole: "user"
       })
     })
     console.log(res);

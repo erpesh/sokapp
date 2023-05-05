@@ -44,10 +44,14 @@ export default {
   'scope.appointments.age': "Age",
   'scope.appointments.paid': "Paid",
 
+  'scope.settings.Account': "Account",
+  'scope.settings.Lessons': "Lessons",
+  'scope.settings.lessonSettings': "Lesson settings",
   'scope.settings.addNewTime': "Add new time",
   'scope.settings.addLessonTimes': "Add lesson times",
   'scope.settings.daysOfLessons': "Days of lessons",
   'scope.settings.lessonTimes': "Lesson times",
+  'scope.settings.language': "Language",
 
   'scope.auth.forename': "Forename",
   'scope.auth.lastName': "Last name",
@@ -57,6 +61,8 @@ export default {
   'scope.auth.loginHere': "Log in here",
   'scope.auth.alreadyHaveAcc': "Already have an account?",
   'scope.auth.dontHaveAcc': "Don't have an account?",
+  'scope.auth.currentPassword': "Current password",
+  'scope.auth.newPassword': "New password",
 
   'scope.email.lessonBooking': "Lesson booking",
   'scope.email.teacherBookingHtml': '<p>{studentName} booked a lesson with you on {lessonDate} at {lessonTime}.</p>\n<p>Best regards</p>',

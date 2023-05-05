@@ -44,10 +44,14 @@ export default {
   'scope.appointments.age': "Возраст",
   'scope.appointments.paid': "Оплачено",
 
+  'scope.settings.Account': "Аккаунт",
+  'scope.settings.Lessons': "Занятия",
+  'scope.settings.lessonSettings': "Настройки занятий",
   'scope.settings.addNewTime': "Добавить время",
   'scope.settings.addLessonTimes': "Добавить время занятий",
   'scope.settings.daysOfLessons': "Дни занятий",
   'scope.settings.lessonTimes': "Время занятий",
+  'scope.settings.language': "Язык",
 
   'scope.auth.forename': "Имя",
   'scope.auth.lastName': "Фамилия",
@@ -57,6 +61,8 @@ export default {
   'scope.auth.loginHere': "Войдите здесь",
   'scope.auth.alreadyHaveAcc': "Уже зарегистрированы?",
   'scope.auth.dontHaveAcc': "Еще не зарегестрированы?",
+  'scope.auth.currentPassword': "Текущий пароль",
+  'scope.auth.newPassword': "Новый пароль",
 
   'scope.email.lessonBooking': "Бронирование занятия",
   'scope.email.teacherBookingHtml': '<p>{studentName} забронировал(а) занятие с вами {lessonDate} в {lessonTime}.</p>\n<p>С наилучшими пожеланиями</p>',

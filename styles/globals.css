@@ -322,6 +322,8 @@ span.buttonText {
   align-items: center;
   cursor: pointer;
   background: var(--secondary-dark-color);
+  border-bottom-right-radius: 4px;
+  border-top-right-radius: 4px;
 }
 .password-input-wrap > div > img {
   width: 24px;
@@ -491,6 +493,10 @@ h3 {
 
 /*Settings page*/
 
+.settings-page {
+  display: grid;
+  grid-template-columns: 20% 1fr;
+}
 .settings-container {
   display: flex;
 }
@@ -559,6 +565,43 @@ h3 {
   display: flex;
   gap: 1rem;
   margin-top: 1rem;
+}
+.settings-menu {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: .25rem;
+  border-right: 1px solid black;
+  margin-right: 1rem;
+  min-height: 300px;
+}
+.settings-menu-item:not(:last-child) {
+  padding-bottom: .5rem;
+  border-bottom: 1px solid black;
+}
+.settings-menu-item > a:link,
+.settings-menu-item > a:visited {
+  text-decoration: none;
+  color: var(--foreground-color);
+  font-size: 20px;
+  cursor: pointer;
+  transition: .3s;
+}
+.settings-menu-item > a:hover {
+  color: var(--default-theme-color);
+}
+.setting-title {
+  margin-bottom: 1rem;
+}
+@media (max-width: 550px) {
+  .setting-title {
+    font-size: 24px;
+  }
+}
+.setting-account-cont {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
 }
 
 /*Appointment page*/
