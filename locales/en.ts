@@ -63,6 +63,8 @@ export default {
   'scope.auth.dontHaveAcc': "Don't have an account?",
   'scope.auth.currentPassword': "Current password",
   'scope.auth.newPassword': "New password",
+  'scope.auth.privacyPolicy1': "I have read and agree to the ",
+  'scope.auth.privacyPolicy2': "Privacy Policy",
 
   'scope.email.lessonBooking': "Lesson booking",
   'scope.email.teacherBookingHtml': '<p>{studentName} booked a lesson with you on {lessonDate} at {lessonTime}.</p>\n<p>Best regards</p>',

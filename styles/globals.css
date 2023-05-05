@@ -369,7 +369,19 @@ span.buttonText {
 .auth-suggest > a:link, .auth-suggest > a:visited {
   color: var(--default-theme-color);
 }
-
+.pp-accept {
+  display: flex;
+  align-items: center;
+}
+.pp-accept > input {
+  width: 16px;
+  height: 16px;
+  margin-right: .75rem;
+}
+.pp-accept > span > a:link,
+.pp-accept > span > a:visited{
+  color: var(--default-theme-color);
+}
 /*Book Page*/
 
 .book-form {

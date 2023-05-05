@@ -63,6 +63,8 @@ export default {
   'scope.auth.dontHaveAcc': "Ще не зареєстровані?",
   'scope.auth.currentPassword': "Поточний пароль",
   'scope.auth.newPassword': "Новий пароль",
+  'scope.auth.privacyPolicy1': "Я прочитав(ла) та згоден(на) з ",
+  'scope.auth.privacyPolicy2': "Політикою конфіденційності",
 
   'scope.email.lessonBooking': "Бронирование занятия",
   'scope.email.teacherBookingHtml': '<p>{studentName} забронював(ла) заняття з вами {lessonDate} о {lessonTime}.</p>\n<p>З найкращими побажаннями</p>',

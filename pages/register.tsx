@@ -25,6 +25,7 @@ const Register = () => {
   const [password, setPassword] = useState("Wormixtoper24");
   const [confirmPassword, setConfirmPassword] = useState("Wormixtoper24");
   const [isTeacher, setIsTeacher] = useState(false);
+  const [privacyPolicy, setPrivacyPolicy] = useState(false);
 
   const addTeacherInfoDoc = async (teacherEmail: string | null, teacherName: string | null, uid: string) => {
     return await addDoc(teachersInfoRef, {
@@ -42,6 +43,10 @@ const Register = () => {
   const signUpWithEmail = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!privacyPolicy) {
+      alert("Accept Privacy Policy to proceed");
+      return;
+    }
     if (password === confirmPassword) {
       try {
         await createUserWithEmailAndPassword(auth, email, password).then(async (userCredential) => {
@@ -134,6 +139,14 @@ const Register = () => {
         </div>
         <div className={"auth-inp-wrap"}>
           <Switch onChange={(checked) => setIsTeacher(checked)} checked={isTeacher} />
+        </div>
+        <div className={"pp-accept"}>
+          <input
+            type={"checkbox"}
+            checked={privacyPolicy}
+            onChange={e => setPrivacyPolicy(e.currentTarget.checked)}
+          />
+          <span>{ts("privacyPolicy1")}<Link href="/privacy-policy">{ts("privacyPolicy2")}</Link>.</span>
         </div>
         <input type={"submit"} className={"submit-auth"} value={t("submit")}/>
       </form>
