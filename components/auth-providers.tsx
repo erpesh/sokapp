@@ -4,7 +4,7 @@ import googleIcon from "../assets/google-icon.png";
 import facebookIcon from "../assets/facebook-icon.svg";
 import {FacebookAuthProvider, GoogleAuthProvider, signInWithPopup} from "firebase/auth";
 import {auth} from "../lib/initFirebase";
-import {Scope, useI18n, useScopedI18n} from "../locales";
+import {Scope, useScopedI18n} from "../locales";
 
 interface Props {
   isRegister?: boolean

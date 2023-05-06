@@ -591,13 +591,17 @@ h3 {
   padding-bottom: .5rem;
   border-bottom: 1px solid black;
 }
-.settings-menu-item > a:link,
-.settings-menu-item > a:visited {
+.settings-menu-item:link,
+.settings-menu-item:visited {
   text-decoration: none;
   color: var(--foreground-color);
   font-size: 20px;
   cursor: pointer;
   transition: .3s;
+}
+.color-theme:link,
+.color-theme:visited {
+  color: var(--default-theme-color);
 }
 .settings-menu-item > a:hover {
   color: var(--default-theme-color);
@@ -615,7 +619,32 @@ h3 {
   gap: 1rem;
   align-items: flex-start;
 }
-
+.mrg-top-10 {
+  margin-top: 10px;
+}
+@media (max-width: 700px) {
+  .settings-page {
+    display: flex;
+    flex-direction: column;
+  }
+  .settings-menu {
+    min-height: 0;
+    border: none;
+    gap: 0;
+    flex-direction: row;
+  }
+  .settings-menu-item:not(:last-child) {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+  .settings-menu-item:not(:last-child)::after {
+    color: #9da2a8;
+    content: '/';
+    display: inline-block;
+    font-weight: normal;
+    padding: 0 7px;
+  }
+}
 /*Appointment page*/
 .appointment-piece {
   display: flex;
