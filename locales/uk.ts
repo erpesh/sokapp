@@ -38,11 +38,12 @@ export default {
   'scope.appointments.dateOrder': "Порядок дат",
   'scope.appointments.Upcoming': "Майбутні",
   'scope.appointments.Held': "Минулі",
-  'scope.appointments.All': "Все",
+  'scope.appointments.All': "Всі",
   'scope.appointments.Most recent': "Найраніші",
   'scope.appointments.Least recent': "Найпізніші",
   'scope.appointments.age': "Вік",
   'scope.appointments.paid': "Оплачено",
+  'scope.appointments.noResults': "Немає результатів пошуку",
 
   'scope.settings.Account': "Акаунт",
   'scope.settings.Lessons': "Заняття",

@@ -3,7 +3,7 @@ import {useContext, useEffect, useState} from "react";
 import AuthContext from "../context/authContext";
 import {db} from "../lib/initFirebase";
 import {collection, getDocs, query, where} from "firebase/firestore";
-import {groupedByDay, IAppointment} from "../utils/dateTimeFormattersCalculators";
+import {groupedByDay, IAppointment, IGroupedByDay} from "../utils/dateTimeFormattersCalculators";
 import AppointmentCard from "../components/appointment-card";
 import useLocalStorageState from "use-local-storage-state";
 import {useScopedI18n, Scope, useCurrentLocale} from "../locales";
@@ -21,6 +21,7 @@ const Appointments = () => {
 
   const {currentUser, isTeacher} = useContext(AuthContext);
   const [appointments, setAppointments] = useState<IAppointment[]>([]);
+  const [appointmentsGrouped, setAppointmentsGrouped] = useState<IGroupedByDay[]>([]);
 
   // filters
   const [statusFilter, setStatusFilter] = useLocalStorageState<TAppointmentStatuses>("statusFilter", {defaultValue: "Upcoming"});
@@ -74,6 +75,11 @@ const Appointments = () => {
     }
   }, [currentUser, isTeacher])
 
+  useEffect(() => {
+    const filteredAppointments = getFilteredAppointments();
+    setAppointmentsGrouped(groupedByDay(filteredAppointments, currentLocale));
+  }, [statusFilter, dateOrder, appointments]);
+
   if (!appointments) return <div>Loading</div>
 
   return (
@@ -101,14 +107,14 @@ const Appointments = () => {
         </div>
       </div>
       <div className={"appointment-cards"}>
-        {groupedByDay(getFilteredAppointments(), currentLocale).map(({dateString, appointments}) => (
+        {appointmentsGrouped.length > 0 ? appointmentsGrouped.map(({dateString, appointments}) => (
           <div className={"appointment-piece"} key={dateString}>
             <p>{dateString}</p>
             {appointments.map((appointment: IAppointment) => (
               <AppointmentCard key={appointment.docId} appointment={appointment}/>
             ))}
           </div>
-        ))}
+        )) : <div className={"no-results"}>{ts("noResults")}</div>}
       </div>
     </div>
   );

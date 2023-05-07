@@ -14,79 +14,84 @@ const NavBar = () => {
   const t = useI18n();
   const {currentUser, isTeacher, signUserOut} = useContext(AuthContext);
 
-  if (isTeacher) {
-    return (
-      <header>
-        <nav>
-          <div className={"firstPart"}>
-            <Link href={"/"} className={"logo-nav"}>
-                <Image className={"full-logo"} src={fullLogo} alt={"logo"}/>
-                <Image className={"small-logo"} src={smallLogo} alt={"logo"}/>
-            </Link>
-            <div className={"nav-links"}>
+  // if (isTeacher) {
+  //   return (
+  //     <header>
+  //       <nav>
+  //         <div className={"firstPart"}>
+  //           <Link href={"/"} className={"logo-nav"}>
+  //               <Image className={"full-logo"} src={fullLogo} alt={"logo"}/>
+  //               <Image className={"small-logo"} src={smallLogo} alt={"logo"}/>
+  //           </Link>
+  //           <div className={"nav-links"}>
+  //             <span className={"nav-span"}>
+  //               <Link href={"/book/BfogrP0V1POnIzBTdyME7csyiH42"}>
+  //                 {t("bookLessonFirst")}<span className={"lesson-text"}>{" " + t("bookLessonSecond")}</span>
+  //               </Link>
+  //             </span>
+  //           </div>
+  //         </div>
+  //         <div className={"secondPart"}>
+  //           <span className={"nav-span"}>
+  //             <Link href={"/appointments"}>
+  //               <Image className={"nav-icon"} src={scheduleIcon} alt={"appointments"}/>
+  //               <span className={"nav-span desktop-display"}>{t("appointments")}</span>
+  //             </Link>
+  //           </span>
+  //           <span className={"nav-span"}>
+  //             <Link href={"/settings"}>
+  //               <Image className={"nav-icon"} src={settingsIcon} alt={"settings"}/>
+  //               <span className={"nav-span desktop-display"}>{t("settings")}</span>
+  //             </Link>
+  //           </span>
+  //           <span className={"nav-span logout-wrap"} onClick={signUserOut}>
+  //             <Image className={"logout-icon"} src={logoutIcon} alt={"log out"}/>
+  //           </span>
+  //         </div>
+  //       </nav>
+  //     </header>
+  //   );
+  // } else {
+  return (
+    <header>
+      <nav>
+        <div className={"firstPart"}>
+          <Link href={"/"} className={"logo-nav"}>
+            <Image className={"full-logo"} src={fullLogo} alt={"logo"}/>
+            <Image className={"small-logo"} src={smallLogo} alt={"logo"}/>
+          </Link>
+          <div className={"nav-links"}>
               <span className={"nav-span"}>
                 <Link href={"/book/BfogrP0V1POnIzBTdyME7csyiH42"}>
                   {t("bookLessonFirst")}<span className={"lesson-text"}>{" " + t("bookLessonSecond")}</span>
                 </Link>
               </span>
-            </div>
           </div>
-          <div className={"secondPart"}>
-            <span className={"nav-span"}>
-              <Link href={"/appointments"}>
-                <Image className={"nav-icon"} src={scheduleIcon} alt={"appointments"}/>
-                <span className={"nav-span desktop-display"}>{t("appointments")}</span>
-              </Link>
-            </span>
-            <span className={"nav-span"}>
-              <Link href={"/settings"}>
-                <Image className={"nav-icon"} src={settingsIcon} alt={"settings"}/>
-                <span className={"nav-span desktop-display"}>{t("settings")}</span>
-              </Link>
-            </span>
-            <span className={"nav-span logout-wrap"} onClick={signUserOut}>
-              <Image className={"logout-icon"} src={logoutIcon} alt={"log out"}/>
-            </span>
-          </div>
-        </nav>
-      </header>
-    );
-  } else {
-    return (
-      <header>
-        <nav>
-          <div className={"firstPart"}>
-            <Link href={"/"} className={"logo-nav"}>
-                <Image className={"full-logo"} src={fullLogo} alt={"logo"}/>
-                <Image className={"small-logo"} src={smallLogo} alt={"logo"}/>
-            </Link>
-            <div className={"nav-links"}>
-              <span className={"nav-span"}>
-                <Link href={"/book/BfogrP0V1POnIzBTdyME7csyiH42"}>
-                  {t("bookLessonFirst")}<span className={"lesson-text"}>{" " + t("bookLessonSecond")}</span>
-                </Link>
-              </span>
-            </div>
-          </div>
-          <div className={"secondPart"}>
-            {currentUser ? <>
+        </div>
+        <div className={"secondPart"}>
+          {currentUser ? <>
               <span className={"nav-span"}>
                 <Link href={"/appointments"}>
                   <Image className={"nav-icon"} src={scheduleIcon} alt={"appointments"}/>
                   <span className={"nav-span desktop-display"}>{t("appointments")}</span>
                 </Link>
               </span>
+              <span className={"nav-span"}>
+                <Link href={"/settings"}>
+                  <Image className={"nav-icon"} src={settingsIcon} alt={"settings"}/>
+                  <span className={"nav-span desktop-display"}>{t("settings")}</span>
+                </Link>
+              </span>
               <span className={"nav-span logout-wrap"} onClick={signUserOut}>
                 <Image className={"logout-icon"} src={logoutIcon} alt={"log out"}/>
               </span>
-            </> : <>
-              <span className={"nav-span"}><Link href={"/login"}>{t("logIn")}</Link></span>
-            </>}
-          </div>
-        </nav>
-      </header>
-    );
-  }
+          </> : <>
+            <span className={"nav-span"}><Link href={"/login"}>{t("logIn")}</Link></span>
+          </>}
+        </div>
+      </nav>
+    </header>
+  );
 };
 
 export default NavBar;

@@ -1,4 +1,4 @@
-import withAuth from "../../utils/withAuth";
+import withAuth, {withAuthRole} from "../../utils/withAuth";
 import {useContext, useEffect, useState, MouseEvent} from "react";
 import AuthContext from "../../context/authContext";
 import {db} from "../../lib/initFirebase";
@@ -250,4 +250,4 @@ const Settings = () => {
   );
 };
 
-export default withAuth(Settings);
+export default withAuthRole(Settings, "teacher");

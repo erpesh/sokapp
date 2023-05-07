@@ -48,4 +48,50 @@ function withAuth<T>(Component: NextComponentType<T>) {
   return Auth;
 }
 
+export function withAuthRole<T>(Component: NextComponentType<T>, role: string) {
+  const Auth = (props: T) => {
+
+    const router = useRouter();
+    const [user, loading, error] = useAuthState(auth);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+
+      if (!loading) {
+        setIsLoading(false);
+      }
+
+      user?.getIdTokenResult().then((idTokenResult) => {
+
+        if (idTokenResult.claims.userRole !== role) {
+          router.back();
+        }
+      })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }, [loading]);
+
+    if (isLoading) {
+      return <div>Loading</div>
+    }
+
+    if (!user) {
+      router.push("/login")
+    }
+
+    return <Component {...props} />;
+  };
+
+  if (Component.getInitialProps) {
+    Auth.getInitialProps = Component.getInitialProps;
+  }
+
+  return Auth;
+
+}
+
 export default withAuth;

@@ -754,3 +754,7 @@ select.filter {
     padding: 9px;
   }
 }
+.no-results {
+  padding: 1rem;
+  color: var(--warning-message-color);
+}

@@ -43,6 +43,7 @@ export default {
   'scope.appointments.Least recent': "Least recent",
   'scope.appointments.age': "Age",
   'scope.appointments.paid': "Paid",
+  'scope.appointments.noResults': "No search results",
 
   'scope.settings.Account': "Account",
   'scope.settings.Lessons': "Lessons",

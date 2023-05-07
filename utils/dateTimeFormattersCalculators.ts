@@ -112,7 +112,7 @@ export function getTimeIntervals(duration: string): string[] {
   return timeIntervals;
 }
 
-interface IGroupedByDay {
+export interface IGroupedByDay {
   dateString: string,
   appointments: IAppointment[]
 }
