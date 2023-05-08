@@ -13,6 +13,7 @@
   --secondary-dark-color: #1e1e1e;
   --color-white: white;
   --warning-message-color: #e51818;
+  --red-background: #cc2f2f;
   --disabled-color: #a49f9f;
   --background-end-rgb: 255, 255, 255;
 
@@ -757,4 +758,7 @@ select.filter {
 .no-results {
   padding: 1rem;
   color: var(--warning-message-color);
+}
+.bg-red {
+  background: var(--red-background);
 }

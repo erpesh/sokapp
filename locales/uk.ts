@@ -12,6 +12,7 @@ export default {
   studentName: "Ім'я учня",
   telNumber: "Телефон",
   update: "Оновити",
+  deleteAccount: "Видалити акаунт",
   cancelChanges: "Відмінити",
   fullName: "Повне Ім'я",
   lessonDuration: "Тривалість Заняття",
@@ -53,6 +54,7 @@ export default {
   'scope.settings.daysOfLessons': "Дні занять",
   'scope.settings.lessonTimes': "Час занять",
   'scope.settings.language': "Мова",
+  'scope.settings.deleteAccConfirm': "Ви впевнені, що хочете видалити свій обліковий запис?",
 
   'scope.auth.forename': "Ім'я",
   'scope.auth.lastName': "Прізвище",

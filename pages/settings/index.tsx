@@ -2,9 +2,10 @@ import withAuth from "../../utils/withAuth";
 import SettingsMenu from "../../components/settings-menu";
 import {Scope, useChangeLocale, useCurrentLocale, useI18n, useScopedI18n} from "../../locales";
 import React, {useContext, useState} from "react";
-import {updateEmail, updatePassword} from "firebase/auth";
+import {updateEmail, updatePassword, deleteUser} from "firebase/auth";
 import PasswordInput from "../../components/password-input";
 import AuthContext from "../../context/authContext";
+import {isEmailValid, isPasswordValid} from "../../utils/validators";
 
 const LOCALES = [
   {name: "English", value: "en"},
@@ -27,18 +28,6 @@ const Settings = () => {
 
   const [emailChanged, setEmailChanged] = useState(false);
   const [passwordChanged, setPasswordChanged] = useState(false);
-
-  const isEmailValid = (email: string) => {
-    // regular expression to validate email
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailPattern.test(email);
-  };
-  const isPasswordValid = (password: string) => {
-    // Define your password requirements here
-    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
-
-    return passwordRegex.test(password);
-  };
 
   const updateUserEmail = async () => {
     if (!(currentUser && email)) {
@@ -70,6 +59,16 @@ const Settings = () => {
           console.error(error);
         });
     } else alert("Password is not valid");
+  }
+
+  const deleteAccount = async () => {
+    if (currentUser && confirm(ts("deleteAccConfirm"))) {
+      deleteUser(currentUser).then(() => {
+        console.log("User deleted");
+      }).catch((error) => {
+        console.log(error);
+      });
+    }
   }
 
   const emailOnChange = (e) => {
@@ -122,6 +121,12 @@ const Settings = () => {
             </select>
           </div>
         </div>
+        <button
+          className={"basic-button mrg-top-10 bg-red"}
+          onClick={deleteAccount}
+        >
+          {t("deleteAccount")}
+        </button>
       </div>
     </div>
   );
