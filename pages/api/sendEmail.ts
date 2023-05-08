@@ -12,12 +12,8 @@ async function sendEmail(to: string, subject: string, html: string) {
 }
 
 async function bookLesson(
-  studentName: string,
   userEmail: string,
-  teacherName: string,
   teacherEmail: string,
-  lessonDate: string,
-  lessonTime: string,
   emailSubject: string,
   userBookingHtml: string,
   teacherBookingHtml: string,
@@ -51,23 +47,15 @@ export default async function handler(
   if (req.method === "POST") {
     const body = JSON.parse(req.body);
     try {
-      const studentName = body.studentName;
       const email = body.email;
-      const teacherName = body.teacherName;
       const teacherEmail = body.teacherEmail;
-      const lessonDate = body.lessonDate;
-      const lessonTime = body.lessonTime;
       const emailSubject = body.emailSubject;
       const userBookingHtml = body.userBookingHtml;
       const teacherBookingHtml = body.teacherBookingHtml;
 
       const response = await bookLesson(
-        studentName,
         email,
-        teacherName,
         teacherEmail,
-        lessonDate,
-        lessonTime,
         emailSubject,
         userBookingHtml,
         teacherBookingHtml

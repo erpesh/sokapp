@@ -15,6 +15,7 @@ export interface ILessonDateInfo {
 }
 
 export interface IAppointment {
+  price: number
   studentName: string
   studentAge: number
   telNumber: string

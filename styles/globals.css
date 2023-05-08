@@ -503,6 +503,15 @@ h3 {
   background-color: var(--default-theme-color);
   border: 1px solid var(--default-theme-color);
 }
+.switch-container {
+  display: flex;
+}
+.switch-message {
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  margin-left: 1rem;
+}
 
 /*Settings page*/
 
@@ -682,7 +691,7 @@ a.tel {
   width: 24px;
   height: 24px;
 }
-.appointment-middle {
+.appointment-details-conn {
   display: flex;
   gap: 2rem;
 }

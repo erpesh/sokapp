@@ -34,6 +34,7 @@ export default {
   'scope.book.studentAge': "Возраст ученика",
   'scope.book.chooseDateOfLesson': "Выберите дату занятия",
   'scope.book.chooseTimeOfLesson': "Выберите время занятия",
+  'scope.book.payOnline': "Оплатить онлайн",
 
   'scope.appointments.lessonStatus': "Статус занятия",
   'scope.appointments.dateOrder': "Порядок дат",
@@ -44,6 +45,7 @@ export default {
   'scope.appointments.Least recent': "Самые поздние",
   'scope.appointments.age': "Возраст",
   'scope.appointments.paid': "Оплачено",
+  'scope.appointments.price': "Цена",
   'scope.appointments.noResults': "Нет результатов поиска",
 
   'scope.settings.Account': "Аккаунт",

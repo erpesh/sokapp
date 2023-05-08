@@ -12,11 +12,14 @@ import generateLessonDateInfo, {
 import AuthContext from "../../context/authContext";
 import useLocalStorageState from "use-local-storage-state";
 import {useI18n, useScopedI18n, Scope, useCurrentLocale} from "../../locales";
+import Switch from "react-switch";
+import bookLesson from "../../utils/bookLesson";
 
 const Book = () => {
 
   const t = useI18n();
   const ts = useScopedI18n("scope.book" as Scope);
+  const tsp = useScopedI18n("scope.email" as Scope)
   const currentLocale = useCurrentLocale();
 
   const teachersInfoRef = collection(db, "teachersInfo");
@@ -32,6 +35,7 @@ const Book = () => {
   const [studentName, setStudentName] = useLocalStorageState<string>("studentName", { defaultValue: ""});
   const [studentAge, setStudentAge] = useLocalStorageState<string>("studentAge", {defaultValue: ""});
   const [telNumber, setTelNumber] = useLocalStorageState<string>("telNumber", {defaultValue: ""});
+  const [onlinePayment, setOnlinePayment] = useState(false);
   const [activeDate, setActiveDate] = useState(0);
   const [activeTime, setActiveTime] = useState(0);
 
@@ -82,43 +86,52 @@ const Book = () => {
     const dateString = lessonDatesInfo[activeDate].dateString;
     const lessonTime = lessonDatesInfo[activeDate].times[activeTime].time;
 
-    console.log(router.asPath)
-    const res = await fetch(`/api/checkout`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          amount: teacherInfo?.lessonPrice,
-          description: `Private lesson with ${teacherInfo?.teacherName}`,
-          cancel_url: router.asPath,
-          metadata: {
-            studentName: studentName,
-            studentAge: Number(studentAge),
-            telNumber: telNumber,
-            teacherUid: teacherId as string,
-            uid: currentUser?.uid,
-            userEmail: currentUser?.email,
-            datetime: getTimestamp(
-              lessonDatesInfo[activeDate].date,
-              dateString,
-              lessonTime
-            ).toMillis(),
-            teacherName: teacherInfo?.teacherName,
-            teacherEmail: teacherInfo?.teacherEmail,
-            lessonDate: dateString,
-            lessonTime: lessonTime
-          }
-        })
-      });
+    const metadata = {
+      price: teacherInfo ? teacherInfo.lessonPrice : 0,
+      studentName: studentName,
+      studentAge: Number(studentAge),
+      telNumber: telNumber,
+      teacherUid: teacherId as string,
+      uid: currentUser?.uid,
+      userEmail: currentUser?.email,
+      datetime: getTimestamp(
+        lessonDatesInfo[activeDate].date,
+        dateString,
+        lessonTime
+      ).toMillis(),
+      teacherName: teacherInfo?.teacherName,
+      teacherEmail: teacherInfo?.teacherEmail,
+      lessonDate: dateString,
+      lessonTime: lessonTime
+    };
 
-    const session = await res.json()
-    if (session.url) {
-      window.location.href = session.url
+    if (onlinePayment) {
+      const res = await fetch(`/api/checkout`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            amount: teacherInfo?.lessonPrice,
+            description: `Private lesson with ${teacherInfo?.teacherName}`,
+            cancel_url: router.asPath,
+            metadata: metadata
+          })
+        });
+
+      const session = await res.json()
+      if (session.url) {
+        window.location.href = session.url;
+      }
+    }
+    else {
+      await bookLesson(metadata, false, tsp)
+        .then(() => {
+          router.push("/appointments");
+      })
     }
   }
 
   useEffect(() => {
     if (currentUser?.uid) {
-      console.log("getTeacherInfoAndAppointments read")
       getTeacherInfoAndAppointments();
     }
   }, [teacherId])
@@ -192,6 +205,10 @@ const Book = () => {
                 ))}
             </div>
           </div>
+        </div>
+        <div className={"switch-container"}>
+          <Switch onChange={(checked) => setOnlinePayment(checked)} checked={onlinePayment} />
+          <span className={"switch-message"}>{ts("payOnline")}</span>
         </div>
         <input type={"submit"} className={"submit-book"} value={t("submit")}/>
       </form>

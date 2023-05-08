@@ -5,7 +5,7 @@ import chevronDown from "../assets/chevron-down-icon.svg";
 import {IAppointment} from "../utils/dateTimeFormattersCalculators";
 import {useWindowWidth} from "@react-hook/window-size";
 import {useState} from "react";
-import {useI18n, useScopedI18n, Scope} from "../locales";
+import {Scope, useI18n, useScopedI18n} from "../locales";
 
 interface Props {
   appointment: IAppointment
@@ -53,6 +53,10 @@ const AppointmentCard = ({appointment}: Props) => {
             <span><a className={"tel"} href={`tel:${appointment.telNumber}`}>{appointment.telNumber}</a></span>
           </div>
           <div className={"appointment-card-part"}>
+            <label>{ts("price")}</label>
+            <span>{"£" + (appointment.price ?? 0)}</span>
+          </div>
+          <div className={"appointment-card-part"}>
             <label>{ts("paid")}</label>
             <span className={"appointment-paid-icon"}>
               <Image
@@ -76,7 +80,7 @@ const AppointmentCard = ({appointment}: Props) => {
           timeZone: 'Europe/London'
         })}</span>
       </div>
-      <div className={"appointment-middle"}>
+      <div className={"appointment-details-conn"}>
         <div className={"appointment-card-part"}>
           <label>{t("studentName")}</label>
           <span>{appointment.studentName}</span>
@@ -90,14 +94,20 @@ const AppointmentCard = ({appointment}: Props) => {
           <span><a className={"tel"} href={`tel:${appointment.telNumber}`}>{appointment.telNumber}</a></span>
         </div>
       </div>
-      <div className={"appointment-card-part"}>
-        <label>{ts("paid")}</label>
-        <span className={"appointment-paid-icon"}>
-          <Image
-            src={appointment.paid ? checkmark : crossIcon}
-            alt={appointment.paid ? "Paid" : "Not paid"}
-          />
-        </span>
+      <div className={"appointment-details-conn"}>
+        <div className={"appointment-card-part"}>
+          <label>{ts("price")}</label>
+          <span>{"£" + (appointment.price ?? 0)}</span>
+        </div>
+        <div className={"appointment-card-part"}>
+          <label>{ts("paid")}</label>
+          <span className={"appointment-paid-icon"}>
+            <Image
+              src={appointment.paid ? checkmark : crossIcon}
+              alt={appointment.paid ? "Paid" : "Not paid"}
+            />
+          </span>
+        </div>
       </div>
     </div>
   );
