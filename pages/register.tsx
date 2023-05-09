@@ -50,7 +50,7 @@ const Register = () => {
     if (password === confirmPassword) {
       try {
         await createUserWithEmailAndPassword(auth, email, password).then(async (userCredential) => {
-          // Update the user's display name
+
           setLoading(true);
 
           const user = userCredential.user;

@@ -18,18 +18,6 @@ async function bookLesson(
   userBookingHtml: string,
   teacherBookingHtml: string,
 ) {
-
-//   const userBookingConfirmationHtml = `
-//   <p>Thank you for booking a lesson with ${teacherName} on ${lessonDate} at ${lessonTime}. Your booking has been confirmed and we look forward to seeing you at the lesson.</p>
-//   <p>If you have any questions or need to reschedule, please let us know as soon as possible.</p>
-//   <p>Best regards</p>
-// `;
-//
-//   const teacherBookingHtml = `
-//   <p>${studentName} booked a lesson with you on ${lessonDate} at ${lessonTime}.</p>
-//   <p>Best regards</p>
-// `;
-
   try {
     await sendEmail(userEmail,  emailSubject, userBookingHtml);
     await sendEmail(teacherEmail, emailSubject, teacherBookingHtml);

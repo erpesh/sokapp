@@ -40,7 +40,7 @@ const AppointmentCard = ({appointment}: Props) => {
             </div>
           </div>
           <div className={"details-btn-wrap"}>
-            <button className={"clear-btn"}><Image src={chevronDown} alt={"details"}/></button>
+            <button className={"clear-btn"}><Image className={detailsOpened ? "scaleY-1" : ""} src={chevronDown} alt={"details"}/></button>
           </div>
         </div>
         {detailsOpened && <div className={"appointment-card-details"}>

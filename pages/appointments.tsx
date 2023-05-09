@@ -70,7 +70,6 @@ const Appointments = () => {
 
   useEffect(() => {
     if (currentUser?.uid){
-      console.log("getAppointments Read")
       getAppointments();
     }
   }, [currentUser, isTeacher])

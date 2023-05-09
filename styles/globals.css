@@ -629,6 +629,11 @@ h3 {
   gap: 1rem;
   align-items: flex-start;
 }
+@media (max-width: 400px) {
+  .setting-account-cont {
+    flex-direction: column;
+  }
+}
 .mrg-top-10 {
   margin-top: 10px;
 }
@@ -770,4 +775,7 @@ select.filter {
 }
 .bg-red {
   background: var(--red-background);
+}
+.scaleY-1 {
+  transform: scaleY(-1);
 }

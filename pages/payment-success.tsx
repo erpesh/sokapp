@@ -1,18 +1,12 @@
 import {useRouter} from "next/router";
-import {useContext, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {stripe} from "../lib/stripe";
-import {addDoc, collection, DocumentData, Timestamp} from "firebase/firestore";
-import AuthContext from "../context/authContext";
-import {db} from "../lib/initFirebase";
 import {Scope, useScopedI18n} from "../locales";
 import bookLesson from "../utils/bookLesson";
 
 const PaymentSuccess = () => {
 
   const ts = useScopedI18n("scope.email" as Scope);
-
-  const {currentUser} = useContext(AuthContext);
-  const appointmentsRef = collection(db, "appointments");
 
   const router = useRouter();
   const {session_id} = router.query;
@@ -24,50 +18,7 @@ const PaymentSuccess = () => {
     try {
       const session = await stripe.checkout.sessions.retrieve(session_id as string);
       if (session.payment_status === "paid") {
-
-        // const {
-        //   studentName,
-        //   studentAge,
-        //   telNumber,
-        //   teacherUid,
-        //   uid,
-        //   userEmail,
-        //   datetime,
-        //   teacherName,
-        //   teacherEmail,
-        //   lessonDate,
-        //   lessonTime
-        // } = session.metadata;
-
         await bookLesson(session.metadata, true, ts);
-
-        // await addDoc(appointmentsRef, {
-        //   studentName: studentName,
-        //   studentAge: Number(studentAge),
-        //   telNumber: telNumber,
-        //   paid: true,
-        //   teacherUid: teacherUid as string,
-        //   uid: uid as string,
-        //   datetime: Timestamp.fromMillis(datetime)
-        // } as DocumentData)
-        //   .then(result => console.log(result))
-        //
-        // await fetch(`/api/sendEmail`,
-        //   {
-        //     method: "POST",
-        //     body: JSON.stringify({
-        //       studentName: studentName,
-        //       email: userEmail,
-        //       teacherName: teacherName,
-        //       teacherEmail: teacherEmail,
-        //       lessonDate: lessonDate,
-        //       lessonTime: lessonTime,
-        //       emailSubject: ts("lessonBooking"),
-        //       userBookingHtml: ts("userBookingConfirmationHtml"),
-        //       teacherBookingHtml: ts("teacherBookingHtml"),
-        //     })
-        //   }).then(res => console.log(res));
-
 
         setLoading(false);
         setSuccess(true);
