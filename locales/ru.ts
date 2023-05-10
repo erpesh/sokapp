@@ -70,6 +70,7 @@ export default {
   'scope.auth.newPassword': "Новый пароль",
   'scope.auth.privacyPolicy1': "Я прочитал(а) и согласен(на) с ",
   'scope.auth.privacyPolicy2': "Политикой конфиденциальности",
+  'scope.auth.signInAsTeacher': "Хотите зарегистрироваться в качестве учителя?",
 
   'scope.email.lessonBooking': "Бронирование занятия",
   'scope.email.teacherBookingHtml': '<p>{studentName} забронировал(а) занятие с вами {lessonDate} в {lessonTime}.</p>\n<p>С наилучшими пожеланиями</p>',

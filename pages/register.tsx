@@ -19,11 +19,11 @@ const Register = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  const [forename, setForename] = useState("Beta");
-  const [lastName, setLastName] = useState("Inoue");
-  const [email, setEmail] = useState("betak9894@gmail.com");
-  const [password, setPassword] = useState("Wormixtoper24");
-  const [confirmPassword, setConfirmPassword] = useState("Wormixtoper24");
+  const [forename, setForename] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [isTeacher, setIsTeacher] = useState(false);
   const [privacyPolicy, setPrivacyPolicy] = useState(false);
 
@@ -137,10 +137,15 @@ const Register = () => {
           <label>{t("confirmPassword")}</label>
           <PasswordInput password={confirmPassword} setPassword={setConfirmPassword} isConfirm />
         </div>
-        <div className={"auth-inp-wrap"}>
-          <Switch onChange={(checked) => setIsTeacher(checked)} checked={isTeacher} />
+        <div className={"checkbox-container"}>
+          <input
+            type={"checkbox"}
+            checked={isTeacher}
+            onChange={e => setIsTeacher(e.currentTarget.checked)}
+          />
+          <span>{ts("signInAsTeacher")}</span>
         </div>
-        <div className={"pp-accept"}>
+        <div className={"checkbox-container"}>
           <input
             type={"checkbox"}
             checked={privacyPolicy}

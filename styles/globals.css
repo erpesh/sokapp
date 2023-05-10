@@ -370,17 +370,18 @@ span.buttonText {
 .auth-suggest > a:link, .auth-suggest > a:visited {
   color: var(--default-theme-color);
 }
-.pp-accept {
+.checkbox-container {
   display: flex;
   align-items: center;
+  margin: .2rem 0;
 }
-.pp-accept > input {
+.checkbox-container > input {
   width: 16px;
   height: 16px;
   margin-right: .75rem;
 }
-.pp-accept > span > a:link,
-.pp-accept > span > a:visited{
+.checkbox-container > span > a:link,
+.checkbox-container > span > a:visited{
   color: var(--default-theme-color);
 }
 /*Book Page*/
