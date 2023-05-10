@@ -26,7 +26,7 @@ const Login = () => {
   }
 
   useEffect(() => {
-    if (currentUser) router.push("/");
+    if (currentUser) router.push("/appointments");
   }, [currentUser])
 
   return (

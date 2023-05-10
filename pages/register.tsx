@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {auth, db} from "../lib/initFirebase";
 import {createUserWithEmailAndPassword, updateProfile} from "firebase/auth";
 import AuthProviders from "../components/auth-providers";
@@ -8,6 +8,7 @@ import Switch from "react-switch";
 import {useRouter} from "next/router";
 import {addDoc, collection, DocumentData} from "firebase/firestore";
 import {Scope, useI18n, useScopedI18n} from "../locales";
+import AuthContext from "../context/authContext";
 
 const Register = () => {
 
@@ -17,6 +18,7 @@ const Register = () => {
   const teachersInfoRef = collection(db, "teachersInfo");
 
   const router = useRouter();
+  const {currentUser} = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
 
   const [forename, setForename] = useState("");
@@ -87,6 +89,10 @@ const Register = () => {
     }
     else alert("Passwords don't match");
   }
+
+  useEffect(() => {
+    if (currentUser) router.push("/appointments");
+  }, [currentUser])
 
   if (loading) return <div>Loading</div>
 

@@ -83,6 +83,11 @@ const Book = () => {
   const bookNewLesson = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!currentUser) {
+      router.push("/login");
+      return;
+    }
+
     const dateString = lessonDatesInfo[activeDate].dateString;
     const lessonTime = lessonDatesInfo[activeDate].times[activeTime].time;
 
@@ -92,8 +97,8 @@ const Book = () => {
       studentAge: Number(studentAge),
       telNumber: telNumber,
       teacherUid: teacherId as string,
-      uid: currentUser?.uid,
-      userEmail: currentUser?.email,
+      uid: currentUser.uid,
+      userEmail: currentUser.email,
       datetime: getTimestamp(
         lessonDatesInfo[activeDate].date,
         dateString,
@@ -131,9 +136,8 @@ const Book = () => {
   }
 
   useEffect(() => {
-    if (currentUser?.uid) {
+    if (teacherId)
       getTeacherInfoAndAppointments();
-    }
   }, [teacherId])
 
   return (
