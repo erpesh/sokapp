@@ -1,30 +1,17 @@
-import {auth} from "../lib/initFirebase";
-import {signOut} from "firebase/auth";
-import {useContext, useEffect} from "react";
-import AuthContext from "../context/authContext";
+import {useEffect} from "react";
+import {useRouter} from "next/router";
 
 export default function Home() {
 
-  const {currentUser} = useContext(AuthContext);
-
-  const setClaims = async () => {
-    const res = await fetch("api/register", {
-      method: "POST",
-      body: JSON.stringify({
-        uid: currentUser?.uid,
-        userRole: "user"
-      })
-    })
-    console.log(res);
-  };
+  const router = useRouter();
 
   useEffect(() => {
-
+    router.push("/appointments");
   }, [])
 
   return (
     <div className={"page"}>
-      <button onClick={setClaims}>Claims</button>
+      {/*<button onClick={setClaims}>Claims</button>*/}
     </div>
   )
 }
