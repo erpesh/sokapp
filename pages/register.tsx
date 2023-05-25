@@ -61,11 +61,14 @@ const Register = () => {
             method: "POST",
             body: JSON.stringify({
               uid: user.uid,
+              email: user.email,
               userRole: isTeacher ? "teacher" : "user"
             })
           }).then( async () => {
             await userCredential.user.getIdToken(true);
           })
+
+          const session = await res.json();
 
           if (isTeacher) await addTeacherInfoDoc(user.email, user.displayName, user.uid);
 
@@ -73,8 +76,9 @@ const Register = () => {
             displayName: `${forename} ${lastName}`
           });
 
-          await router.push("/");
-          window.location.reload();
+          if (session.url) {
+            window.location.href = session.url;
+          }
         })
       }
       catch (error: any) {

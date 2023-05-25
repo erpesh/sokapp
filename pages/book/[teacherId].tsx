@@ -122,7 +122,7 @@ const Book = () => {
           })
         });
 
-      const session = await res.json()
+      const session = await res.json();
       if (session.url) {
         window.location.href = session.url;
       }
