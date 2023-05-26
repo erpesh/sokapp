@@ -4,9 +4,9 @@ import {createUserWithEmailAndPassword, updateProfile} from "firebase/auth";
 import AuthProviders from "../components/auth-providers";
 import Link from "next/link";
 import PasswordInput from "../components/password-input";
-import Switch from "react-switch";
 import {useRouter} from "next/router";
 import {addDoc, collection, DocumentData} from "firebase/firestore";
+import {User} from "@firebase/auth";
 import {Scope, useI18n, useScopedI18n} from "../locales";
 import AuthContext from "../context/authContext";
 
@@ -42,6 +42,29 @@ const Register = () => {
       .then(result => console.log(result))
   }
 
+  const addSecondaryDetails = async (user: User) => {
+    setLoading(true);
+
+    const res = await fetch("api/register", {
+      method: "POST",
+      body: JSON.stringify({
+        uid: user.uid,
+        userRole: isTeacher ? "teacher" : "user"
+      })
+    }).then( async () => {
+      await user.getIdToken(true);
+    })
+
+    if (isTeacher) await addTeacherInfoDoc(user.email, user.displayName, user.uid);
+
+    await updateProfile(user, {
+      displayName: `${forename} ${lastName}`
+    });
+
+    await router.push("/");
+    window.location.reload();
+  }
+
   const signUpWithEmail = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -52,33 +75,7 @@ const Register = () => {
     if (password === confirmPassword) {
       try {
         await createUserWithEmailAndPassword(auth, email, password).then(async (userCredential) => {
-
-          setLoading(true);
-
-          const user = userCredential.user;
-
-          const res = await fetch("api/register", {
-            method: "POST",
-            body: JSON.stringify({
-              uid: user.uid,
-              email: user.email,
-              userRole: isTeacher ? "teacher" : "user"
-            })
-          }).then( async () => {
-            await userCredential.user.getIdToken(true);
-          })
-
-          const session = await res.json();
-
-          if (isTeacher) await addTeacherInfoDoc(user.email, user.displayName, user.uid);
-
-          await updateProfile(userCredential.user, {
-            displayName: `${forename} ${lastName}`
-          });
-
-          if (session.url) {
-            window.location.href = session.url;
-          }
+          await addSecondaryDetails(userCredential.user);
         })
       }
       catch (error: any) {
@@ -165,7 +162,7 @@ const Register = () => {
         </div>
         <input type={"submit"} className={"submit-auth"} value={t("submit")}/>
       </form>
-      <AuthProviders isRegister/>
+      <AuthProviders isRegister addSecondaryDetails={addSecondaryDetails}/>
       <span className={"auth-suggest"}>{ts("alreadyHaveAcc")} <Link href={"/login"}>{ts("loginHere")}.</Link></span>
 
     </div>

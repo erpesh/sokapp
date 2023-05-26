@@ -5,32 +5,36 @@ import facebookIcon from "../assets/facebook-icon.svg";
 import {FacebookAuthProvider, GoogleAuthProvider, signInWithPopup} from "firebase/auth";
 import {auth} from "../lib/initFirebase";
 import {Scope, useScopedI18n} from "../locales";
+import {User} from "@firebase/auth";
 
 interface Props {
   isRegister?: boolean
+  addSecondaryDetails: (user: User) => void
 }
 
-const AuthProviders = ({isRegister} : Props) => {
+const AuthProviders = ({isRegister, addSecondaryDetails} : Props) => {
 
   const ts = useScopedI18n("scope.auth" as Scope);
 
-  const signInWithProvider = (provider: GoogleAuthProvider | FacebookAuthProvider) => {
+  const signInWithProvider = async (provider: GoogleAuthProvider | FacebookAuthProvider) => {
     try {
-      signInWithPopup(auth, provider)
+      await signInWithPopup(auth, provider).then(async (userCredential) => {
+        await addSecondaryDetails(userCredential.user);
+      })
     }
     catch(error) {
       console.log(error);
     }
   }
 
-  const signInWithGoogle = () => {
+  const signInWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
-    signInWithProvider(provider);
+    await signInWithProvider(provider);
   }
 
-  const signInWithFacebook = () => {
+  const signInWithFacebook = async () => {
     const provider = new FacebookAuthProvider();
-    signInWithProvider(provider);
+    await signInWithProvider(provider);
   }
 
   return (

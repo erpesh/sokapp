@@ -9,6 +9,7 @@ async function addCustomClaimsToUser(uid: string, role: "teacher" | "user") {
 }
 
 async function createAndConnectStripeAccount(email: string) {
+  console.log("entered")
   const account = await stripe.accounts.create({
     type: 'standard',
     country: 'GB',
@@ -16,13 +17,16 @@ async function createAndConnectStripeAccount(email: string) {
   });
 
   const connectedAccountId = account.id;
+  console.log("created acc", connectedAccountId, email)
 
   const accountLink = await stripe.accountLinks.create({
     account: connectedAccountId,
-    refresh_url: 'https://example.com/reauth',
-    return_url: 'https://example.com/return',
+    refresh_url: 'https://sokapp.vercel.app/appointments',
+    return_url: 'https://sokapp.vercel.app/register',
     type: 'account_onboarding',
   });
+
+  console.log("linked")
 
   return accountLink.url;
 }
@@ -39,16 +43,11 @@ export default async function handler(
       // Post data
       try {
         const uid = body.uid;
-        const email = body.email;
         const userRole = body.userRole;
 
-        const res = await addCustomClaimsToUser(uid, userRole);
+        const response = await addCustomClaimsToUser(uid, userRole);
 
-        if (userRole === "teacher") {
-          const url = await createAndConnectStripeAccount(email);
-          res.status(200).json({url});
-        }
-        res.status(200).json(res);
+        res.status(200).json(response);
       } catch (e: any) {
         res.status(500).json(e.message);
       }
