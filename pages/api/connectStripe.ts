@@ -1,26 +1,47 @@
 import {stripe} from "../../lib/stripe";
 import {NextApiRequest, NextApiResponse} from "next";
+import {db} from "../../lib/initFirebase";
+import {updateDoc, doc} from "firebase/firestore";
 
-async function createAndConnectStripeAccount(email: string) {
+async function updateStripeId(docId: string, stripeId: string) {
   try {
-    console.log("entered");
-    const account = await stripe.accounts.create({
-      type: 'standard',
-      country: 'GB',
-      email,
+    const columnName = "stripeAccountId";
+
+    const documentRef = doc(db, "teachersInfo", docId);
+    await updateDoc(documentRef, {
+      [columnName]: stripeId,
     });
 
-    const connectedAccountId = account.id;
-    console.log("created acc", connectedAccountId, email)
+    console.log("Document updated successfully.");
+  } catch (error) {
+    console.error("Error updating document:", error);
+    throw error;
+  }
+}
+
+async function createAndConnectStripeAccount(email: string, docId: string, stripeId: string | undefined) {
+  try {
+
+    let connectedAccountId = stripeId as string;
+
+    if (!stripeId) {
+      const account = await stripe.accounts.create({
+        type: 'standard',
+        country: 'GB',
+        email,
+      });
+
+      connectedAccountId = account.id;
+
+      await updateStripeId(docId, connectedAccountId);
+    }
 
     const accountLink = await stripe.accountLinks.create({
       account: connectedAccountId,
-      refresh_url: 'https://sokapp.vercel.app/settings/lessons',
-      return_url: 'https://sokapp.vercel.app/settings/lessons',
+      refresh_url: `https://sokapp.vercel.app/settings/lessons`,
+      return_url: `https://sokapp.vercel.app/settings/lessons/updateStripe?docId=${docId}`,
       type: 'account_onboarding',
     });
-
-    console.log("linked")
 
     return accountLink.url;
   } catch (error) {
@@ -41,8 +62,10 @@ export default async function handler(
       // Post data
       try {
         const email = body.email;
+        const docId = body.docId;
+        const stripeId = body.stripeId;
 
-        const url = await createAndConnectStripeAccount(email);
+        const url = await createAndConnectStripeAccount(email, docId, stripeId);
 
         res.status(200).json({url});
       } catch (e: any) {

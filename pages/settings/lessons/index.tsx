@@ -1,17 +1,16 @@
-import {withAuthRole} from "../../utils/withAuth";
+import {withAuthRole} from "../../../utils/withAuth";
 import React, {useContext, useEffect, useState, MouseEvent} from "react";
-import AuthContext from "../../context/authContext";
-import {db} from "../../lib/initFirebase";
+import AuthContext from "../../../context/authContext";
+import {db} from "../../../lib/initFirebase";
 import {collection, doc, DocumentData, getDocs, query, updateDoc, where} from "firebase/firestore";
-import {ITeacherInfo, TPaymentMethod} from "../../utils/types";
-import DateCard from "../../components/date-card";
-import addIcon from "../../assets/add-icon.svg";
+import {ITeacherInfo, TPaymentMethod} from "../../../utils/types";
+import DateCard from "../../../components/date-card";
+import addIcon from "../../../assets/add-icon.svg";
 import Image from "next/image";
 import {updateProfile} from "firebase/auth";
-import useWarnBeforeLeavingPage from "../../hooks/useWarnBeforeLeavingPage";
-import {Scope, useI18n, useScopedI18n} from "../../locales";
-import SettingsMenu from "../../components/settings-menu";
-import Link from "next/link";
+import useWarnBeforeLeavingPage from "../../../hooks/useWarnBeforeLeavingPage";
+import {Scope, useI18n, useScopedI18n} from "../../../locales";
+import SettingsMenu from "../../../components/settings-menu";
 
 const LESSON_DURATIONS = ["30 min", "1 hour", "2 hours"];
 const DAYS_OF_WEEK = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
@@ -157,7 +156,8 @@ const Settings = () => {
       {
         method: "POST",
         body: JSON.stringify({
-          email: currentUser?.email
+          email: currentUser?.email,
+          docId: documentId
         })
       });
 
@@ -281,7 +281,7 @@ const Settings = () => {
             </select>
           </div>
           <div className={"payment-account"}>
-            {!teacherInfo.stripeAccountId ? <button className={"basic-button"} onClick={connectStripeAccount}>{ts("connectPayments")}</button> :
+            {!teacherInfo.stripeLinked ? <button className={"basic-button"} onClick={connectStripeAccount}>{ts("connectPayments")}</button> :
               (teacherInfo.paymentMethod === "online" || teacherInfo.paymentMethod === "both") &&
               <p className={"card-connected"}>{ts("cardConnected")}</p>}
           </div>

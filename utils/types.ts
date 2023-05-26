@@ -11,6 +11,7 @@ export interface ITeacherInfo {
   lessonPrice: number
   lessonDaysTimes: ILessonDaysTimes[]
   stripeAccountId?: string
+  stripeLinked?: boolean
   paymentMethod: TPaymentMethod
 }
 
