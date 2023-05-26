@@ -19,7 +19,7 @@ async function updateStripeId(docId: string, stripeId: string) {
   }
 }
 
-async function createAndConnectStripeAccount(email: string, docId: string, stripeId: string | undefined) {
+async function createAndConnectStripeAccount(email: string, docId: string, stripeId: string | null) {
   try {
 
     let connectedAccountId = stripeId as string;

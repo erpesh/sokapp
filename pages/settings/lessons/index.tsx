@@ -157,7 +157,8 @@ const Settings = () => {
         method: "POST",
         body: JSON.stringify({
           email: currentUser?.email,
-          docId: documentId
+          docId: documentId,
+          stripeId: teacherInfo?.stripeAccountId
         })
       });
 
