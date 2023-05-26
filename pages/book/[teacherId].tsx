@@ -117,6 +117,7 @@ const Book = () => {
           body: JSON.stringify({
             amount: teacherInfo?.lessonPrice,
             description: `Private lesson with ${teacherInfo?.teacherName}`,
+            stripeId: teacherInfo?.stripeAccountId,
             cancel_url: router.asPath,
             metadata: metadata
           })
@@ -139,6 +140,17 @@ const Book = () => {
     if (teacherId)
       getTeacherInfoAndAppointments();
   }, [teacherId])
+
+  let PaymentComponent = <span className={"switch-message"}>{ts("onlyOnSite", {teacherName: teacherInfo?.teacherName})}</span>
+
+  if (teacherInfo?.paymentMethod === "online")
+    PaymentComponent = <span className={"switch-message"}>{ts("onlyOnline", {teacherName: teacherInfo?.teacherName})}</span>
+
+  else if (teacherInfo?.paymentMethod === "both")
+    PaymentComponent = <>
+      <Switch onChange={(checked) => setOnlinePayment(checked)} checked={onlinePayment}/>
+      <span className={"switch-message"}>{ts("payOnline")}</span>
+    </>
 
   return (
     <div className={"page"}>
@@ -211,8 +223,7 @@ const Book = () => {
           </div>
         </div>
         <div className={"switch-container"}>
-          <Switch onChange={(checked) => setOnlinePayment(checked)} checked={onlinePayment} />
-          <span className={"switch-message"}>{ts("payOnline")}</span>
+          {PaymentComponent}
         </div>
         <input type={"submit"} className={"submit-book"} value={t("submit")}/>
       </form>

@@ -38,6 +38,8 @@ export default {
   'scope.book.chooseDateOfLesson': "Choose date of the lesson",
   'scope.book.chooseTimeOfLesson': "Choose time of the lesson",
   'scope.book.payOnline': "Pay online",
+  'scope.book.onlyOnSite': "{teacherName} accepts only on-site payments",
+  'scope.book.onlyOnline': "{teacherName} accepts only online payments",
 
   'scope.appointments.lessonStatus': "Lesson status",
   'scope.appointments.dateOrder': "Date order",

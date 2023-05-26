@@ -27,12 +27,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               quantity: 1,
             },
           ],
-          // payment_intent_data: {
-          //   application_fee_amount: 123,
-          //   transfer_data: {
-          //     destination: '{{CONNECTED_ACCOUNT_ID}}',
-          //   },
-          // },
+          payment_intent_data: {
+            application_fee_amount: 30,
+            transfer_data: {
+              destination: body.stripeId,
+            },
+          },
           mode: "payment",
           success_url: absoluteUrl("/payment-success?session_id={CHECKOUT_SESSION_ID}"),
           cancel_url: absoluteUrl(body.cancel_url),

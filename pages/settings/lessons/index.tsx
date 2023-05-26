@@ -277,7 +277,7 @@ const Settings = () => {
               onChange={e => handleSettingsChange(InputOnChange.paymentMethods, e.currentTarget.value)}
               style={{width: "150px"}}
             >
-              {teacherInfo.stripeAccountId ? PAYMENT_METHODS.map(item => <option key={item} value={item}>{t(item)}</option>) :
+              {teacherInfo.stripeLinked ? PAYMENT_METHODS.map(item => <option key={item} value={item}>{t(item)}</option>) :
                 <option value={"on-site"}>{t("on-site")}</option>}
             </select>
           </div>
