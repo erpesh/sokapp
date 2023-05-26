@@ -27,6 +27,9 @@ export default {
   'Friday': "Friday",
   'Saturday': "Saturday",
   'Sunday': "Sunday",
+  'online': "Online",
+  'on-site': "On-site",
+  'both': "Both",
   appointments: "Appointments",
   settings: "Settings",
 
@@ -53,6 +56,11 @@ export default {
   'scope.settings.lessonSettings': "Lesson settings",
   'scope.settings.addNewTime': "Add new time",
   'scope.settings.addLessonTimes': "Add lesson times",
+  'scope.settings.paymentMethods': "Payment methods",
+  'scope.settings.paymentMethod': "Payment method",
+  'scope.settings.connectPayments': "Connect online payments",
+  'scope.settings.cardConnected': "Card connected",
+  'scope.settings.submitBeforeConnecting': "Please submit or cancel any changes made to your profile before proceeding with online payments.",
   'scope.settings.daysOfLessons': "Days of lessons",
   'scope.settings.lessonTimes': "Lesson times",
   'scope.settings.language': "Language",
@@ -74,5 +82,5 @@ export default {
 
   'scope.email.lessonBooking': "Lesson booking",
   'scope.email.teacherBookingHtml': '<p>{studentName} booked a lesson with you on {lessonDate} at {lessonTime}.</p>\n<p>Best regards</p>',
-  'scope.email.userBookingConfirmationHtml': '<p>Thank you for booking a lesson with {teacherName} on {lessonDate} at {lessonTime}. Your booking has been confirmed and we look forward to seeing you at the lesson.</p>\n  <p>If you have any questions or need to reschedule, please let us know as soon as possible.</p>\n  <p>Best regards</p>',
+  'scope.email.userBookingConfirmationHtml': '<p>Thank you for booking a lesson with {teacherName} on {lessonDate} at {lessonTime}. Your booking has been confirmed, and we look forward to seeing you at the lesson.</p>\n  <p>If you have any questions or need to reschedule, please let us know as soon as possible.</p>\n  <p>Best regards</p>',
 } as const;

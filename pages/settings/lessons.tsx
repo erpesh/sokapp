@@ -1,9 +1,9 @@
-import withAuth, {withAuthRole} from "../../utils/withAuth";
-import {useContext, useEffect, useState, MouseEvent} from "react";
+import {withAuthRole} from "../../utils/withAuth";
+import React, {useContext, useEffect, useState, MouseEvent} from "react";
 import AuthContext from "../../context/authContext";
 import {db} from "../../lib/initFirebase";
 import {collection, doc, DocumentData, getDocs, query, updateDoc, where} from "firebase/firestore";
-import {ITeacherInfo} from "../../utils/types";
+import {ITeacherInfo, TPaymentMethod} from "../../utils/types";
 import DateCard from "../../components/date-card";
 import addIcon from "../../assets/add-icon.svg";
 import Image from "next/image";
@@ -11,9 +11,11 @@ import {updateProfile} from "firebase/auth";
 import useWarnBeforeLeavingPage from "../../hooks/useWarnBeforeLeavingPage";
 import {Scope, useI18n, useScopedI18n} from "../../locales";
 import SettingsMenu from "../../components/settings-menu";
+import Link from "next/link";
 
 const LESSON_DURATIONS = ["30 min", "1 hour", "2 hours"];
 const DAYS_OF_WEEK = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+const PAYMENT_METHODS: TPaymentMethod[] = ["on-site", "online", "both"];
 
 enum InputOnChange {
   fullName,
@@ -21,7 +23,8 @@ enum InputOnChange {
   lessonPrice,
   lessonDays,
   removeTime,
-  addTime
+  addTime,
+  paymentMethods,
 }
 
 const Settings = () => {
@@ -133,6 +136,10 @@ const Settings = () => {
         }
         break;
 
+      case InputOnChange.paymentMethods:
+        tiCopy.paymentMethod = value as TPaymentMethod;
+        break;
+
       default:
         break;
     }
@@ -140,11 +147,30 @@ const Settings = () => {
     setChangesMade(true);
   }
 
+  const connectStripeAccount = async () => {
+    if (changesMade) {
+      alert(ts("submitBeforeConnecting"));
+      return;
+    }
+
+    const res = await fetch(`/api/connectStripe`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          email: currentUser?.email
+        })
+      });
+
+    const session = await res.json();
+    if (session.url) {
+      window.location.href = session.url;
+    }
+  }
+
   useEffect(() => {
     setFullName(currentUser?.displayName!);
 
     if (currentUser?.uid) {
-      console.log("get teach info read inside settings")
       getTeacherInfo();
     }
   }, [currentUser, isTeacher])
@@ -240,6 +266,25 @@ const Settings = () => {
               </div>
             </div>
           </>}
+        </div>
+        <div className={"payment-methods"}>
+          <h2>{ts("paymentMethods")}</h2>
+          <div className={"form-input-wrap"}>
+            <label>{ts("paymentMethod")}</label>
+            <select
+              value={teacherInfo.paymentMethod}
+              onChange={e => handleSettingsChange(InputOnChange.paymentMethods, e.currentTarget.value)}
+              style={{width: "150px"}}
+            >
+              {teacherInfo.stripeAccountId ? PAYMENT_METHODS.map(item => <option key={item} value={item}>{t(item)}</option>) :
+                <option value={"on-site"}>{t("on-site")}</option>}
+            </select>
+          </div>
+          <div className={"payment-account"}>
+            {!teacherInfo.stripeAccountId ? <button className={"basic-button"} onClick={connectStripeAccount}>{ts("connectPayments")}</button> :
+              (teacherInfo.paymentMethod === "online" || teacherInfo.paymentMethod === "both") &&
+              <p className={"card-connected"}>{ts("cardConnected")}</p>}
+          </div>
         </div>
         <div className={"settings-buttons"}>
           <button className={"basic-button"} onClick={updateTeachersInfo} disabled={!changesMade}>{t("update")}</button>

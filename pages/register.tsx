@@ -36,8 +36,8 @@ const Register = () => {
       lessonPrice: 10,
       teacherEmail: teacherEmail,
       teacherName: teacherName,
-      uid: uid
-
+      uid: uid,
+      paymentMethod: "on-site",
     } as DocumentData)
       .then(result => console.log(result))
   }
