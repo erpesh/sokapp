@@ -2,26 +2,31 @@ import {stripe} from "../../lib/stripe";
 import {NextApiRequest, NextApiResponse} from "next";
 
 async function createAndConnectStripeAccount(email: string) {
-  console.log("entered")
-  const account = await stripe.accounts.create({
-    type: 'standard',
-    country: 'GB',
-    email,
-  });
+  try {
+    console.log("entered");
+    const account = await stripe.accounts.create({
+      type: 'standard',
+      country: 'GB',
+      email,
+    });
 
-  const connectedAccountId = account.id;
-  console.log("created acc", connectedAccountId, email)
+    const connectedAccountId = account.id;
+    console.log("created acc", connectedAccountId, email)
 
-  const accountLink = await stripe.accountLinks.create({
-    account: connectedAccountId,
-    refresh_url: 'https://sokapp.vercel.app/settings',
-    return_url: 'https://sokapp.vercel.app/settings',
-    type: 'account_onboarding',
-  });
+    const accountLink = await stripe.accountLinks.create({
+      account: connectedAccountId,
+      refresh_url: 'https://sokapp.vercel.app/settings/lessons',
+      return_url: 'https://sokapp.vercel.app/settings/lessons',
+      type: 'account_onboarding',
+    });
 
-  console.log("linked");
+    console.log("linked")
 
-  return accountLink.url;
+    return accountLink.url;
+  } catch (error) {
+    console.error('Error creating and connecting Stripe account:', error);
+    throw error; // Rethrow the error to be handled in the calling function or route
+  }
 }
 
 export default async function handler(
