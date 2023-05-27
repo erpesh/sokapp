@@ -632,6 +632,17 @@ h3 {
   align-items: flex-end;
   margin-left: 2rem;
 }
+@media (max-width: 450px) {
+  .payment-methods {
+    grid-template: auto auto auto / 1fr;
+  }
+  .payment-methods > h2 {
+    grid-column: span 1;
+  }
+  .payment-account {
+    margin: 1rem 0 .5rem;
+  }
+}
 .card-connected {
   font-size: 20px;
   color: var(--default-theme-color);

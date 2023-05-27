@@ -69,7 +69,7 @@ const Register = () => {
     e.preventDefault();
 
     if (!privacyPolicy) {
-      alert("Accept Privacy Policy to proceed");
+      alert(t("acceptPrivacyPolicy"));
       return;
     }
     if (password === confirmPassword) {
@@ -80,15 +80,15 @@ const Register = () => {
       }
       catch (error: any) {
         if (error?.code === 'auth/email-already-in-use') {
-          alert("This email is already in use");
+          alert(t("emailInUse"));
         } else if (error?.code === 'auth/weak-password') {
-          alert("Your password is weak")
+          alert(t("passwordWeak"))
         } else {
-          alert("Something went wrong, try again")
+          alert(t("smthWentWrong"))
         }
       }
     }
-    else alert("Passwords don't match");
+    else alert(t('passwordsDontMatch'));
   }
 
   useEffect(() => {

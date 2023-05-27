@@ -3,7 +3,7 @@ import {updateDoc, doc, DocumentData} from 'firebase/firestore';
 import { useEffect } from 'react';
 import {db} from "../../../lib/initFirebase";
 
-// Function to update the Firestore document
+
 const updateFirestoreDocument = async (docId: string) => {
   const documentRef = doc(db, "teachersInfo", docId);
 

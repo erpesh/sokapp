@@ -33,6 +33,19 @@ export default {
   appointments: "Appointments",
   settings: "Settings",
 
+  // warnings and messages
+  timeShouldFormat: 'Time should be in "14:30"-like format',
+  theTimeActive: "This time is already active",
+  passwordNotValid: "Password is not valid",
+  enterPassword: "Enter password.",
+  enterEmail: "Enter email.",
+  emailNotValid: "Email is not valid",
+  acceptPrivacyPolicy: "Accept Privacy Policy to proceed",
+  emailInUse: "This email is already in use",
+  passwordWeak: "Your password is weak",
+  smthWentWrong: "Something went wrong, try again",
+  passwordsDontMatch: "Passwords don't match",
+
   'scope.book.bookLessonTitle': 'Book a lesson with {teacherName}',
   'scope.book.studentAge': "Student age",
   'scope.book.chooseDateOfLesson': "Choose date of the lesson",

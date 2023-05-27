@@ -31,7 +31,7 @@ const Settings = () => {
 
   const updateUserEmail = async () => {
     if (!(currentUser && email)) {
-      alert("Enter email.")
+      alert(t("enterEmail"))
       return;
     }
     if (isEmailValid(email)) {
@@ -42,12 +42,12 @@ const Settings = () => {
         .catch((error) => {
           console.error(error);
         });
-    } else alert("Email is not valid");
+    } else alert(t("emailNotValid"));
   }
 
   const updateUserPassword = async () => {
     if (!(currentUser && newPassword)) {
-      alert("Enter password.")
+      alert(t("enterPassword"));
       return;
     }
     if (isPasswordValid(newPassword)) {
@@ -58,7 +58,7 @@ const Settings = () => {
         .catch((error) => {
           console.error(error);
         });
-    } else alert("Password is not valid");
+    } else alert(t("passwordNotValid"));
   }
 
   const deleteAccount = async () => {

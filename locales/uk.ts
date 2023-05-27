@@ -33,6 +33,19 @@ export default {
   appointments: "Заняття",
   settings: "Налаштування",
 
+  // warnings and messages
+  timeShouldFormat: 'Час повинен бути у форматі "14:30"',
+  theTimeActive: "Цей час уже активний",
+  passwordNotValid: "Пароль недійсний",
+  enterPassword: "Введіть пароль",
+  enterEmail: "Введіть email",
+  emailNotValid: "Недійсна адреса електронної пошти",
+  acceptPrivacyPolicy: "Прийміть Політику конфіденційності, щоб продовжити",
+  emailInUse: "Цей email вже використовується",
+  passwordWeak: "Ваш пароль слабкий",
+  smthWentWrong: "Щось пішло не так, спробуйте ще раз",
+  passwordsDontMatch: "Паролі не співпадають",
+
   'scope.book.bookLessonTitle': 'Записатися на заняття з {teacherName}',
   'scope.book.studentAge': "Вік учня",
   'scope.book.chooseDateOfLesson': "Виберіть дату заняття",

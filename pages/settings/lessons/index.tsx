@@ -124,14 +124,14 @@ const Settings = () => {
         const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
         if (timeRegex.test(value)) {
           if (tiCopy.lessonDaysTimes[activeDayIndex].time.includes(value)) {
-            setNewTimeMessage("This time is already active")
+            setNewTimeMessage(t("theTimeActive"));
           } else {
             tiCopy.lessonDaysTimes[activeDayIndex].time.push(value);
             tiCopy.lessonDaysTimes[activeDayIndex].time.sort();
             setNewTimeMessage("");
           }
         } else {
-          setNewTimeMessage("Time should be in \"14:30\"-like format")
+          setNewTimeMessage(t("timeShouldFormat"));
         }
         break;
 

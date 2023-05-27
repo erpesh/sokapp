@@ -9,7 +9,7 @@ import {User} from "@firebase/auth";
 
 interface Props {
   isRegister?: boolean
-  addSecondaryDetails: (user: User) => void
+  addSecondaryDetails?: (user: User) => void
 }
 
 const AuthProviders = ({isRegister, addSecondaryDetails} : Props) => {
@@ -19,7 +19,8 @@ const AuthProviders = ({isRegister, addSecondaryDetails} : Props) => {
   const signInWithProvider = async (provider: GoogleAuthProvider | FacebookAuthProvider) => {
     try {
       await signInWithPopup(auth, provider).then(async (userCredential) => {
-        await addSecondaryDetails(userCredential.user);
+        if (addSecondaryDetails)
+          await addSecondaryDetails(userCredential.user);
       })
     }
     catch(error) {
