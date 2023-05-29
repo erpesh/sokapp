@@ -11,6 +11,9 @@ import {updateProfile} from "firebase/auth";
 import useWarnBeforeLeavingPage from "../../../hooks/useWarnBeforeLeavingPage";
 import {Scope, useI18n, useScopedI18n} from "../../../locales";
 import SettingsMenu from "../../../components/settings-menu";
+import absoluteUrl from "../../../utils/absoluteUrl";
+import {BiCopyAlt} from "react-icons/bi";
+import Link from "next/link";
 
 const LESSON_DURATIONS = ["30 min", "1 hour", "2 hours"];
 const DAYS_OF_WEEK = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
@@ -183,6 +186,17 @@ const Settings = () => {
       <SettingsMenu/>
       <div className={"setting-page"}>
         <h1 className={"setting-title"}>{ts("lessonSettings")}</h1>
+        <div className={"form-input-wrap"}>
+          <label>{ts("teacherLink")}</label>
+          <div className={"teacher-link"}>
+            <span>
+              <Link href={absoluteUrl(`/book/${currentUser?.uid}`)}>{absoluteUrl(`/book/${currentUser?.uid}`)}</Link>
+            </span>
+            <button onClick={() => navigator.clipboard.writeText(absoluteUrl(`/book/${currentUser?.uid}`))}>
+              <BiCopyAlt size={32}/>{ts("copyLink")}
+            </button>
+          </div>
+        </div>
         <div className={"double-input-container"}>
           <div className={"form-input-wrap"}>
             <label>{t("fullName")}</label>

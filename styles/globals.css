@@ -688,8 +688,38 @@ h3 {
     padding: 0 7px;
   }
 }
+.teacher-link{
+  display: flex;
+  gap: 1rem;
+  cursor: pointer;
+  margin-bottom: .5rem;
+}
+.teacher-link > button{
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+  font-size: 16px;
+  padding: 0 .25rem;
+  cursor: pointer;
+}
+.teacher-link > span {
+  border-radius: 4px;
+  border: var(--custom-border);
+  padding: 10px 15px;
+  font-size: 14px;
+  background-color: var(--secondary-dark-color);
+  color: var(--color-white);
+  box-sizing: border-box;
+  font-family: ui-sans-serif, sans-serif;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 100ms;
+}
+.teacher-link > span > a {
+  text-decoration: none;
+  color: inherit;
+}
 
-/*Appointment page*/
+  /*Appointment page*/
 .appointment-piece {
   display: flex;
   flex-direction: column;

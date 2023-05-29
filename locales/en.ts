@@ -80,6 +80,8 @@ export default {
   'scope.settings.lessonTimes': "Lesson times",
   'scope.settings.language': "Language",
   'scope.settings.deleteAccConfirm': "Are you sure you want to delete your account?",
+  'scope.settings.teacherLink': "Link to your booking form",
+  'scope.settings.copyLink': "Copy link",
 
   'scope.auth.forename': "Forename",
   'scope.auth.lastName': "Last name",

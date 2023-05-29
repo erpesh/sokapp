@@ -80,6 +80,8 @@ export default {
   'scope.settings.lessonTimes': "Время занятий",
   'scope.settings.language': "Язык",
   'scope.settings.deleteAccConfirm': "Вы уверены, что хотите удалить свой аккаунт?",
+  'scope.settings.teacherLink': "Ссылка на вашу форму бронирования",
+  'scope.settings.copyLink': "Скопировать ссылку",
 
   'scope.auth.forename': "Имя",
   'scope.auth.lastName': "Фамилия",
