@@ -1,5 +1,5 @@
 import withAuth from "../utils/withAuth";
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useMemo, useState} from "react";
 import AuthContext from "../context/authContext";
 import {db} from "../lib/initFirebase";
 import {collection, getDocs, query, where} from "firebase/firestore";
@@ -67,6 +67,8 @@ const Appointments = () => {
     return appointmentsCopy;
   }
 
+  const filteredAppointments = useMemo(() => getFilteredAppointments(), [statusFilter, dateOrder, appointments]);
+
   useEffect(() => {
     if (currentUser?.uid){
       getAppointments();
@@ -100,20 +102,20 @@ const Appointments = () => {
         </div>
       </div>
       <div className={"appointments"}>
-        <table className={"appointments-table"}>
+        {filteredAppointments.length > 0 ? <table className={"appointments-table"}>
           <thead>
-            <tr>
-              <th>{t("date")}</th>
-              <th>{t("time")}</th>
-              <th>{t("studentName")}</th>
-              <th>{ts("age")}</th>
-              <th>{t("telNumber")}</th>
-              <th>{ts("price")}</th>
-              <th>{ts("paid")}</th>
-            </tr>
+          <tr>
+            <th>{t("date")}</th>
+            <th>{t("time")}</th>
+            <th>{t("studentName")}</th>
+            <th>{ts("age")}</th>
+            <th>{t("telNumber")}</th>
+            <th>{ts("price")}</th>
+            <th>{ts("paid")}</th>
+          </tr>
           </thead>
           <tbody>
-          {getFilteredAppointments().map((item, index) => (
+          {filteredAppointments.map((item, index) => (
             <tr key={index}>
               <td>{item.datetime.toDate().toLocaleDateString(localeFormatter(currentLocale), {
                 day: "numeric",
@@ -132,7 +134,7 @@ const Appointments = () => {
             </tr>
           ))}
           </tbody>
-        </table>
+        </table> : <div className={"no-results"}>{ts("noResults")}</div>}
       </div>
     </div>
   );
