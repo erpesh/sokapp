@@ -3,10 +3,9 @@ import {useContext, useEffect, useState} from "react";
 import AuthContext from "../context/authContext";
 import {db} from "../lib/initFirebase";
 import {collection, getDocs, query, where} from "firebase/firestore";
-import {groupedByDay, IAppointment, IGroupedByDay} from "../utils/dateTimeFormattersCalculators";
-import AppointmentCard from "../components/appointment-card";
+import {IAppointment, localeFormatter} from "../utils/dateTimeFormattersCalculators";
 import useLocalStorageState from "use-local-storage-state";
-import {useScopedI18n, Scope, useCurrentLocale} from "../locales";
+import {useScopedI18n, Scope, useCurrentLocale, useI18n} from "../locales";
 
 const APPOINTMENT_STATUSES = ["Upcoming", "Held", "All"];
 const DATE_ORDERS = ["Most recent", "Least recent"];
@@ -17,11 +16,11 @@ type TDateOrders = "Most recent" | "Least recent";
 const Appointments = () => {
 
   const currentLocale = useCurrentLocale();
+  const t = useI18n();
   const ts = useScopedI18n("scope.appointments" as Scope);
 
   const {currentUser, isTeacher} = useContext(AuthContext);
   const [appointments, setAppointments] = useState<IAppointment[]>([]);
-  const [appointmentsGrouped, setAppointmentsGrouped] = useState<IGroupedByDay[]>([]);
 
   // filters
   const [statusFilter, setStatusFilter] = useLocalStorageState<TAppointmentStatuses>("statusFilter", {defaultValue: "Upcoming"});
@@ -74,11 +73,6 @@ const Appointments = () => {
     }
   }, [currentUser, isTeacher])
 
-  useEffect(() => {
-    const filteredAppointments = getFilteredAppointments();
-    setAppointmentsGrouped(groupedByDay(filteredAppointments, currentLocale));
-  }, [statusFilter, dateOrder, appointments]);
-
   if (!appointments) return <div>Loading</div>
 
   return (
@@ -105,15 +99,40 @@ const Appointments = () => {
           </select>
         </div>
       </div>
-      <div className={"appointment-cards"}>
-        {appointmentsGrouped.length > 0 ? appointmentsGrouped.map(({dateString, appointments}) => (
-          <div className={"appointment-piece"} key={dateString}>
-            <p>{dateString}</p>
-            {appointments.map((appointment: IAppointment) => (
-              <AppointmentCard key={appointment.docId} appointment={appointment}/>
-            ))}
-          </div>
-        )) : <div className={"no-results"}>{ts("noResults")}</div>}
+      <div className={"appointments"}>
+        <table className={"appointments-table"}>
+          <thead>
+            <tr>
+              <th>{t("date")}</th>
+              <th>{t("time")}</th>
+              <th>{t("studentName")}</th>
+              <th>{ts("age")}</th>
+              <th>{t("telNumber")}</th>
+              <th>{ts("price")}</th>
+              <th>{ts("paid")}</th>
+            </tr>
+          </thead>
+          <tbody>
+          {getFilteredAppointments().map((item, index) => (
+            <tr key={index}>
+              <td>{item.datetime.toDate().toLocaleDateString(localeFormatter(currentLocale), {
+                day: "numeric",
+                month: "long",
+              })}</td>
+              <td>{item.datetime.toDate().toLocaleTimeString('en-GB', {
+                hour: '2-digit',
+                minute: '2-digit',
+                timeZone: 'Europe/London'
+              })}</td>
+              <td>{item.studentName}</td>
+              <td>{item.studentAge}</td>
+              <td>{item.telNumber}</td>
+              {item.price ? <td>&#163;{item.price}</td> : <td></td>}
+              <td>{t(item.paid ? "yes" : "no")}</td>
+            </tr>
+          ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

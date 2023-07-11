@@ -83,36 +83,6 @@ export default function generateLessonDateInfo(
   return lessonDateInfoArray;
 }
 
-export function getTimeIntervals(duration: string): string[] {
-  let timeIntervals: string[] = [];
-  let interval: number;
-
-  switch (duration) {
-    case "30 min":
-      interval = 30;
-      break;
-    case "1 hour":
-      interval = 60;
-      break;
-    case "2 hours":
-      interval = 120;
-      break;
-    default:
-      throw new Error("Invalid duration: " + duration);
-  }
-
-  const startDate = new Date(0, 0, 0, 0, 0, 0);
-  const endDate = new Date(0, 0, 0, 23, 59, 0);
-
-  for (let currentTime = startDate; currentTime <= endDate; currentTime.setMinutes(currentTime.getMinutes() + interval)) {
-    const hour = currentTime.getHours().toString().padStart(2, "0");
-    const minute = currentTime.getMinutes().toString().padStart(2, "0");
-    timeIntervals.push(`${hour}:${minute}`);
-  }
-
-  return timeIntervals;
-}
-
 export interface IGroupedByDay {
   dateString: string,
   appointments: IAppointment[]
@@ -124,31 +94,3 @@ export const localeFormatter = (locale: TLocale) : TDateLocale => {
   else if (locale === "ru") return "ru-RU";
 }
 
-export function groupedByDay(appointments: IAppointment[], locale: TLocale) : IGroupedByDay[]  {
-  const groupedByDay = appointments.reduce((acc, appointment) => {
-    // Convert the Timestamp to a Date object
-    const appointDate = appointment.datetime.toDate();
-
-    // Get the date string in the format "20th April"
-    const dateString = appointDate.toLocaleDateString(localeFormatter(locale), {
-      day: "numeric",
-      month: "long",
-    });
-
-    // Add the appointment to the array for the corresponding date
-    if (!acc[dateString]) {
-      acc[dateString] = [appointment];
-    } else {
-      acc[dateString].push(appointment);
-    }
-
-    return acc;
-  }, {});
-
-  return Object.entries(groupedByDay).map(([dateString, appointments]) => {
-    return {
-      dateString: dateString,
-      appointments: appointments as IAppointment[]
-    }
-  });
-}

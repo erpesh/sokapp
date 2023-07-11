@@ -730,6 +730,28 @@ h3 {
   font-size: 24px;
   margin-left: .5rem;
 }
+.appointments {
+  margin-top: 1rem;
+  overflow-x: auto;
+}
+.appointments-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid black;
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid black;
+}
+
+th {
+  background-color: var(--default-theme-color);
+  font-weight: bold;
+}
+
 .appointment-card {
   display: flex;
   justify-content: space-between;
