@@ -10,7 +10,7 @@ const updateFirestoreDocument = async (docId: string) => {
   await updateDoc(documentRef, { stripeLinked: true } as DocumentData);
 };
 
-const UpdateStripePage = () => {
+const UpdateStripe = () => {
   const router = useRouter();
 
   useEffect(() => {
@@ -37,4 +37,4 @@ const UpdateStripePage = () => {
   return null;
 };
 
-export default UpdateStripePage;
+export default UpdateStripe;

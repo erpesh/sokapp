@@ -5,6 +5,7 @@ import {db} from "@/lib/initFirebase";
 import {ITeacherInfo} from "@/utils/types";
 import DateCard from "../../components/date-card";
 import generateLessonDateInfo, {
+  formatLocaleDate,
   getTimestamp,
   IAppointment,
   ILessonDateInfo
@@ -88,7 +89,6 @@ const Book = () => {
       return;
     }
 
-    const dateString = lessonDatesInfo[activeDate].dateString;
     const lessonTime = lessonDatesInfo[activeDate].times[activeTime].time;
 
     const metadata = {
@@ -101,12 +101,12 @@ const Book = () => {
       userEmail: currentUser.email,
       datetime: getTimestamp(
         lessonDatesInfo[activeDate].date,
-        dateString,
+        formatLocaleDate(lessonDatesInfo[activeDate].date, 'en'),
         lessonTime
-      ).toMillis(),
+      ).toDate(),
       teacherName: teacherInfo?.teacherName,
       teacherEmail: teacherInfo?.teacherEmail,
-      lessonDate: dateString,
+      lessonDate: formatLocaleDate(lessonDatesInfo[activeDate].date, currentLocale),
       lessonTime: lessonTime
     };
 
@@ -194,8 +194,8 @@ const Book = () => {
             <div className={"book-date"}>
               {lessonDatesInfo.map((item, index) => (
                 <DateCard
-                  key={item.dateString}
-                  value={item.dateString}
+                  key={item.date.getTime()}
+                  value={formatLocaleDate(item.date, currentLocale)}
                   onClick={() => {
                     setActiveDate(index);
                     setActiveTime(lessonDatesInfo[index].times.findIndex(item => !item.isReserved));

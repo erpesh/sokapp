@@ -8,7 +8,6 @@ export interface ILessonTime {
 
 export interface ILessonDateInfo {
   date: Date,
-  dateString: string,
   day: string,
   times: ILessonTime[],
   isReserved: boolean
@@ -59,7 +58,6 @@ export default function generateLessonDateInfo(
     const dayOfWeek = dateLoop.toLocaleDateString("en-GB", {weekday: "long"});
     if (daysOfWeek.includes(dayOfWeek)) {
       // If the current date is one of the specified days of the week, create a lesson date info object
-      const date = dateLoop.toLocaleDateString(localeFormatter(locale), {month: "short", day: "numeric"});
       const [lessonDay]: ILessonDaysTimes[] = lessonDates.filter(item => item.day === dayOfWeek);
       const lessonTimes = lessonDay.time.map(item => {
         return {
@@ -70,8 +68,7 @@ export default function generateLessonDateInfo(
 
       // Create and add the ILessonDateInfo object to the lessonDateInfoArray
       const lessonDateInfo: ILessonDateInfo = {
-        date: dateLoop,
-        dateString: date,
+        date: new Date(dateLoop),
         day: dayOfWeek,
         times: lessonTimes,
         isReserved: lessonTimes.every(item => item.isReserved)
@@ -87,5 +84,9 @@ export const localeFormatter = (locale: TLocale) : TDateLocale => {
   if (locale === "en") return "en-GB";
   else if (locale === "uk") return "uk-UA";
   return "ru-RU";
+}
+
+export const formatLocaleDate = (date: Date, locale: TLocale) => {
+  return date.toLocaleDateString(localeFormatter(locale), {month: "short", day: "numeric"});
 }
 
