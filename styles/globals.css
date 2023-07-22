@@ -435,9 +435,12 @@ h3 {
   flex-wrap: wrap;
 }
 .date-card {
+  width: 128px;
   display: flex;
-  font-size: 19px;
-  padding: 10px 20px;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  padding: 10px 30px;
   border-radius: var(--border-radius);
   background: var(--default-theme-color);
   cursor: pointer;
@@ -452,6 +455,10 @@ h3 {
   height: 22px;
   margin-left: 5px;
   color: var(--default-theme-color);
+}
+.time-icon {
+  margin-right: 5px;
+  display: flex;
 }
 @media screen and (max-width: 400px) {
   .book-date{
