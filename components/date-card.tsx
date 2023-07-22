@@ -24,8 +24,6 @@ const DateCard = ({value, onClick, isActive, isDisabled, isCheckbox, isRemovable
     >
       {value.includes(':') && <TimeIcon timeString={value}/>}
       {value}
-      {isCheckbox && isActive && !isRemovable && <Image src={checkmark} alt={"Checkmark"}/>}
-      {isRemovable && <Image className={"remove-image"} src={minusIcon} alt={"Remove"} onClick={onClick}/>}
     </span>
   );
 };
