@@ -1,7 +1,7 @@
 :root {
   --max-width: 1100px;
   --max-width-form: 600px;
-  --border-radius: 10px;
+  --border-radius: 12px;
   --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
   'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
   'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
@@ -440,7 +440,7 @@ h3 {
   justify-content: center;
   align-items: center;
   font-size: 16px;
-  padding: 10px 30px;
+  padding: 10px 26px;
   border-radius: var(--border-radius);
   background: var(--default-theme-color);
   cursor: pointer;
@@ -449,6 +449,7 @@ h3 {
 .date-card:hover {
   background: var(--foreground-color);
   color: var(--default-theme-color);
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 12px 24px 0px;
 }
 .date-card > img {
   width: 22px;
@@ -582,6 +583,26 @@ h3 {
   background-color: var(--disabled-color);
   cursor: not-allowed;
 }
+.text-button {
+  color: var(--default-theme-color);
+  font-size: 18px;
+  cursor: pointer;
+  transition: color 300ms;
+}
+.text-button:hover {
+  color: var(--foreground-color);
+}
+.text-button:after {
+  display:block;
+  content: '';
+  border-bottom: 1px solid var(--foreground-color);
+  transform: scaleX(0);
+  transition: transform 250ms ease-in-out;
+}
+.text-button:hover:after { transform: scaleX(1); }
+.text-button.fromRight:after{ transform-origin:100% 50%; }
+.text-button.fromLeft:after{  transform-origin:  0% 50%; }
+
 .add-time-wrap {
   display: flex;
   gap: 1rem;
@@ -710,6 +731,9 @@ h3 {
   cursor: pointer;
 }
 .teacher-link > span {
+  display: flex;
+  gap: 8px;
+  align-items: center;
   border-radius: 4px;
   border: var(--custom-border);
   padding: 10px 15px;

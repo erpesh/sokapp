@@ -1,8 +1,8 @@
 import {useRouter} from "next/router";
 import React, {useContext, useEffect, useState} from "react";
 import {collection, getDocs, query, where} from "firebase/firestore";
-import {db} from "../../lib/initFirebase";
-import {ITeacherInfo} from "../../utils/types";
+import {db} from "@/lib/initFirebase";
+import {ITeacherInfo} from "@/utils/types";
 import DateCard from "../../components/date-card";
 import generateLessonDateInfo, {
   getTimestamp,
@@ -11,15 +11,15 @@ import generateLessonDateInfo, {
 } from "../../utils/dateTimeFormattersCalculators";
 import AuthContext from "../../context/authContext";
 import useLocalStorageState from "use-local-storage-state";
-import {useI18n, useScopedI18n, Scope, useCurrentLocale} from "../../locales";
+import {useI18n, useScopedI18n, useCurrentLocale} from "@/locales";
 import Switch from "react-switch";
 import bookLesson from "../../utils/bookLesson";
 
 const Book = () => {
 
   const t = useI18n();
-  const ts = useScopedI18n("scope.book" as Scope);
-  const tsp = useScopedI18n("scope.email" as Scope)
+  const ts = useScopedI18n("scope.book");
+  const tsp = useScopedI18n("scope.email");
   const currentLocale = useCurrentLocale();
 
   const teachersInfoRef = collection(db, "teachersInfo");
