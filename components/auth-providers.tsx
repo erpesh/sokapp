@@ -3,8 +3,8 @@ import Image from "next/image";
 import googleIcon from "../assets/google-icon.png";
 import facebookIcon from "../assets/facebook-icon.svg";
 import {FacebookAuthProvider, GoogleAuthProvider, signInWithPopup} from "firebase/auth";
-import {auth} from "../lib/initFirebase";
-import {Scope, useScopedI18n} from "../locales";
+import {auth} from "@/lib/initFirebase";
+import {useScopedI18n} from "@/locales";
 import {User} from "@firebase/auth";
 
 interface Props {
@@ -14,7 +14,7 @@ interface Props {
 
 const AuthProviders = ({isRegister, addSecondaryDetails} : Props) => {
 
-  const ts = useScopedI18n("scope.auth" as Scope);
+  const ts = useScopedI18n("scope.auth");
 
   const signInWithProvider = async (provider: GoogleAuthProvider | FacebookAuthProvider) => {
     try {

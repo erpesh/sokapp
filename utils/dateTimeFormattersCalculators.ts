@@ -83,14 +83,9 @@ export default function generateLessonDateInfo(
   return lessonDateInfoArray;
 }
 
-export interface IGroupedByDay {
-  dateString: string,
-  appointments: IAppointment[]
-}
-
 export const localeFormatter = (locale: TLocale) : TDateLocale => {
   if (locale === "en") return "en-GB";
   else if (locale === "uk") return "uk-UA";
-  else if (locale === "ru") return "ru-RU";
+  return "ru-RU";
 }
 

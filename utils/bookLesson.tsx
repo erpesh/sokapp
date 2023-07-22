@@ -1,5 +1,5 @@
 import {addDoc, collection, DocumentData, Timestamp} from "firebase/firestore";
-import {db} from "../lib/initFirebase";
+import {db} from "@/lib/initFirebase";
 
 export default async function bookLesson(data: any, paid: boolean, ts: (val: string, params?: any) => string) {
 

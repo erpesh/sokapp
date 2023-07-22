@@ -1,15 +1,15 @@
-import {withAuthRole} from "../../../utils/withAuth";
+import {withAuthRole} from "@/utils/withAuth";
 import React, {useContext, useEffect, useState, MouseEvent} from "react";
 import AuthContext from "../../../context/authContext";
-import {db} from "../../../lib/initFirebase";
+import {db} from "@/lib/initFirebase";
 import {collection, doc, DocumentData, getDocs, query, updateDoc, where} from "firebase/firestore";
-import {ITeacherInfo, TPaymentMethod} from "../../../utils/types";
+import {ITeacherInfo, TPaymentMethod} from "@/utils/types";
 import DateCard from "../../../components/date-card";
 import addIcon from "../../../assets/add-icon.svg";
 import Image from "next/image";
 import {updateProfile} from "firebase/auth";
 import useWarnBeforeLeavingPage from "../../../hooks/useWarnBeforeLeavingPage";
-import {Scope, useI18n, useScopedI18n} from "../../../locales";
+import {useI18n, useScopedI18n} from "@/locales";
 import SettingsMenu from "../../../components/settings-menu";
 import absoluteUrl from "../../../utils/absoluteUrl";
 import {BiCopyAlt} from "react-icons/bi";
@@ -32,7 +32,7 @@ enum InputOnChange {
 const Settings = () => {
 
   const t = useI18n();
-  const ts = useScopedI18n("scope.settings" as Scope);
+  const ts = useScopedI18n("scope.settings");
 
   const [changesMade, setChangesMade] = useState(false);
   useWarnBeforeLeavingPage(changesMade);
@@ -189,12 +189,10 @@ const Settings = () => {
         <div className={"form-input-wrap"}>
           <label>{ts("teacherLink")}</label>
           <div className={"teacher-link"}>
-            <span>
-              <Link href={absoluteUrl(`/book/${currentUser?.uid}`)}>{absoluteUrl(`/book/${currentUser?.uid}`)}</Link>
+            <span title={ts("copyLink")} onClick={() => navigator.clipboard.writeText(absoluteUrl(`/book/${currentUser?.uid}`))}>
+              {absoluteUrl(`/book/${currentUser?.uid}`)}
+              <BiCopyAlt size={20}/>
             </span>
-            <button onClick={() => navigator.clipboard.writeText(absoluteUrl(`/book/${currentUser?.uid}`))}>
-              <BiCopyAlt size={32}/>{ts("copyLink")}
-            </button>
           </div>
         </div>
         <div className={"double-input-container"}>
@@ -296,7 +294,7 @@ const Settings = () => {
             </select>
           </div>
           <div className={"payment-account"}>
-            {!teacherInfo.stripeLinked ? <button className={"basic-button"} onClick={connectStripeAccount}>{ts("connectPayments")}</button> :
+            {!teacherInfo.stripeLinked ? <span className={"text-button"} onClick={connectStripeAccount}>{ts("connectPayments")}</span> :
               (teacherInfo.paymentMethod === "online" || teacherInfo.paymentMethod === "both") &&
               <p className={"card-connected"}>{ts("cardConnected")}</p>}
           </div>

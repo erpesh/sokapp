@@ -1,6 +1,6 @@
-import {stripe} from "../../lib/stripe";
 import {NextApiRequest, NextApiResponse} from "next";
-import {db} from "../../lib/initFirebase";
+import {stripe} from "@/lib/stripe";
+import {db} from "@/lib/initFirebase";
 import {updateDoc, doc} from "firebase/firestore";
 
 async function updateStripeId(docId: string, stripeId: string) {

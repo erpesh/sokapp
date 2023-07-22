@@ -1,11 +1,12 @@
 import withAuth from "../../utils/withAuth";
 import SettingsMenu from "../../components/settings-menu";
-import {Scope, useChangeLocale, useCurrentLocale, useI18n, useScopedI18n} from "../../locales";
+import {useChangeLocale, useCurrentLocale, useI18n, useScopedI18n} from "@/locales";
 import React, {useContext, useState} from "react";
 import {updateEmail, updatePassword, deleteUser} from "firebase/auth";
 import PasswordInput from "../../components/password-input";
 import AuthContext from "../../context/authContext";
-import {isEmailValid, isPasswordValid} from "../../utils/validators";
+import {isEmailValid, isPasswordValid} from "@/utils/validators";
+import {TLocale} from "@/utils/types";
 
 const LOCALES = [
   {name: "English", value: "en"},
@@ -16,8 +17,8 @@ const LOCALES = [
 const Settings = () => {
 
   const t = useI18n();
-  const ts = useScopedI18n("scope.settings" as Scope);
-  const tsp = useScopedI18n("scope.auth" as Scope);
+  const ts = useScopedI18n("scope.settings");
+  const tsp = useScopedI18n("scope.auth");
   const changeLocale = useChangeLocale();
   const currentLocale = useCurrentLocale();
 
@@ -71,7 +72,7 @@ const Settings = () => {
     }
   }
 
-  const emailOnChange = (e) => {
+  const emailOnChange = (e: React.FormEvent<HTMLInputElement>) => {
     setEmail(e.currentTarget.value);
     setEmailChanged(true);
   }
@@ -92,7 +93,7 @@ const Settings = () => {
             <input
               type={"email"}
               placeholder={"Email"}
-              value={email}
+              value={email!}
               onChange={emailOnChange}
             />
             <button
@@ -116,7 +117,7 @@ const Settings = () => {
           </div>
           <div className={"form-input-wrap"}>
             <label>{ts("language")}</label>
-            <select value={currentLocale} onChange={e => changeLocale(e.currentTarget.value)}>
+            <select value={currentLocale} onChange={e => changeLocale(e.currentTarget.value as TLocale)}>
               {LOCALES.map(item => <option key={item.name} value={item.value}>{item.name}</option>)}
             </select>
           </div>

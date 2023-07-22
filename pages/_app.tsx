@@ -4,7 +4,7 @@ import NavBar from "../components/nav-bar";
 import AuthContext from "../context/authContext";
 import useCurrentUser from "../hooks/useCurrentUser";
 import {ComponentType, ReactNode} from "react";
-import {I18nProvider} from "../locales";
+import {I18nProvider} from "@/locales";
 import en from "../locales/en";
 
 export default function App({ Component, pageProps }: AppProps) {

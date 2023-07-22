@@ -1,11 +1,11 @@
 import withAuth from "../utils/withAuth";
 import {useContext, useEffect, useMemo, useState} from "react";
 import AuthContext from "../context/authContext";
-import {db} from "../lib/initFirebase";
+import {db} from "@/lib/initFirebase";
 import {collection, getDocs, query, where} from "firebase/firestore";
-import {IAppointment, localeFormatter} from "../utils/dateTimeFormattersCalculators";
+import {IAppointment, localeFormatter} from "@/utils/dateTimeFormattersCalculators";
 import useLocalStorageState from "use-local-storage-state";
-import {useScopedI18n, Scope, useCurrentLocale, useI18n} from "../locales";
+import {useScopedI18n, useCurrentLocale, useI18n} from "@/locales";
 
 const APPOINTMENT_STATUSES = ["Upcoming", "Held", "All"];
 const DATE_ORDERS = ["Most recent", "Least recent"];
@@ -17,7 +17,7 @@ const Appointments = () => {
 
   const currentLocale = useCurrentLocale();
   const t = useI18n();
-  const ts = useScopedI18n("scope.appointments" as Scope);
+  const ts = useScopedI18n("scope.appointments");
 
   const {currentUser, isTeacher} = useContext(AuthContext);
   const [appointments, setAppointments] = useState<IAppointment[]>([]);

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import {Scope, useScopedI18n} from "../locales";
+import {useScopedI18n} from "@/locales";
 import {useRouter} from "next/router";
 import {useContext} from "react";
 import AuthContext from "../context/authContext";
@@ -11,7 +11,7 @@ const SETTINGS_PAGES = [
 
 const SettingsMenu = () => {
 
-  const ts = useScopedI18n("scope.settings" as Scope);
+  const ts = useScopedI18n("scope.settings");
 
   const router = useRouter();
 

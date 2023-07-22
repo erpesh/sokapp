@@ -1,12 +1,12 @@
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
-import {stripe} from "../lib/stripe";
-import {Scope, useScopedI18n} from "../locales";
+import {stripe} from "@/lib/stripe";
+import {useScopedI18n} from "@/locales";
 import bookLesson from "../utils/bookLesson";
 
 const PaymentSuccess = () => {
 
-  const ts = useScopedI18n("scope.email" as Scope);
+  const ts = useScopedI18n("scope.email");
 
   const router = useRouter();
   const {session_id} = router.query;

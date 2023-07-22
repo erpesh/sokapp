@@ -2,9 +2,13 @@ import {NextComponentType} from "next";
 import {useEffect, useState} from "react";
 import {useRouter} from "next/router";
 import {useAuthState} from "react-firebase-hooks/auth";
-import {auth} from "../lib/initFirebase";
+import {auth} from "@/lib/initFirebase";
 
-function withAuth<T>(Component: NextComponentType<T>) {
+interface WithAuthProps {}
+interface WithAuthRoleProps {
+  role: string
+}
+function withAuth<T extends WithAuthProps = WithAuthProps>(Component: NextComponentType<T>) {
   const Auth = (props: T) => {
 
     const router = useRouter();
@@ -28,8 +32,11 @@ function withAuth<T>(Component: NextComponentType<T>) {
   return Auth;
 }
 
-export function withAuthRole<T>(Component: NextComponentType<T>, role: string) {
-  const Auth = (props: T) => {
+export function withAuthRole<T extends WithAuthRoleProps = WithAuthRoleProps>(
+  Component: NextComponentType<T>,
+  role: string
+) {
+  const Auth = (props: Omit<T, keyof WithAuthRoleProps>) => {
 
     const router = useRouter();
     const [user, loading, error] = useAuthState(auth);
@@ -63,7 +70,7 @@ export function withAuthRole<T>(Component: NextComponentType<T>, role: string) {
       router.push("/login")
     }
 
-    return <Component {...props} />;
+    return <Component {...props}/>;
   };
 
   if (Component.getInitialProps) {

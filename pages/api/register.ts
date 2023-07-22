@@ -5,6 +5,7 @@ import admin from "../../lib/firebaseAdmin";
 async function addCustomClaimsToUser(uid: string, role: "teacher" | "user") {
   const res = await admin.auth().setCustomUserClaims(uid, { userRole: role });
   console.log(`Custom claims added to user ${uid}`);
+  return res;
 }
 
 export default async function handler(

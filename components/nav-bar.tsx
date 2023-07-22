@@ -7,7 +7,7 @@ import smallLogo from "../assets/logo.svg";
 import logoutIcon from "../assets/logout-icon.svg";
 import settingsIcon from "../assets/settings-icon.svg";
 import scheduleIcon from "../assets/schedule-icon.svg";
-import {useI18n} from "../locales";
+import {useI18n} from "@/locales";
 
 const NavBar = () => {
 

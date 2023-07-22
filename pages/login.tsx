@@ -1,17 +1,17 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {auth} from "../lib/initFirebase";
+import {auth} from "@/lib/initFirebase";
 import {signInWithEmailAndPassword} from "firebase/auth";
 import AuthProviders from "../components/auth-providers";
 import Link from "next/link";
 import PasswordInput from "../components/password-input";
 import {useRouter} from "next/router";
 import AuthContext from "../context/authContext";
-import {Scope, useI18n, useScopedI18n} from "../locales";
+import {useI18n, useScopedI18n} from "@/locales";
 
 const Login = () => {
 
   const t = useI18n();
-  const ts = useScopedI18n("scope.auth" as Scope);
+  const ts = useScopedI18n("scope.auth");
 
   const router = useRouter();
   const {currentUser} = useContext(AuthContext);

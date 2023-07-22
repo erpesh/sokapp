@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import eyeIcon from "../assets/eye-icon.png";
 import Image from "next/image";
-import {useI18n} from "../locales";
+import {useI18n} from "@/locales";
 
 interface Props {
   password: string,

@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {auth, db} from "../lib/initFirebase";
+import {auth, db} from "@/lib/initFirebase";
 import {createUserWithEmailAndPassword, updateProfile} from "firebase/auth";
 import AuthProviders from "../components/auth-providers";
 import Link from "next/link";
@@ -7,13 +7,13 @@ import PasswordInput from "../components/password-input";
 import {useRouter} from "next/router";
 import {addDoc, collection, DocumentData} from "firebase/firestore";
 import {User} from "@firebase/auth";
-import {Scope, useI18n, useScopedI18n} from "../locales";
+import {useI18n, useScopedI18n} from "@/locales";
 import AuthContext from "../context/authContext";
 
 const Register = () => {
 
   const t = useI18n();
-  const ts = useScopedI18n("scope.auth" as Scope);
+  const ts = useScopedI18n("scope.auth");
 
   const teachersInfoRef = collection(db, "teachersInfo");
 
