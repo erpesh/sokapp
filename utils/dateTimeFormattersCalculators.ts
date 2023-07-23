@@ -10,6 +10,7 @@ export interface ILessonDateInfo {
   date: Date,
   day: string,
   times: ILessonTime[],
+  slots: number,
   isReserved: boolean
 }
 
@@ -40,7 +41,6 @@ function checkIsReserved(reservedAppointments: Date[], dateLoop: Date, lessonTim
 export default function generateLessonDateInfo(
   lessonDates: ILessonDaysTimes[],
   appointments: IAppointment[],
-  locale: TLocale
 ): ILessonDateInfo[] {
   // Get the current date and calculate the start and end dates of the three-week period
   const currentDate = new Date();
@@ -71,6 +71,7 @@ export default function generateLessonDateInfo(
         date: new Date(dateLoop),
         day: dayOfWeek,
         times: lessonTimes,
+        slots: lessonTimes.filter(item => !item.isReserved).length,
         isReserved: lessonTimes.every(item => item.isReserved)
       };
       lessonDateInfoArray.push(lessonDateInfo);
@@ -88,5 +89,30 @@ export const localeFormatter = (locale: TLocale) : TDateLocale => {
 
 export const formatLocaleDate = (date: Date, locale: TLocale) => {
   return date.toLocaleDateString(localeFormatter(locale), {month: "short", day: "numeric"});
+}
+
+export function getDaysOfCurrentAndNextMonthWithDayOfWeek(): { date: Date; dayOfWeek: number }[] {
+  const today = new Date();
+  const currentMonth = today.getMonth();
+  const nextMonth = (currentMonth + 1) % 12; // Wrap around to January if December
+
+  const daysInCurrentMonth = new Date(today.getFullYear(), nextMonth, 0).getDate();
+  const daysInNextMonth = new Date(today.getFullYear(), nextMonth + 1, 0).getDate();
+
+  const currentMonthDays: { date: Date; dayOfWeek: number }[] = [];
+  for (let i = 1; i <= daysInCurrentMonth; i++) {
+    const date = new Date(today.getFullYear(), currentMonth, i);
+    const dayOfWeek = date.getDay();
+    currentMonthDays.push({ date, dayOfWeek });
+  }
+
+  const nextMonthDays: { date: Date; dayOfWeek: number }[] = [];
+  for (let i = 1; i <= daysInNextMonth; i++) {
+    const date = new Date(today.getFullYear(), nextMonth, i);
+    const dayOfWeek = date.getDay();
+    nextMonthDays.push({ date, dayOfWeek });
+  }
+
+  return [...currentMonthDays, ...nextMonthDays];
 }
 

@@ -56,6 +56,7 @@ export default {
   'scope.book.payOnline': "Pay online",
   'scope.book.onlyOnSite': "{teacherName} accepts only on-site payments",
   'scope.book.onlyOnline': "{teacherName} accepts only online payments",
+  'scope.book.slots': " slots available",
 
   'scope.appointments.lessonStatus': "Lesson status",
   'scope.appointments.dateOrder': "Date order",
@@ -85,6 +86,7 @@ export default {
   'scope.settings.deleteAccConfirm': "Are you sure you want to delete your account?",
   'scope.settings.teacherLink': "Link to your booking form",
   'scope.settings.copyLink': "Copy link",
+  'scope.settings.linkCopied': "Link copied to clipboard",
 
   'scope.auth.forename': "Forename",
   'scope.auth.lastName': "Last name",

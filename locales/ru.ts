@@ -56,6 +56,7 @@ export default {
   'scope.book.payOnline': "Оплатить онлайн",
   'scope.book.onlyOnSite': "{teacherName} принимает только оплату на месте",
   'scope.book.onlyOnline': "{teacherName} принимает только онлайн-оплату",
+  'scope.book.slots': " свободных",
 
   'scope.appointments.lessonStatus': "Статус занятия",
   'scope.appointments.dateOrder': "Порядок дат",
@@ -85,6 +86,7 @@ export default {
   'scope.settings.deleteAccConfirm': "Вы уверены, что хотите удалить свой аккаунт?",
   'scope.settings.teacherLink': "Ссылка на вашу форму бронирования",
   'scope.settings.copyLink': "Скопировать ссылку",
+  'scope.settings.linkCopied': "Ссылка скопирована",
 
   'scope.auth.forename': "Имя",
   'scope.auth.lastName': "Фамилия",

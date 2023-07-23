@@ -15,6 +15,7 @@ import useLocalStorageState from "use-local-storage-state";
 import {useI18n, useScopedI18n, useCurrentLocale} from "@/locales";
 import Switch from "react-switch";
 import bookLesson from "../../utils/bookLesson";
+import {Tooltip} from "react-tooltip";
 
 const Book = () => {
 
@@ -68,7 +69,7 @@ const Book = () => {
         appointments.push(appointmentsData);
       });
 
-      const generatedLessonDateInfo = generateLessonDateInfo(lessonTimes ? lessonTimes : [], appointments, currentLocale);
+      const generatedLessonDateInfo = generateLessonDateInfo(lessonTimes ? lessonTimes : [], appointments);
       const activeDateValue = generatedLessonDateInfo.findIndex(item => !item.isReserved);
       const activeTimeValue = generatedLessonDateInfo[activeDateValue].times.findIndex(item => !item.isReserved);
 
@@ -202,8 +203,11 @@ const Book = () => {
                   }}
                   isActive={index === activeDate}
                   isDisabled={item.isReserved}
+                  data-tooltip-id={"date-tip"}
+                  data-tooltip-content={item.slots + ts('slots')}
                 />
               ))}
+              <Tooltip delayShow={150} id={'date-tip'}/>
             </div>
           </div>
           <div className={"book-date-wrap"}>

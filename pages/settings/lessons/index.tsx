@@ -14,6 +14,7 @@ import SettingsMenu from "../../../components/settings-menu";
 import absoluteUrl from "../../../utils/absoluteUrl";
 import {BiCopyAlt} from "react-icons/bi";
 import Link from "next/link";
+import {Tooltip} from "react-tooltip";
 
 const LESSON_DURATIONS = ["30 min", "1 hour", "2 hours"];
 const DAYS_OF_WEEK = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
@@ -189,10 +190,16 @@ const Settings = () => {
         <div className={"form-input-wrap"}>
           <label>{ts("teacherLink")}</label>
           <div className={"teacher-link"}>
-            <span title={ts("copyLink")} onClick={() => navigator.clipboard.writeText(absoluteUrl(`/book/${currentUser?.uid}`))}>
+            <span
+              title={ts("copyLink")}
+              onClick={() => navigator.clipboard.writeText(absoluteUrl(`/book/${currentUser?.uid}`))}
+              data-tooltip-id="copy-link"
+              data-tooltip-content={ts('linkCopied')}
+            >
               {absoluteUrl(`/book/${currentUser?.uid}`)}
               <BiCopyAlt size={20}/>
             </span>
+            <Tooltip openOnClick delayHide={2000} id="copy-link" />
           </div>
         </div>
         <div className={"double-input-container"}>
@@ -225,19 +232,18 @@ const Settings = () => {
           </div>
         </div>
         <div className={"lesson-times-setting"}>
-          <h2 style={{margin: "1.5rem 0"}}>{ts("daysOfLessons")}</h2>
+          <h2 style={{margin: "1rem 0 0"}}>{ts("daysOfLessons")}</h2>
           <div className={"lesson-days"}>
             {DAYS_OF_WEEK.map(dayOfWeek => <DateCard
               key={dayOfWeek}
               value={t(dayOfWeek)}
               isActive={teacherInfo?.lessonDaysTimes?.map(item => item.day).includes(dayOfWeek)}
               onClick={() => handleSettingsChange(InputOnChange.lessonDays, dayOfWeek)}
-              isCheckbox
             />)}
           </div>
           {teacherInfo.lessonDaysTimes.length > 0 && <>
             <h2 style={{margin: "1.5rem 0"}}>{ts("lessonTimes")}</h2>
-            <div style={{marginBottom: "1.25rem"}}>
+            <div>
               <select
                 value={activeDayIndex}
                 onChange={(e) => {setActiveDayIndex(Number(e.currentTarget.value))}}
@@ -255,7 +261,6 @@ const Settings = () => {
                     key={item}
                     value={item}
                     onClick={() => handleSettingsChange(InputOnChange.removeTime, item)}
-                    isRemovable
                     isActive
                   />
                 }) : <div>{ts("addLessonTimes")}</div>}
