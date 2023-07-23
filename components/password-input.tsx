@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
-import eyeIcon from "../assets/eye-icon.png";
-import Image from "next/image";
 import {useI18n} from "@/locales";
+import {AiFillEye, AiFillEyeInvisible} from "react-icons/ai";
 
 interface Props {
   password: string,
@@ -28,7 +27,7 @@ const PasswordInput = ({password, setPassword, isConfirm} : Props) => {
         onChange={(e) => setPassword(e.currentTarget.value)}
         required/>
       <div onClick={togglePassword}>
-        <Image alt={"Eye icon"} src={eyeIcon}/>
+        {isPasswordShown ? <AiFillEye size={20}/> : <AiFillEyeInvisible size={20}/>}
       </div>
     </span>
   );
