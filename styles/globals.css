@@ -411,8 +411,6 @@ span.buttonText {
     gap: 1rem;
   }
 }
-.book-date-time {
-}
 .book-date-wrap {
   display: flex;
   flex-direction: column;
@@ -421,13 +419,14 @@ span.buttonText {
 h3 {
   display: flex;
   justify-content: center;
+  margin-bottom: .75rem;
 }
 .book-date {
   display: flex;
   flex-wrap: wrap;
+  gap: 1rem;
 }
 .date-card {
-  margin: 16px 16px 0 0;
   width: 128px;
   display: flex;
   justify-content: center;
@@ -435,7 +434,6 @@ h3 {
   font-size: 14px;
   padding: 10px 26px;
   border-radius: var(--border-radius);
-  /*background: var(--default-theme-color);*/
   cursor: pointer;
   border: 1px solid var(--grey-border);
   transition: .4s;
@@ -445,28 +443,23 @@ h3 {
   border-color: white;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 12px 24px 0px;
 }
-.date-card > img {
-  width: 22px;
-  height: 22px;
-  margin-left: 5px;
-  color: var(--default-theme-color);
-}
 .time-icon {
   margin-right: 5px;
   display: flex;
 }
+@media screen and (max-width: 600px) {
+  .book-date {
+    justify-content: space-around;
+  }
+}
 @media screen and (max-width: 400px) {
-  .book-date{
-    gap: 1rem;
-  }
   .date-card {
-    font-size: 17px;
-    padding: 8px 16px;
+    font-size: 12px;
   }
-  .date-card > img {
-    width: 18px;
-    height: 18px;
-    margin-left: 4px;
+}
+@media screen and (max-width: 300px) {
+  .date-card {
+    width: 112px;
   }
 }
 
