@@ -419,8 +419,8 @@ span.buttonText {
 h3 {
   display: flex;
   justify-content: center;
-  margin-bottom: .75rem;
 }
+.book-part-title {margin-bottom: .75rem;}
 .book-date {
   display: flex;
   flex-wrap: wrap;
@@ -478,7 +478,7 @@ h3 {
   box-shadow: none;
   border-color: var(--grey-border);
 }
-.submit-book {
+.default-button {
   margin: 0 auto;
   display: flex;
   justify-content: center;
@@ -496,6 +496,16 @@ h3 {
   text-transform: uppercase;
   transition: .4s;
 }
+.default-button:disabled {
+  background-color: var(--disabled-color);
+  cursor: not-allowed;
+}
+.transparent-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--foreground-color);
+}
 .switch-container {
   display: flex;
 }
@@ -503,7 +513,6 @@ h3 {
   font-size: 18px;
   display: flex;
   align-items: center;
-  margin-left: 1rem;
 }
 
 /*Settings page*/
@@ -520,8 +529,14 @@ h3 {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
+  gap: 1rem;
+  margin-top: 10px;
 }
-
+@media screen and (max-width: 500px) {
+  .lesson-days {
+    justify-content: space-evenly;
+  }
+}
 .lesson-times{
   display: grid;
   grid-gap: 1.5rem;

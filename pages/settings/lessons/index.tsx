@@ -13,7 +13,6 @@ import {useI18n, useScopedI18n} from "@/locales";
 import SettingsMenu from "../../../components/settings-menu";
 import absoluteUrl from "../../../utils/absoluteUrl";
 import {BiCopyAlt} from "react-icons/bi";
-import Link from "next/link";
 import {Tooltip} from "react-tooltip";
 
 const LESSON_DURATIONS = ["30 min", "1 hour", "2 hours"];
@@ -242,7 +241,7 @@ const Settings = () => {
             />)}
           </div>
           {teacherInfo.lessonDaysTimes.length > 0 && <>
-            <h2 style={{margin: "1.5rem 0"}}>{ts("lessonTimes")}</h2>
+            <h2 style={{margin: "1rem 0"}}>{ts("lessonTimes")}</h2>
             <div>
               <select
                 value={activeDayIndex}
@@ -273,7 +272,7 @@ const Settings = () => {
                          value={newTime}
                          onChange={(e) => setNewTime(e.currentTarget.value)}
                   />
-                  <button type={"submit"} className={"basic-button"} onClick={(e) => {
+                  <button type={"submit"} className={"transparent-button"} onClick={(e) => {
                     e.preventDefault();
                     handleSettingsChange(InputOnChange.addTime, newTime)
                   }}>
@@ -305,8 +304,12 @@ const Settings = () => {
           </div>
         </div>
         <div className={"settings-buttons"}>
-          <button className={"basic-button"} onClick={updateTeachersInfo} disabled={!changesMade}>{t("update")}</button>
-          <button className={"basic-button"} onClick={getTeacherInfo} disabled={!changesMade}>{t("cancelChanges")}</button>
+          <button style={{margin: 0}} className={"default-button"} onClick={updateTeachersInfo} disabled={!changesMade}>
+            {t("update")}
+          </button>
+          <button style={{margin: 0}} className={"default-button"} onClick={getTeacherInfo} disabled={!changesMade}>
+            {t("cancelChanges")}
+          </button>
         </div>
       </div>
     </div>

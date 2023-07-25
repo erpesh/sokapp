@@ -191,7 +191,7 @@ const Book = () => {
         </div>
         <div className={"book-date-time"}>
           <div className={"book-date-wrap"}>
-            <h3>{ts("chooseDateOfLesson")}</h3>
+            <h3 className={'book-part-title'}>{ts("chooseDateOfLesson")}</h3>
             <div className={"book-date"}>
               {lessonDatesInfo.map((item, index) => (
                 <DateCard
@@ -211,7 +211,7 @@ const Book = () => {
             </div>
           </div>
           <div className={"book-date-wrap"}>
-            <h3>{ts("chooseTimeOfLesson")}</h3>
+            <h3 className={'book-part-title'}>{ts("chooseTimeOfLesson")}</h3>
             <div className={"book-date"}>
               {lessonDatesInfo[activeDate]?.times
                 .map((item, index) => (
@@ -229,7 +229,7 @@ const Book = () => {
         <div className={"switch-container"}>
           {PaymentComponent}
         </div>
-        <input type={"submit"} className={"submit-book"} value={t("submit")}/>
+        <input type={"submit"} className={"default-button"} value={t("submit")}/>
       </form>
     </div>
   );

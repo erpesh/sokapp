@@ -97,7 +97,8 @@ const Settings = () => {
               onChange={emailOnChange}
             />
             <button
-              className={"basic-button mrg-top-10"}
+              style={{width: '100%'}}
+              className={"default-button mrg-top-10"}
               onClick={updateUserEmail}
               disabled={!emailChanged}
             >
@@ -108,7 +109,8 @@ const Settings = () => {
             <label>{tsp("newPassword")}</label>
             <PasswordInput password={newPassword} setPassword={passwordOnChange}/>
             <button
-              className={"basic-button mrg-top-10"}
+              style={{width: '100%'}}
+              className={"default-button mrg-top-10"}
               onClick={updateUserPassword}
               disabled={!passwordChanged}
             >
@@ -123,7 +125,8 @@ const Settings = () => {
           </div>
         </div>
         <button
-          className={"basic-button mrg-top-10 bg-red"}
+          style={{margin: '10px 0 0'}}
+          className={"default-button bg-red"}
           onClick={deleteAccount}
         >
           {t("deleteAccount")}

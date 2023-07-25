@@ -102,7 +102,7 @@ export default {
   'scope.auth.privacyPolicy2': "Політикою конфіденційності",
   'scope.auth.signInAsTeacher': "Хочете зареєструватися як вчитель?",
 
-  'scope.email.lessonBooking': "Бронирование занятия",
+  'scope.email.lessonBooking': "Бронювання заняття",
   'scope.email.teacherBookingHtml': '<p>{studentName} забронював(ла) заняття з вами {lessonDate} о {lessonTime}.</p>\n<p>З найкращими побажаннями</p>',
   'scope.email.userBookingConfirmationHtml': '<p>Ваше бронювання підтверджено, дякую за бронювання заняття з {teacherName} {lessonDate} о {lessonTime}.</p>\n  <p>Якщо у вас є якісь питання або ви хочете перенести заняття, дайте нам знати якомога раніше.</p>\n  <p>З найкращими побажаннями</p>',
 
