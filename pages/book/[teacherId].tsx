@@ -43,7 +43,6 @@ const Book = () => {
 
   async function getTeacherInfoAndAppointments() {
     try {
-
       let lessonTimes = undefined;
 
       // Teacher info

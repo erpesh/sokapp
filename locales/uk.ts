@@ -87,6 +87,7 @@ export default {
   'scope.settings.teacherLink': "Посилання на вашу форму бронювання",
   'scope.settings.copyLink': "Скопіювати посилання",
   'scope.settings.linkCopied': "Посилання скопійовано",
+  'scope.settings.clickToRemove': 'Натисніть щоб видалити',
 
   'scope.auth.forename': "Ім'я",
   'scope.auth.lastName': "Прізвище",

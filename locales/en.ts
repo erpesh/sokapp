@@ -87,6 +87,7 @@ export default {
   'scope.settings.teacherLink': "Link to your booking form",
   'scope.settings.copyLink': "Copy link",
   'scope.settings.linkCopied': "Link copied to clipboard",
+  'scope.settings.clickToRemove': 'Click to remove',
 
   'scope.auth.forename': "Forename",
   'scope.auth.lastName': "Last name",

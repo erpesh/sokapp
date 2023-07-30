@@ -62,8 +62,7 @@ const Settings = () => {
         setTeacherInfo(data);
         setChangesMade(false);
       });
-    }
-    catch (error) {
+    } catch (error) {
       console.error(error);
     }
   }
@@ -198,7 +197,7 @@ const Settings = () => {
               {absoluteUrl(`/book/${currentUser?.uid}`)}
               <BiCopyAlt size={20}/>
             </span>
-            <Tooltip openOnClick delayHide={2000} id="copy-link" />
+            <Tooltip openOnClick delayHide={2000} id="copy-link"/>
           </div>
         </div>
         <div className={"double-input-container"}>
@@ -241,47 +240,55 @@ const Settings = () => {
             />)}
           </div>
           {teacherInfo.lessonDaysTimes.length > 0 && <>
-            <h2 style={{margin: "1rem 0"}}>{ts("lessonTimes")}</h2>
-            <div>
-              <select
-                value={activeDayIndex}
-                onChange={(e) => {setActiveDayIndex(Number(e.currentTarget.value))}}
-                style={{width: "125px"}}
-              >
-                {teacherInfo.lessonDaysTimes.map((item, index) => (
-                  <option key={item.day} value={index}>{t(item.day)}</option>
-                ))}
-              </select>
-            </div>
-            <div className={"lesson-times"}>
-              <div className={"lesson-days"}>
-                {teacherInfo.lessonDaysTimes[activeDayIndex].time.length > 0 ? teacherInfo.lessonDaysTimes[activeDayIndex].time.map(item => {
-                  return <DateCard
-                    key={item}
-                    value={item}
-                    onClick={() => handleSettingsChange(InputOnChange.removeTime, item)}
-                    isActive
-                  />
-                }) : <div>{ts("addLessonTimes")}</div>}
+              <h2 style={{margin: "1rem 0"}}>{ts("lessonTimes")}</h2>
+              <div>
+                  <select
+                      value={activeDayIndex}
+                      onChange={(e) => {
+                        setActiveDayIndex(Number(e.currentTarget.value))
+                      }}
+                      style={{width: "125px"}}
+                  >
+                    {teacherInfo.lessonDaysTimes.map((item, index) => (
+                      <option key={item.day} value={index}>{t(item.day)}</option>
+                    ))}
+                  </select>
               </div>
-              <div className={"add-time"}>
-                <h3>{ts("addNewTime")}</h3>
-                <form className={"add-time-wrap"}>
-                  <input type={"text"}
-                         placeholder={ts("addNewTime")}
-                         value={newTime}
-                         onChange={(e) => setNewTime(e.currentTarget.value)}
-                  />
-                  <button type={"submit"} className={"transparent-button"} onClick={(e) => {
-                    e.preventDefault();
-                    handleSettingsChange(InputOnChange.addTime, newTime)
-                  }}>
-                    <Image className={"plus-icon"} src={addIcon} alt={"Add new time"}/>
-                  </button>
-                </form>
-                <p className={"message"}>{newTimeMessage}</p>
+              <div className={"lesson-times"}>
+                  <div className={"lesson-days"}>
+                    {teacherInfo.lessonDaysTimes[activeDayIndex].time.length > 0 ? teacherInfo.lessonDaysTimes[activeDayIndex].time.map(item => {
+                      return (
+                        <>
+                          <DateCard
+                            key={item}
+                            value={item}
+                            onClick={() => handleSettingsChange(InputOnChange.removeTime, item)}
+                            isActive
+                            data-tooltip-id={"day-tip"}
+                            data-tooltip-content={ts('clickToRemove')}
+                          />
+                          <Tooltip delayShow={150} id={'day-tip'}/>
+                        </>)
+                    }) : <div>{ts("addLessonTimes")}</div>}
+                  </div>
+                  <div className={"add-time"}>
+                      <h3>{ts("addNewTime")}</h3>
+                      <form className={"add-time-wrap"}>
+                          <input type={"text"}
+                                 placeholder={ts("addNewTime")}
+                                 value={newTime}
+                                 onChange={(e) => setNewTime(e.currentTarget.value)}
+                          />
+                          <button type={"submit"} className={"transparent-button"} onClick={(e) => {
+                            e.preventDefault();
+                            handleSettingsChange(InputOnChange.addTime, newTime)
+                          }}>
+                              <Image className={"plus-icon"} src={addIcon} alt={"Add new time"}/>
+                          </button>
+                      </form>
+                      <p className={"message"}>{newTimeMessage}</p>
+                  </div>
               </div>
-            </div>
           </>}
         </div>
         <div className={"payment-methods"}>
@@ -293,14 +300,16 @@ const Settings = () => {
               onChange={e => handleSettingsChange(InputOnChange.paymentMethods, e.currentTarget.value)}
               style={{width: "150px"}}
             >
-              {teacherInfo.stripeLinked ? PAYMENT_METHODS.map(item => <option key={item} value={item}>{t(item)}</option>) :
+              {teacherInfo.stripeLinked ? PAYMENT_METHODS.map(item => <option key={item}
+                                                                              value={item}>{t(item)}</option>) :
                 <option value={"on-site"}>{t("on-site")}</option>}
             </select>
           </div>
           <div className={"payment-account"}>
-            {!teacherInfo.stripeLinked ? <span className={"text-button"} onClick={connectStripeAccount}>{ts("connectPayments")}</span> :
+            {!teacherInfo.stripeLinked ?
+              <span className={"text-button"} onClick={connectStripeAccount}>{ts("connectPayments")}</span> :
               (teacherInfo.paymentMethod === "online" || teacherInfo.paymentMethod === "both") &&
-              <p className={"card-connected"}>{ts("cardConnected")}</p>}
+                <p className={"card-connected"}>{ts("cardConnected")}</p>}
           </div>
         </div>
         <div className={"settings-buttons"}>
